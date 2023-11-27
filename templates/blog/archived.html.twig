@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article Archivés{% endblock %}
+
+{% block body %}
+{% include "commons/_navbar.html.twig" %}
+<p>Attention, ces articles sont archivés. La véracité de ce qu'ils contiennent nécessite d'être vérifiée ou mise a jour</p>
+{% for archive in archived %}
+{{archive.title}}
+{% endfor %}
+
+{% endblock %}

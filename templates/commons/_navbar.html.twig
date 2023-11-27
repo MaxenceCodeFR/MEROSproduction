@@ -19,12 +19,12 @@
           <a class="nav-link" href="#">Contact</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="{{path('blog_index')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Blog
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Dernier Articles</a></li>
-            <li><a class="dropdown-item" href="#">Articles Archivés</a></li>
+            <li><a class="dropdown-item" href="{{path('blog_index')}}">Dernier Articles</a></li>
+            <li class=" btn btn-warning"><a class="dropdown-item" href="{{path('blog_archived')}}">Articles Archivés</a></li>
           </ul>
         </li>
         <li class="nav-item">

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Meros - {{ blog.title }}{% endblock %}
+
+{% block body %}
+{% include "commons/_navbar.html.twig" %}
+
+    <h1>{{blog.title}}</h1>
+    <article>{{blog.content}}</article>
+    {{blog.createdAt|date('Y-m-d H:i:s')}}
+    {% if blog.isArchived == true %}
+        <p>Cet article a été archivé et n'est peut être plus a jour</p>
+    {% endif %}
+{% endblock %}

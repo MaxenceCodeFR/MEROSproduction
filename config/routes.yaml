@@ -3,3 +3,14 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+blog_add:
+    path: /blog/add
+    controller: App\Controller\BlogController::add
+    methods: [GET, POST]
+
+blog_show:
+    path: /blog/{id}
+    controller: App\Controller\BlogController::show
+    methods: [GET]
+
