@@ -54,6 +54,10 @@ class BlogController extends AbstractController
 
         $form->handleRequest($request);
 
+        $contentFromTinymce = $blog->getContent();
+        $textContent = strip_tags($contentFromTinymce);
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $blog->setIsArchived(false);
             $blog->setCreatedAt(new \DateTimeImmutable());
@@ -71,7 +75,8 @@ class BlogController extends AbstractController
         }
 
         return $this->render('blog/admin/add.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'textContent' => $textContent,
         ]);
     }
 

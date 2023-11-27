@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Blog;
 use Symfony\Component\Form\AbstractType;
+use Eckinox\TinymceBundle\Form\Type\TinymceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -14,7 +15,11 @@ class BlogType extends AbstractType
     {
         $builder
             ->add('title', options: ['label' => 'Titre de l\'article'])
-            ->add('content', options: ['label' => 'Contenu de l\'article'])
+            ->add('content', TinymceType::class, [
+                "attr" => [
+                    "toolbar" => "bold italic underline | bullist numlist",
+                ],
+            ])
             ->add('image', FileType::class, [
                 "mapped" => false,
                 "required" => false,
