@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Archive - {{ blog.title }}{% endblock %}
+
+{% block body %}
+{% include "commons/_navbar.html.twig" %}
+
+    <h1>{{blog.title}}</h1>
+    <img src="{{ asset('assets/uploads/' ~ blog.image) }}" class="card-img-top mb-3" alt="{{ blog.title }}">
+
+    {# L'attribut "raw" permet d'echapper les balises HTML  #}
+    <article>{{blog.content|raw}}</article>
+    {{blog.createdAt|date('Y-m-d H:i:s')}}
+    {% if blog.isArchived == true %}
+        <p>Cet article a été archivé et n'est peut être plus a jour</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Derniers Articles{% endblock %}
+
+{% block body %}
+    {# Inclusion de la barre de navigation #}
+    {% include "commons/_navbar.html.twig" %}
+
+    <div class="container">
+        <h1>Articles</h1>
+        <a href="{{ path('blog_add') }}" class="btn btn-success m-2">Créer un nouvel article</a>
+        {% if blogs is empty %}
+            <p>Pas d'article disponible pour le moment.</p>
+        {% else %}
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            {% for blog in blogs %}
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ asset('assets/uploads/' ~ blog.image) }}" class="card-img-top" alt="{{ blog.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ blog.title }}</h5>
+                            <p class="card-text">{{ blog.createdAt|date('Y-m') }}</p>
+                            <a href="{{ path('blog_show', {id: blog.id}) }}" class="btn btn-primary stretched-link">Voir l'article</a>
+                        </div>
+                    </div>
+                    <a href="{{ path('blog_edit', {id: blog.id}) }}" class="btn btn-warning mt-2">Modifier l'article</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="navigation d-flex justify-content-center m-5" >
+            {{ knp_pagination_render(blogs) }}
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
