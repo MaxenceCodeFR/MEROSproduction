@@ -7,6 +7,7 @@ use App\Form\BlogType;
 use Doctrine\ORM\EntityManager;
 use App\Repository\BlogRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,12 +17,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BlogController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(BlogRepository $blogRepository): Response
+    public function index(BlogRepository $blogRepository, PaginatorInterface $paginatorInterface, Request $request): Response
     {
         //Récupération des articles non archivés via la méthode findAll() du repository
         //Cette méthode est modifiée dans le repository pour ne récupérer que les articles non archivés
         //cf. BlogRepository.php => findAll()
-        $blogs = $blogRepository->findAll();
+        $data = $blogRepository->findAll();
+        $blogs = $paginatorInterface->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            8
+        );
+
         return $this->render('blog/index.html.twig', compact('blogs'));
     }
 

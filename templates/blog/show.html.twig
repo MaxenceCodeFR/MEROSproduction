@@ -6,6 +6,7 @@
     {% include "commons/_navbar.html.twig" %}
 
     <div class="container mt-4">
+        <a href="{{ path('blog_edit', {id: blog.id}) }}" class="btn btn-warning mt-2">Modifier l'article</a>
         <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Supprimer l'article
         </button>

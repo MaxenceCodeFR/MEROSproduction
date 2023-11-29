@@ -29,6 +29,9 @@
     "eckinox/tinymce-bundle": {
         "version": "v0.1.5"
     },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v6.3.0"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
