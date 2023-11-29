@@ -34,6 +34,15 @@ class BlogController extends AbstractController
         return $this->render('blog/archived.html.twig', compact('archived'));
     }
 
+    #[Route('/archived/{id}', name: 'archive')]
+    public function showArchived(Blog $blog): Response
+    {
+        return $this->render('blog/show.html.twig', [
+            'blog' => $blog,
+
+        ]);
+    }
+
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Blog $blog): Response
     {
@@ -55,7 +64,6 @@ class BlogController extends AbstractController
         $form->handleRequest($request);
 
         $contentFromTinymce = $blog->getContent();
-        $textContent = strip_tags($contentFromTinymce);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -76,7 +84,7 @@ class BlogController extends AbstractController
 
         return $this->render('blog/admin/add.html.twig', [
             'form' => $form->createView(),
-            'textContent' => $textContent,
+
         ]);
     }
 
@@ -105,5 +113,19 @@ class BlogController extends AbstractController
         return $this->render('blog/admin/edit.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete')]
+    public function delete(Request $request, Blog $blog, EntityManagerInterface $em): Response
+    {
+        $token = 'delete_' . $blog->getId();
+        $submittedToken = $request->request->get('_token');
+
+        if ($this->isCsrfTokenValid($token, $submittedToken)) {
+            $em->remove($blog);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('blog_index');
     }
 }

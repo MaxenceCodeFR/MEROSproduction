@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Derniers Articles{% endblock %}
 
 {% block body %}
     {# Inclusion de la barre de navigation #}
@@ -8,6 +8,9 @@
 
     <div class="container">
         <h1>Articles</h1>
+        {% if blogs is empty %}
+            <p>Pas d'article disponible pour le moment.</p>
+        {% else %}
         <div class="row row-cols-1 row-cols-md-4 g-4">
             {% for blog in blogs %}
                 <div class="col">
@@ -19,9 +22,11 @@
                             <a href="{{ path('blog_show', {id: blog.id}) }}" class="btn btn-primary stretched-link">Voir l'article</a>
                         </div>
                     </div>
+                    <a href="{{ path('blog_edit', {id: blog.id}) }}" class="btn btn-warning mt-2">Modifier l'article</a>
                 </div>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 {% endblock %}
 
