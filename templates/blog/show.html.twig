@@ -19,7 +19,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-danger">Attention, cet article n'a pas été archivé, il sera supprimé définitivement.</p>
+                {% if blog.isArchived == true %}
+                    <p class="text-danger">Cet article est archivé et peux être supprimer</p>
+                {% else %}
+                    <p class="text-danger">Cet article n'est pas archivé et le supprimer est definitif </p>
+                {% endif %}
                 </div>
                 <div class="modal-footer">
                     {% set token = 'delete_' ~ blog.id %}
