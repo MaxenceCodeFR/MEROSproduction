@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Non autorisé{% endblock %}
+
+{% block body %}
+    {% include "commons/_navbar.html.twig" %}
+
+    <!-- Contenu de la page 401 avec Bootstrap -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <h1 class="display-4">Erreur 401 : Non autorisé</h1>
+                <p class="lead">Pour être autorisé à utiliser cette page vous devez être connecter</p>
+                {# <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a> #}
+            </div>
+        </div>
+    </div>
+{% endblock %}

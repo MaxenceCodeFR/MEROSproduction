@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Accès refusé{% endblock %}
+
+{% block body %}
+    {% include "commons/_navbar.html.twig" %}
+
+    <!-- Contenu de la page 403 avec Bootstrap -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <h1 class="display-4">Erreur 403 : Accès refusé</h1>
+                <p class="lead">Vous n'avez pas l'autorisation d'accéder à cette page.</p>
+                AJOUTER UNE REDICTION VERS LA PAGE D'ACCUEIL
+            </div>
+        </div>
+    </div>
+{% endblock %}

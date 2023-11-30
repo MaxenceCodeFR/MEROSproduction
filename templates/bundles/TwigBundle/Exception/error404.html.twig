@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Oops c'est une erreur{% endblock %}
+
+{% block body %}
+    {% include "commons/_navbar.html.twig" %}
+
+    <!-- Contenu de la page 404 avec Bootstrap -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <h1 class="display-4">Oops! Page non trouvée</h1>
+                <p class="lead">La page que vous recherchez semble introuvable.</p>
+                AJOUTER ICI LA REDICTION VERS LA PAGE D'ACCUEIL
+            </div>
+        </div>
+    </div>
+{% endblock %}
