@@ -86,7 +86,7 @@ class BlogController extends AbstractController
             $em->flush();
 
             //Ajouter une redirection vers la page de l'article
-            return $this->redirectToRoute('blog_index');
+            return $this->redirectToRoute('editor_index');
         }
 
         return $this->render('blog/admin/add.html.twig', [
@@ -114,7 +114,7 @@ class BlogController extends AbstractController
             $em->flush();
 
             //Ajouter une redirection vers la page de l'article
-            return $this->redirectToRoute('blog_index');
+            return $this->redirectToRoute('editor_index');
         }
 
         return $this->render('blog/admin/edit.html.twig', [

@@ -6,10 +6,12 @@
     {% include "commons/_navbar.html.twig" %}
 
     <div class="container mt-4">
+    {% if is_granted('ROLE_EDITOR') %}
         <a href="{{ path('blog_edit', {id: blog.id}) }}" class="btn btn-warning mt-2">Modifier l'article</a>
         <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Supprimer l'article
         </button>
+    {% endif %}
            <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">

@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Administration du Blog{% endblock %}
+
+{% block body %}
+{% include 'commons/_editor_navbar.html.twig' %}
+<div class="container mt-4">
+            <h1 class="text-center mb-4">Administration du Blog</h1>
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{{ path('blog_add') }}" class="btn btn-success me-2">Créer un article</a>
+                <a href="{{path('editor_archived')}}" class="btn btn-warning">Articles archivés</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Contenu</th>
+                            <th scope="col">Date de création</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for blog in blogs %}
+                        <tr>
+                            <td>{{ blog.title }}</td>
+                            <td><img src="{{ asset('assets/uploads/' ~ blog.image) }}" alt="{{ blog.title }}" class="thumbnail img-fluid" style="max-width: 100px;"></td>
+                            <td>{{ blog.content|striptags|slice(0,30) ~ ' ...' }}</td>
+                            <td class="badge bg-info">{{ blog.createdAt|date('d-m-Y') }}</td>
+                            <td>
+                                <div class="d-flex justify-content-center justify-content-lg-start">
+                                    <a href="{{ path('blog_edit', {id: blog.id}) }}" class="btn btn-warning me-2">Modifier</a>
+                                    <a href="{{ path('blog_show', {id: blog.id}) }}" class="btn btn-success me-2">Afficher</a>
+                                    <a href="{{path('editor_set_archive', {id: blog.id}) }}" class="btn btn-danger">Archiver l'article</a>
+                                    <!-- Ajoute d'autres actions si nécessaire -->
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center m-5">
+                {{ knp_pagination_render(blogs) }}
+            </div>
+</div>
+{% endblock %}

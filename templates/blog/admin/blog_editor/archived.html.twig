@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Administration des articles archivés{% endblock %}
+
+{% block body %}
+{% include 'commons/_editor_navbar.html.twig' %}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Administration des articles archivés</h1>
+    <div class="d-flex justify-content-center mb-3">
+        <a href="{{ path('editor_index') }}" class="btn btn-success me-2">Retour aux articles</a>
+        
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Contenu</th>
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for archive in archived %}
+                <tr>
+                    <td>{{ archive.title }}</td>
+                    <td><img src="{{ asset('assets/uploads/' ~ archive.image) }}" alt="{{ archive.title }}" class="thumbnail img-fluid" style="max-width: 100px;"></td>
+                    <td>{{ archive.content|striptags|slice(0,30) ~ ' ...' }}</td>
+                    <td class="badge bg-info">{{ archive.createdAt|date('d-m-Y') }}</td>
+                    <td>
+                        <div class="d-flex justify-content-center justify-content-lg-start">
+                            <a href="{{ path('blog_edit', {id: archive.id}) }}" class="btn btn-warning me-2">Modifier</a>
+                            <a href="{{ path('blog_show', {id: archive.id}) }}" class="btn btn-success">Afficher</a>
+                            <!-- Ajoute d'autres actions si nécessaire -->
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-center m-5">
+        {{ knp_pagination_render(archived) }}
+    </div>
+</div>
+{% endblock %}

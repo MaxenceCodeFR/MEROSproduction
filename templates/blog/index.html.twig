@@ -8,7 +8,9 @@
 
     <div class="container">
         <h1>Articles</h1>
+        {% if is_granted('ROLE_EDITOR') %}
         <a href="{{ path('blog_add') }}" class="btn btn-success m-2">Créer un nouvel article</a>
+        {% endif %}
         {% if blogs is empty %}
             <p>Pas d'article disponible pour le moment.</p>
         {% else %}
@@ -23,7 +25,9 @@
                             <a href="{{ path('blog_show', {id: blog.id}) }}" class="btn btn-primary stretched-link">Voir l'article</a>
                         </div>
                     </div>
+                    {% if is_granted('ROLE_EDITOR') %}
                     <a href="{{ path('blog_edit', {id: blog.id}) }}" class="btn btn-warning mt-2">Modifier l'article</a>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
