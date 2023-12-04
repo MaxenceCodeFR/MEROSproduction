@@ -22,6 +22,12 @@ class AdminBlogController extends AbstractController
         //Cette méthode est modifiée dans le repository pour ne récupérer que les articles non archivés
         //cf. BlogRepository.php => findAll()
         $data = $blogRepository->findAll();
+
+        //On utilise le service KNP Paginator pour paginer les articles :
+        //Le premier paramètre nous demande les données à paginer
+        //Le deuxième paramètre nous demande le nom de la page dans le fichier "knp_paginator.yaml"
+        // et la page par défaut
+        //Le troisème paramètre et le nombre d'articles par page 
         $blogs = $paginatorInterface->paginate(
             $data,
             $request->query->getInt('page', 1),
@@ -48,6 +54,8 @@ class AdminBlogController extends AbstractController
     #[Route('/set-archive/{id}', name: 'set_archive')]
     public function setArchive(Request $request, EntityManagerInterface $em): Response
     {
+        //Récupération de l'article à archiver via son id
+        //On utilise la méthode find() du repository
         $blog = $em->getRepository(Blog::class)->find($request->get('id'));
         $blog->setIsArchived(true);
         $em->flush();
