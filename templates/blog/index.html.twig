@@ -27,6 +27,7 @@
 {# Affichage des resultats en fonction de la recherche précédente
   cf. Controller/BlogController.php -> Route: 'blog_index' #}
     {% if results %}
+    <a class="btn btn-primary m-3" href="{{ path('blog_index') }}">Retour aux articles</a>
         <h2>Résultats de la recherche :</h2>
             
         <div class="row row-cols-1 row-cols-md-4 g-4">
