@@ -4,6 +4,66 @@
 
 {% block body %}
 {% include 'commons/_editor_navbar.html.twig' %}
+<div class="container m-3">
+        <form action="{{ path('editor_index') }}" method="GET" class="row justify-content-end">
+            <div class="col-auto">
+                <div class="input-group">
+                    <input type="text" name="keyword" class="form-control" placeholder="Rechercher...">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Rechercher</button>
+                        </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    {# Affichage des resultats en fonction de la recherche précédente
+  cf. Controller/AdminBlogController.php -> Route: 'editor_index' #}
+    {% if results %}
+    <a class="btn btn-primary m-3" href="{{ path('editor_index') }}">Retour aux articles</a>
+    <h2>Résultats de la recherche :</h2>
+    <div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Titre</th>
+                <th scope="col">Image</th>
+                <th scope="col">Date de création</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in results %}
+                <tr>
+                    <td>{{ article.title }}</td>
+                    <td><img src="{{ asset('assets/uploads/' ~ article.image) }}" alt="{{ article.title }}" class="thumbnail img-fluid" style="max-width: 100px;"></td>
+                    <td class="badge bg-info">{{ article.createdAt|date('Y-m') }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{{ path('blog_show', {id: article.id}) }}" class="btn btn-primary">Voir l'article</a>
+                            <a href="{{ path('blog_show', {id: article.id}) }}" class="btn btn-success">Afficher</a>
+                            <a href="{{path('editor_set_archive', {id: article.id}) }}" class="btn btn-danger">Archiver l'article</a>
+                            {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_CEO') %}
+                                {% set able = '' %}
+                            {% else %}
+                                {% set able = 'disabled' %}
+                            {% endif %}
+                            {% set token = 'delete_' ~ article.id %}
+                                <form method="post" action="{{ path('blog_delete', {id: article.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token(token) }}">
+                                    <button type="submit" class="btn btn-outline-danger {{able}}">Supprimer</button>
+                                </form> 
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% else %}
+
+
 <div class="container mt-4">
             <h1 class="text-center mb-4">Administration du Blog</h1>
             <div class="d-flex justify-content-center mb-3">
@@ -32,8 +92,17 @@
                                 <div class="d-flex justify-content-center justify-content-lg-start">
                                     <a href="{{ path('blog_edit', {id: blog.id}) }}" class="btn btn-warning me-2">Modifier</a>
                                     <a href="{{ path('blog_show', {id: blog.id}) }}" class="btn btn-success me-2">Afficher</a>
-                                    <a href="{{path('editor_set_archive', {id: blog.id}) }}" class="btn btn-danger">Archiver l'article</a>
-                                    <!-- Ajoute d'autres actions si nécessaire -->
+                                    <a href="{{path('editor_set_archive', {id: blog.id}) }}" class="btn btn-danger me-2">Archiver l'article</a>
+                                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CEO') %}
+                                            {% set able = '' %}
+                                        {% else %}
+                                            {% set able = 'disabled' %}
+                                        {% endif %}
+                                    {% set token = 'delete_' ~ blog.id %}
+                                    <form method="post" action="{{ path('blog_delete', {id: blog.id}) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token(token) }}">
+                                        <button type="submit" class="btn btn-outline-danger {{able}}">Supprimer</button>
+                                    </form>                                   
                                 </div>
                             </td>
                         </tr>
@@ -45,4 +114,5 @@
                 {{ knp_pagination_render(blogs) }}
             </div>
 </div>
+    {% endif %}
 {% endblock %}

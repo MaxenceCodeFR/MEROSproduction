@@ -34,7 +34,16 @@ class AdminBlogController extends AbstractController
             8
         );
 
-        return $this->render('blog/admin/blog_editor/index.html.twig', compact('blogs'));
+        $keyword = $request->query->get('keyword');
+
+        if ($keyword) {
+            $results = $blogRepository->searchByTitle($keyword);
+        } else {
+            // Gérer le cas où aucun mot-clé n'est saisi
+            $results = [];
+        }
+
+        return $this->render('blog/admin/blog_editor/index.html.twig', compact('blogs', 'results'));
     }
 
     #[Route('/editor-archived', name: 'archived')]
