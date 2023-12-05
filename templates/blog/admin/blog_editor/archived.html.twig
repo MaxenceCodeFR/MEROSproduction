@@ -32,7 +32,17 @@
                     <td>
                         <div class="d-flex justify-content-center justify-content-lg-start">
                             <a href="{{ path('blog_edit', {id: archive.id}) }}" class="btn btn-warning me-2">Modifier</a>
-                            <a href="{{ path('blog_show', {id: archive.id}) }}" class="btn btn-success">Afficher</a>
+                            <a href="{{ path('blog_show', {id: archive.id}) }}" class="btn btn-success me-2">Afficher</a>
+                            {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_CEO') %}
+                                {% set able = '' %}
+                            {% else %}
+                                {% set able = 'disabled' %}
+                            {% endif %}
+                            {% set token = 'delete_' ~ archive.id %}
+                                <form method="post" action="{{ path('blog_delete', {id: archive.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token(token) }}">
+                                    <button type="submit" class="btn btn-outline-danger {{able}}">Supprimer</button>
+                                </form> 
                             <!-- Ajoute d'autres actions si nécessaire -->
                         </div>
                     </td>
