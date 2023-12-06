@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+
 use App\Entity\ContactInfluencer;
 use App\Form\ContactInfluencerType;
 use App\Repository\ContactInfluencerRepository;

@@ -21,28 +21,37 @@ class ContactInfluencerRepository extends ServiceEntityRepository
         parent::__construct($registry, ContactInfluencer::class);
     }
 
-//    /**
-//     * @return ContactInfluencer[] Returns an array of ContactInfluencer objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findCandidate($motif)
+    {
+        return $this->createQueryBuilder('ci')
+            ->leftJoin('ci.motif', 'm') // Supposons que la relation s'appelle "motif"
+            ->andWhere('m.id = :motif')
+            ->setParameter('motif', $motif)
+            ->getQuery()
+            ->getResult();
+    }
+    //    /**
+    //     * @return ContactInfluencer[] Returns an array of ContactInfluencer objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('c.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?ContactInfluencer
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?ContactInfluencer
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
