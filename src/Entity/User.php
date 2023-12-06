@@ -46,11 +46,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Specialty::class, inversedBy: 'users')]
     private Collection $specialty;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ContactInfluencer::class)]
+    private Collection $contactInfluencers;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->social = new ArrayCollection();
         $this->specialty = new ArrayCollection();
+        $this->contactInfluencers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -221,6 +225,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeSpecialty(Specialty $specialty): static
     {
         $this->specialty->removeElement($specialty);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ContactInfluencer>
+     */
+    public function getContactInfluencers(): Collection
+    {
+        return $this->contactInfluencers;
+    }
+
+    public function addContactInfluencer(ContactInfluencer $contactInfluencer): static
+    {
+        if (!$this->contactInfluencers->contains($contactInfluencer)) {
+            $this->contactInfluencers->add($contactInfluencer);
+            $contactInfluencer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactInfluencer(ContactInfluencer $contactInfluencer): static
+    {
+        if ($this->contactInfluencers->removeElement($contactInfluencer)) {
+            // set the owning side to null (unless already changed)
+            if ($contactInfluencer->getUser() === $this) {
+                $contactInfluencer->setUser(null);
+            }
+        }
 
         return $this;
     }

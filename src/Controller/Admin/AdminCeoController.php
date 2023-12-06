@@ -2,9 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\User;
 use App\Entity\ContactInfluencer;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,23 +47,23 @@ class AdminCeoController extends AbstractController
     }
 
 
-    // #[Route('/set-influencer/{id}', name: 'set_influencer')]
-    // function setInfluencer(Request $request, EntityManagerInterface $em): Response
-    // {
-    //     // Récupération du candidat via son ID
-    //     $candidate = $em->getRepository(ContactInfluencer::class)->find($request->get('id'));
+    #[Route('/set-influencer/{id}', name: 'set_influencer')]
+    function setInfluencer(Request $request, EntityManagerInterface $em, ContactInfluencerRepository $candidate): Response
+    {
+        // Récupération du candidat via son ID
+        $candidate = $candidate->find($request->get('id'));
 
-    //     if ($candidate) {
-    //         // Récupération de la personne liée au candidat (supposons que c'est un utilisateur)
-    //         $user = $candidate->getUser(); // Adapter cette logique en fonction de la relation réelle
+        if ($candidate) {
+            // Récupération de la personne liée au candidat (supposons que c'est un utilisateur)
+            $user = $candidate->getUser(); // Adapter cette logique en fonction de la relation réelle
 
-    //         if ($user) {
-    //             // Assigner le rôle 'ROLE_INFLUENCER' à l'utilisateur
-    //             $user->setRoles(['ROLE_INFLUENCER']);
-    //             $em->flush();
-    //         }
-    //     }
+            if ($user) {
+                // Assigner le rôle 'ROLE_INFLUENCER' à l'utilisateur
+                $user->setRoles(['ROLE_INFLUENCER']);
+                $em->flush();
+            }
+        }
 
-    //     return $this->redirectToRoute('ceo_candidate');
-    // }
+        return $this->redirectToRoute('ceo_candidate');
+    }
 }

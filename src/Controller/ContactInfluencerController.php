@@ -16,23 +16,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ContactInfluencerController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(Request $request, EntityManagerInterface $entityManager, ContactInfluencerRepository $contactInfluencerRepository): Response
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
+
 
         $contact = new ContactInfluencer();
         $form = $this->createForm(ContactInfluencerType::class, $contact);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $submittedEmail = $contact->getEmail();
-
-            // Vérifier si l'email existe déjà dans la base de données
-            $existingContact = $contactInfluencerRepository->findOneBy(['email' => $submittedEmail]);
-
-            if ($existingContact) {
-                // Rediriger si l'email existe déjà dans la base de données
-                return $this->redirectToRoute('contact_influencer_thankyou');
-            }
+            $contact->setUser($this->getUser());
             // $file stores the uploaded PDF file
             $file = $form->get('cv')->getData();
             $fileName = md5(uniqid('CV_')) . '.' . $file->guessExtension();

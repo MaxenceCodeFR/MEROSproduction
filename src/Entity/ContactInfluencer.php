@@ -29,6 +29,9 @@ class ContactInfluencer
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $answer = null;
 
+    #[ORM\ManyToOne(inversedBy: 'contactInfluencers')]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,18 @@ class ContactInfluencer
     public function setAnswer(?string $answer): static
     {
         $this->answer = $answer;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
