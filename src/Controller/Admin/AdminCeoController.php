@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\User;
 use App\Entity\ContactInfluencer;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -55,7 +56,7 @@ class AdminCeoController extends AbstractController
 
         if ($candidate) {
             // Récupération de la personne liée au candidat (supposons que c'est un utilisateur)
-            $user = $candidate->getUser(); // Adapter cette logique en fonction de la relation réelle
+            $user = $candidate->getUser();
 
             if ($user) {
                 // Assigner le rôle 'ROLE_INFLUENCER' à l'utilisateur
@@ -65,5 +66,14 @@ class AdminCeoController extends AbstractController
         }
 
         return $this->redirectToRoute('ceo_candidate');
+    }
+
+    #[Route('/profil', name: 'profil')]
+    public function profile(): Response
+    {
+        $user = $this->getUser();
+        $socials = $user->getSocial();
+
+        return $this->render('ceo/profil/index.html.twig', compact('socials', 'user'));
     }
 }

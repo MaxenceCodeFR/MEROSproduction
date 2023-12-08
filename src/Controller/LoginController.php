@@ -26,10 +26,13 @@ class LoginController extends AbstractController
     #[Route('/redirectAfterLogin', name: 'redirect_login', methods: ['GET'])]
     public function redirectAfterLogin(): Response
     {
-        if ($this->isGranted('ROLE_EDITOR')) {
+        if ($this->isGranted('ROLE_CEO')) {
+            return $this->redirectToRoute('ceo_index');
+        } elseif ($this->isGranted('ROLE_EDITOR')) {
             return $this->redirectToRoute('editor_index');
+        } else {
+            return $this->redirectToRoute('landing');
         }
-        return $this->redirectToRoute('landing');
     }
 
     #[Route('/logout', name: 'logout', methods: ['GET'])]

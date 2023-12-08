@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+{% block title %}Bonjour {{ app.user.firstname }}{% endblock %}
+{% block body %}
+    <h1>Votre profil</h1>
+        
+    {{app.user.firstname}}
+    {{app.user.lastname}}
+    {{app.user.email}}
+    {{app.user.text}}
+
+    {% for social in socials %}
+    {{social.instagram}}
+    {{social.twitter}}
+    {{social.youtube}}
+        
+    {% endfor %}
+{% endblock %}
