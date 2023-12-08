@@ -1,17 +1,58 @@
 {% extends "base.html.twig" %}
 {% block title %}Bonjour {{ app.user.firstname }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-u+O6SN9kPvB6o+XxVXF6AHb5zr6j83C2eu1LLddIevvKSWCIJlep6g8lA4U5Nk1lY8EZ5A6UqFJN9+xq1TzV1Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Ajoutez d'autres CDN ou stylesheets pour Bootstrap ici si nécessaire -->
+{% endblock %}
 {% block body %}
-    <h1>Votre profil</h1>
-        
-    {{app.user.firstname}}
-    {{app.user.lastname}}
-    {{app.user.email}}
-    {{app.user.text}}
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Votre profil</h1>
 
-    {% for social in socials %}
-    {{social.instagram}}
-    {{social.twitter}}
-    {{social.youtube}}
-        
-    {% endfor %}
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="text-info">Informations personnelles :</h4>
+                <ul class="list-group">
+                    <li class="list-group-item bg-light"><strong>Prénom:</strong> {{ app.user.firstname }}</li>
+                    <li class="list-group-item bg-light"><strong>Nom:</strong> {{ app.user.lastname }}</li>
+                    <li class="list-group-item bg-light"><strong>Email:</strong> {{ app.user.email }}</li>
+                    <li class="list-group-item bg-light"><strong>Description:</strong> {{ app.user.text }}</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h4 class="text-success">Réseaux sociaux :</h4>
+                <div class="card bg-light">
+                    <div class="card-body">
+                        {% for social in socials %}
+                            <h6>Réseaux</h6>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    {% if social.instagram %}
+                                        <a href="{{ social.instagram }}" target="_blank" class="text-danger">
+                                            <i class="fab fa-instagram"></i> Instagram
+                                        </a>
+                                    {% endif %}
+                                </li>
+                                <li class="list-inline-item">
+                                    {% if social.twitter %}
+                                        <a href="{{ social.twitter }}" target="_blank" class="text-info">
+                                            {{ social.twitter }}
+                                        </a>
+                                    {% endif %}
+                                </li>
+                                <li class="list-inline-item">
+                                    {% if social.youtube %}
+                                        <a href="{{ social.youtube }}" target="_blank" class="text-danger">
+                                            <i class="bi bi-youtube"></i> YouTube
+                                        </a>
+                                    {% endif %}
+                                </li>
+                                <!-- Ajoutez d'autres réseaux sociaux ici si nécessaire -->
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

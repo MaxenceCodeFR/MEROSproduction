@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Form\UserType;
 use App\Entity\ContactInfluencer;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -74,6 +75,26 @@ class AdminCeoController extends AbstractController
         $user = $this->getUser();
         $socials = $user->getSocial();
 
+
         return $this->render('ceo/profil/index.html.twig', compact('socials', 'user'));
+    }
+
+    #[Route('/profil/edit', name: 'profil_edit')]
+    public function profilEdit(Request $request, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(UserType::class, $this->getUser());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em->persist($this->getUser());
+            $em->flush();
+
+            return $this->redirectToRoute('ceo_profil');
+        }
+
+        return $this->render('ceo/profil/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
