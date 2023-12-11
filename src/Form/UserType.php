@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\User;
-use App\Entity\Social;
 use App\Entity\Specialty;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

@@ -5,14 +5,32 @@
         <h1 class="mb-4">Formulaire Utilisateur</h1>
         {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
         <div class="col-md-6">
-            {{ form_row(form.email, {'label': 'Email', 'attr': {'class': 'form-control'}}) }}
-            {{ form_row(form.firstname, {'label': 'Prénom', 'attr': {'class': 'form-control'}}) }}
-            {{ form_row(form.lastname, {'label': 'Nom', 'attr': {'class': 'form-control'}}) }}
+            <div class="mb-3">
+                {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.firstname, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.lastname, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+            </div>
         </div>
         <div class="col-md-6">
-            {{ form_row(form.text, {'label': 'Description', 'attr': {'class': 'form-control'}}) }}
-            {{ form_row(form.social, {'label': 'Réseaux Sociaux', 'attr': {'class': 'form-control'}}) }}
-            {{ form_row(form.specialty, {'label': 'Spécialité', 'attr': {'class': 'form-control'}}) }}
+            <div class="mb-3">
+                {{ form_label(form.text, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.text, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.social, 'Réseaux Sociaux', {'label_attr': {'class': 'form-label mb-3'}}) }}
+                {{ form_widget(form.social, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.specialty, 'Spécialité', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.specialty, {'attr': {'class': 'form-control'}}) }}
+            </div>
         </div>
         <div class="col-12">
             <button type="submit" class="btn btn-primary mt-3">Enregistrer</button>

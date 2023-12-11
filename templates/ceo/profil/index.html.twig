@@ -1,10 +1,6 @@
 {% extends "base.html.twig" %}
 {% block title %}Bonjour {{ app.user.firstname }}{% endblock %}
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-u+O6SN9kPvB6o+XxVXF6AHb5zr6j83C2eu1LLddIevvKSWCIJlep6g8lA4U5Nk1lY8EZ5A6UqFJN9+xq1TzV1Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Ajoutez d'autres CDN ou stylesheets pour Bootstrap ici si nécessaire -->
-{% endblock %}
+
 {% block body %}
     <div class="container mt-4">
         <h1 class="text-center mb-4">Votre profil</h1>
