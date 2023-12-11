@@ -25,29 +25,56 @@
                     <div class="card-body">
                         {% for social in socials %}
                             <h6>Réseaux</h6>
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    {% if social.instagram %}
-                                        <a href="{{ social.instagram }}" target="_blank" class="text-danger">
-                                            <i class="fab fa-instagram"></i> Instagram
-                                        </a>
+                            <ul class="list-group">
+                                {% if social.instagram %}
+                                <li class="list-group-item">
+                                    <a href="{{ social.instagram }}" target="_blank" class="text-danger">
+                                        Instagram
+                                    </a>
                                     {% endif %}
                                 </li>
-                                <li class="list-inline-item">
+                                <li class="list-group-item">
                                     {% if social.twitter %}
-                                        <a href="{{ social.twitter }}" target="_blank" class="text-info">
-                                            {{ social.twitter }}
+                                        <a href="{{ social.twitter }}" target="_blank" class="text-danger">
+                                            Twitter
                                         </a>
                                     {% endif %}
                                 </li>
-                                <li class="list-inline-item">
+                                <li class="list-group-item">
                                     {% if social.youtube %}
                                         <a href="{{ social.youtube }}" target="_blank" class="text-danger">
-                                            <i class="bi bi-youtube"></i> YouTube
+                                            YouTube
                                         </a>
                                     {% endif %}
                                 </li>
-                                <!-- Ajoutez d'autres réseaux sociaux ici si nécessaire -->
+                                    {% if social.snapchat %}
+                                <li class="list-group-item">
+                                        <a href="{{ social.snapchat }}" target="_blank" class="text-danger">
+                                            Snapchat
+                                        </a>
+                                </li>
+                                    {% endif %}
+                                    {% if social.tiktok %}
+                                    <li class="list-group-item">
+                                        <a href="{{ social.tiktok }}" target="_blank" class="text-danger">
+                                            Tiktok
+                                        </a>
+                                    {% endif %}
+                                </li>
+                                {% if social.website %}
+                                    <li class="list-group-item">
+                                        <a href="{{ social.website }}" target="_blank" class="text-danger">
+                                            Site Web
+                                        </a>
+                                    {% endif %}
+                                </li>
+                                {% if social.pinterest %}
+                                    <li class="list-group-item">
+                                        <a href="{{ social.pinterest }}" target="_blank" class="text-danger">
+                                            Pinterest
+                                        </a>
+                                    {% endif %}
+                                </li>
                             </ul>
                         {% endfor %}
                     </div>
