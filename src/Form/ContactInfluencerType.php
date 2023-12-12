@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Validator\Constraints\File;
 
 class ContactInfluencerType extends AbstractType
@@ -18,6 +19,14 @@ class ContactInfluencerType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
+                'label' => 'Votre adresse email',
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('phone', TelType::class, [
+                'label' => 'Téléphone',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control'
@@ -39,6 +48,7 @@ class ContactInfluencerType extends AbstractType
                 ]
             ])
             ->add('text', TextareaType::class, [
+                'label' => 'Votre message',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control'
@@ -55,7 +65,7 @@ class ContactInfluencerType extends AbstractType
                             'application/pdf',
                             'application/x-pdf',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                        'mimeTypesMessage' => 'Mauvais type de fichier, veuillez choisir un fichier PDF valide',
                     ]),
                 ],
                 'attr' => [

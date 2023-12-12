@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}MEROS{% endblock %}</title>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}MEROS
+			{% endblock %}
+		</title>
 
-        {# Initialisation fichier CSS #}
-        <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+		{# Initialisation fichier CSS #}
+		<link
+		rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 
-        {# Initialisation fichier Bootstrap #}
-        <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css.map')}}">
-        {% block stylesheets %}
-        {% endblock %}
+		{# Initialisation fichier Bootstrap #}
+		<link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css.map')}}"> {% block stylesheets %}{% endblock %}
 
-        {# Initialisation fichier JS #}
-        <script src="{{asset('assets/javascript/bootstrap.bundle.min.js')}}"></script>
-        <script src="{{asset('assets/javascript/bootstrap.bundle.min.js.map')}}"></script>
-        {% block javascripts %}
-        {% endblock %}
-    </head>
-    <body>
+		{# Initialisation fichier JS #}
+		<script src="{{asset('assets/javascript/bootstrap.bundle.min.js')}}"></script>
+		<script src="{{asset('assets/javascript/bootstrap.bundle.min.js.map')}}"></script>
+		{% block javascripts %}{% endblock %}
+	</head>
+	<body>
 
-        {% block body %}{% endblock %}
-    </body>
+		{% block body %}{% endblock %}
+	</body>
 </html>
