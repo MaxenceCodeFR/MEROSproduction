@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Media::class)]
     private Collection $images;
 
-    #[ORM\ManyToMany(targetEntity: Social::class, inversedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Social::class, inversedBy: 'users', cascade: ['persist'])]
     private Collection $social;
 
     #[ORM\ManyToMany(targetEntity: Specialty::class, inversedBy: 'users')]

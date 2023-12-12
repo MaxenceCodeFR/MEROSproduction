@@ -2,7 +2,8 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\User;
+
+use App\Entity\Social;
 use App\Form\UserType;
 use App\Entity\ContactInfluencer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,7 +49,6 @@ class AdminCeoController extends AbstractController
         return $this->render('ceo/candidates/show.html.twig', compact('candidate'));
     }
 
-
     #[Route('/set-influencer/{id}', name: 'set_influencer')]
     function setInfluencer(Request $request, EntityManagerInterface $em, ContactInfluencerRepository $candidate): Response
     {
@@ -74,19 +74,34 @@ class AdminCeoController extends AbstractController
     {
         $user = $this->getUser();
         $socials = $user->getSocial();
+        $specialities = $user->getSpecialty();
 
 
-        return $this->render('ceo/profil/index.html.twig', compact('socials', 'user'));
+        return $this->render('ceo/profil/index.html.twig', compact('socials', 'user', 'specialities'));
     }
 
     #[Route('/profil/edit', name: 'profil_edit')]
     public function profilEdit(Request $request, EntityManagerInterface $em): Response
     {
-        $form = $this->createForm(UserType::class, $this->getUser());
+        $user = $this->getUser();
+
+        //Si l'utilisateur n'a pas de social, on lui en crée un
+        if ($user->getSocial()->isEmpty()) {
+            $user->addSocial(new Social());
+        }
+
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            //On boucle sur les socials de l'utilisateur
+            foreach ($user->getSocial() as $social) {
+                // Persistez seulement les nouvelles entités Social
+                if (!$em->contains($social)) {
+                    $em->persist($social);
+                }
+            }
             $em->persist($this->getUser());
             $em->flush();
 

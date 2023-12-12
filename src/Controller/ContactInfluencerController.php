@@ -19,7 +19,7 @@ class ContactInfluencerController extends AbstractController
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
 
-
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $contact = new ContactInfluencer();
         $form = $this->createForm(ContactInfluencerType::class, $contact);
         $form->handleRequest($request);
