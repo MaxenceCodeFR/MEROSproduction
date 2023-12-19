@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-
 use App\Entity\Social;
 use App\Form\UserType;
 use App\Entity\ContactInfluencer;
@@ -76,7 +75,6 @@ class AdminCeoController extends AbstractController
         $socials = $user->getSocial();
         $specialities = $user->getSpecialty();
 
-
         return $this->render('ceo/profil/index.html.twig', compact('socials', 'user', 'specialities'));
     }
 
@@ -102,6 +100,7 @@ class AdminCeoController extends AbstractController
                     $em->persist($social);
                 }
             }
+
             $em->persist($this->getUser());
             $em->flush();
 

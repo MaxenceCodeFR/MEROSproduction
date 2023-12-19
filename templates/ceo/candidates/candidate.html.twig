@@ -1,18 +1,21 @@
 {% extends "base.html.twig" %}
-{% block title %}Bonjour{% endblock %}
+{% block title %}Bonjour
+{% endblock %}
 {% block body %}
-    {% for contact in contacts %}
-        {% if 'ROLE_INFLUENCER' not in contact.user.roles %}
-        <div class="card">
-            <div class="card-body">
-                <p class="card-text">{{contact.email}}</p>
-                <p class="card-text">{{contact.motif.motifInfluencer}}</p>
-                <a href="{{path('ceo_candidate_show', {'id': contact.id})}}" class="btn btn-primary">Voir la candidature</a>
-                {#<a href="{{path('contact_edit', {'id': contact.id})}}" class="btn btn-primary">Modifier</a>
-                <a href="{{path('contact_delete', {'id': contact.id})}}" class="btn btn-primary">Supprimer</a> #}
-            </div>
-        </div>
-        {% endif %}
-    {% endfor %}
+	{% include "commons/_ceo_navbar.html.twig" %}
+
+	{% for contact in contacts %}
+		{% if 'ROLE_INFLUENCER' not in contact.user.roles %}
+			<div class="card">
+				<div class="card-body">
+					<p class="card-text">{{contact.email}}</p>
+					<p class="card-text">{{contact.motif.motifInfluencer}}</p>
+					<a href="{{path('ceo_candidate_show', {'id': contact.id})}}" class="btn btn-primary">Voir la candidature</a>
+					{#<a href="{{path('contact_edit', {'id': contact.id})}}" class="btn btn-primary">Modifier</a>
+					                <a href="{{path('contact_delete', {'id': contact.id})}}" class="btn btn-primary">Supprimer</a> #}
+				</div>
+			</div>
+		{% endif %}
+	{% endfor %}
 
 {% endblock %}
