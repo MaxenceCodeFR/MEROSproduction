@@ -4,14 +4,16 @@ namespace App\Form;
 
 use App\Entity\ContactInfluencer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\IsTrue;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ContactInfluencerType extends AbstractType
 {
@@ -71,6 +73,15 @@ class ContactInfluencerType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ]
+            ])
+            ->add('condition', CheckboxType::class, [
+                'label' => 'J\'accepte que mes données soient utilisées pour me recontacter',
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Veuillez cocher la case pour accepter les conditions d\'utilisation.',
+                    ]),
+                ],
             ]);
     }
 
