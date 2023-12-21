@@ -11,7 +11,7 @@
 		<h1>Articles</h1>
 
 		{# Barre de recherche simple avec Bootstrap
-		    cf. Controller/BlogController.php -> Route: 'blog_index' #}
+				    cf. Controller/BlogController.php -> Route: 'blog_index' #}
 		<div class="container m-3">
 			<form action="{{ path('blog_index') }}" method="GET" class="row justify-content-end">
 				<div class="col-auto">
@@ -26,7 +26,7 @@
 		</div>
 
 		{# Affichage des resultats en fonction de la recherche précédente
-		  cf. Controller/BlogController.php -> Route: 'blog_index' #}
+				  cf. Controller/BlogController.php -> Route: 'blog_index' #}
 		{% if results %}
 			<a class="btn btn-primary m-3" href="{{ path('blog_index') }}">Retour aux articles</a>
 			<h2>Résultats de la recherche :</h2>
@@ -46,10 +46,6 @@
 				{% endfor %}
 				{# Si je n'affiche pas de résultat j'affiche le reste des cards #}
 			{% else %}
-
-				{% if is_granted('ROLE_EDITOR') %}
-					<a href="{{ path('blog_add') }}" class="btn btn-success m-2">Créer un nouvel article</a>
-				{% endif %}
 				{% if blogs is empty %}
 					<p>Pas d'article disponible pour le moment.</p>
 				{% else %}
@@ -64,9 +60,6 @@
 										<a href="{{ path('blog_show', {id: blog.id}) }}" class="btn btn-primary stretched-link">Voir l'article</a>
 									</div>
 								</div>
-								{% if is_granted('ROLE_EDITOR') %}
-									<a href="{{ path('blog_edit', {id: blog.id}) }}" class="btn btn-warning mt-2">Modifier l'article</a>
-								{% endif %}
 							</div>
 						{% endfor %}
 					</div>

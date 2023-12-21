@@ -57,7 +57,7 @@ class ContactInfluencerType extends AbstractType
                 ]
             ])
             ->add('cv', FileType::class, [
-                'label' => 'CV (PDF file)',
+                'label' => 'CV (fichier PDF) N\'envoyez pas votre CV si votre requête concerne une demande d\'information',
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [

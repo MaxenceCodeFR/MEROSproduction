@@ -48,6 +48,19 @@ class AdminCeoController extends AbstractController
         return $this->render('ceo/candidates/show.html.twig', compact('candidate'));
     }
 
+    #[Route('/request', name: 'request')]
+    public function request(ContactInfluencerRepository $contacts, PaginatorInterface $paginatorInterface, Request $request): Response
+    {
+        $data = $contacts->findCandidate(2);
+        $contacts = $paginatorInterface->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            15
+        );
+
+        return $this->render('ceo/request/request.html.twig', compact('contacts'));
+    }
+
     #[Route('/set-influencer/{id}', name: 'set_influencer')]
     function setInfluencer(Request $request, EntityManagerInterface $em, ContactInfluencerRepository $candidate): Response
     {
@@ -81,6 +94,7 @@ class AdminCeoController extends AbstractController
     #[Route('/profil/edit', name: 'profil_edit')]
     public function profilEdit(Request $request, EntityManagerInterface $em): Response
     {
+        //On récupère l'utilisateur connecté
         $user = $this->getUser();
 
         //Si l'utilisateur n'a pas de social, on lui en crée un

@@ -8,38 +8,7 @@
 	{% include "commons/_navbar.html.twig" %}
 
 	<div class="container mt-4">
-		{% if is_granted('ROLE_EDITOR') %}
-			<a href="{{ path('blog_edit', {id: blog.id}) }}" class="btn btn-warning mt-2">Modifier l'article</a>
-			<button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-				Supprimer l'article
-			</button>
-		{% endif %}
-		<!-- Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Supprimer cet article ?</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						{% if blog.isArchived == true %}
-							<p class="text-danger">Cet article est archivé et peux être supprimer</p>
-						{% else %}
-							<p class="text-danger">Cet article n'est pas archivé et le supprimer est definitif
-							</p>
-						{% endif %}
-					</div>
-					<div class="modal-footer">
-						{% set token = 'delete_' ~ blog.id %}
-						<form method="post" action="{{ path('blog_delete', {id: blog.id}) }}">
-							<input type="hidden" name="_token" value="{{ csrf_token(token) }}">
-							<button type="submit" class="btn btn-danger w-100">Supprimer</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+
 		<h1>{{ blog.title }}</h1>
 		<div class="row">
 			<div class="col-md-6">
