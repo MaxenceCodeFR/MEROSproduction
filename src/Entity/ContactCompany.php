@@ -32,6 +32,9 @@ class ContactCompany
     #[ORM\ManyToOne(inversedBy: 'contactCompanies')]
     private ?Motif $motif = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isDisplayed = true;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +108,18 @@ class ContactCompany
     public function setMotif(?Motif $motif): static
     {
         $this->motif = $motif;
+
+        return $this;
+    }
+
+    public function isIsDisplayed(): ?bool
+    {
+        return $this->isDisplayed;
+    }
+
+    public function setIsDisplayed(?bool $isDisplayed): static
+    {
+        $this->isDisplayed = $isDisplayed;
 
         return $this;
     }

@@ -24,7 +24,7 @@ class ContactCompanyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $contact->setIsDisplayed(true);
             $entityManager->persist($contact);
             $entityManager->flush();
 
