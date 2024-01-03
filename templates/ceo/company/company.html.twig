@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+{% block title %}Demande Concernant Les Entreprises
+{% endblock %}
+
+{% block body %}
+	{% for comp in company %}
+		<div class="card">
+			<div class="card-body">
+				<p class="card-text">{{comp.email}}</p>
+				<p class="card-text">{{comp.company}}</p>
+				<p class="card-text">{{comp.motif.motifCompany}}</p>
+				<a href="{{path('ceo_company_show', {'id': comp.id})}}" class="btn btn-primary">Voir la demande</a>
+			</div>
+		</div>
+	{% endfor %}
+
+{% endblock %}

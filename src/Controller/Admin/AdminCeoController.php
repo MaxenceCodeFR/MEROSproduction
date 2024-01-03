@@ -4,9 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Social;
 use App\Form\UserType;
+use App\Entity\ContactCompany;
 use App\Entity\ContactInfluencer;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Repository\ContactCompanyRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\ContactInfluencerRepository;
@@ -59,6 +61,18 @@ class AdminCeoController extends AbstractController
         );
 
         return $this->render('ceo/request/request.html.twig', compact('contacts'));
+    }
+
+    #[Route('/company', name: 'company')]
+    public function company(ContactCompanyRepository $company)
+    {
+        $company = $company->findAll();
+        return $this->render('ceo/company/company.html.twig', compact('company'));
+    }
+    #[Route('/company/{id}', name: 'company_show')]
+    public function companyShow(ContactCompany $company)
+    {
+        return $this->render('ceo/company/show.html.twig', compact('company'));
     }
 
     #[Route('/set-influencer/{id}', name: 'set_influencer')]
