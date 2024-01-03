@@ -1,27 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Articles Archivés{% endblock %}
-
-{% block body %}
-    {# Inclusion de la barre de navigation #}
-    {% include "commons/_navbar.html.twig" %}
-
-    <div class="container">
-        <h1>Articles Archivés</h1>
-        <div class="row row-cols-1 row-cols-md-4 g-4">
-            {% for archive in archived %}
-                <div class="col">
-                    <div class="card">
-                        <img src="{{ asset('assets/uploads/' ~ archive.image) }}" class="card-img-top" alt="{{ archive.title }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ archive.title }}</h5>
-                            <p class="card-text">{{ archive.createdAt|date('Y-m') }}</p>
-                            <a href="{{ path('blog_archive', {id: archive.id}) }}" class="btn btn-primary stretched-link">Voir l'article</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+{% block title %}Articles Archivés
 {% endblock %}
 
+{% block body %}
+	{# Inclusion de la barre de navigation #}
+	{% include "commons/_navbar.html.twig" %}
+
+	<div class="container">
+		<h1>Articles Archivés</h1>
+		<div class="row row-cols-1 row-cols-md-4 g-4">
+			{% for archive in archived %}
+				<div class="col">
+					<div class="card">
+						<img src="{{ asset('assets/uploads/' ~ archive.image) }}" class="card-img-top" alt="{{ archive.title }}">
+						<div class="card-body">
+							<h5 class="card-title">{{ archive.title }}</h5>
+							<p class="card-text">{{ archive.createdAt|date('Y-m') }}</p>
+							<a href="{{ path('blog_archive', {id: archive.id}) }}" class="btn btn-primary stretched-link">Voir l'article</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

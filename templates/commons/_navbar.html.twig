@@ -16,7 +16,7 @@
           <a class="nav-link" href="#">Influenceurs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Devenir Influenceur</a>
+          <a class="nav-link" href="{{path('contact_influencer_index')}}">Devenir Influenceur</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Contact</a>
@@ -42,8 +42,12 @@
             </a>
         <ul class="dropdown-menu">
     {% if app.user == true %}
+      {% if is_granted('ROLE_CEO') %}
+          <li><a class="dropdown-item">Tableau de bord</a></li>
+       {% else %}  
           <li><a class="dropdown-item">Profil</a></li>
           <li><a class="dropdown-item" href="{{ path('logout') }}">Déconnexion</a></li>
+      {% endif %}
     {% else %}
           <li><a class="dropdown-item" href="{{ path('login') }}">Connexion</a></li>
           <li><a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a></li>

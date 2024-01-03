@@ -5,13 +5,14 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Cet adresse email est déjà associée a un compte.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -40,17 +41,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Media::class)]
     private Collection $images;
 
-    #[ORM\ManyToMany(targetEntity: Social::class, inversedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Social::class, inversedBy: 'users', cascade: ['persist'])]
     private Collection $social;
 
     #[ORM\ManyToMany(targetEntity: Specialty::class, inversedBy: 'users')]
     private Collection $specialty;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ContactInfluencer::class)]
+    private Collection $contactInfluencers;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $text = null;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->social = new ArrayCollection();
         $this->specialty = new ArrayCollection();
+        $this->contactInfluencers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -221,6 +229,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeSpecialty(Specialty $specialty): static
     {
         $this->specialty->removeElement($specialty);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ContactInfluencer>
+     */
+    public function getContactInfluencers(): Collection
+    {
+        return $this->contactInfluencers;
+    }
+
+    public function addContactInfluencer(ContactInfluencer $contactInfluencer): static
+    {
+        if (!$this->contactInfluencers->contains($contactInfluencer)) {
+            $this->contactInfluencers->add($contactInfluencer);
+            $contactInfluencer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactInfluencer(ContactInfluencer $contactInfluencer): static
+    {
+        if ($this->contactInfluencers->removeElement($contactInfluencer)) {
+            // set the owning side to null (unless already changed)
+            if ($contactInfluencer->getUser() === $this) {
+                $contactInfluencer->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(?string $text): static
+    {
+        $this->text = $text;
 
         return $this;
     }

@@ -1,28 +1,30 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <div class="container">
-        <h1 class="mb-4">Création d'un article</h1>
-        <div class="row">
-            <div class="col-md-6">
-                {{ form_start(form) }}
-                    <div class="mb-3">
-                        {{ form_label(form.title, 'Titre de l\'article', {'label_attr': {'class': 'form-label'}}) }}
+{% include "commons/_navbar.html.twig" %}
+
+<div class="container">
+	<h1 class="mb-4">Création d'un article</h1>
+	<div class="row">
+		<div class="col-md-6">
+			{{ form_start(form) }}
+			<div class="mb-3">
+				{{ form_label(form.title, 'Titre de l\'article', {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="mb-3">
                         {{ form_label(form.content, 'Contenu de l\'article', {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 6}}) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_label(form.image, 'Image de présentation', {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="mb-3 form-check">
-                        {{ form_label(form.isArchived, 'Archiver l\'article', {'label_attr': {'class': 'form-check-label'}}) }}
+				{{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 6}}) }}
+			</div>
+			<div class="mb-3">
+				{{ form_label(form.image, 'Image de présentation', {'label_attr': {'class': 'form-label'}}) }}
+				{{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			<div class="mb-3 form-check">
+				{{ form_label(form.isArchived, 'Archiver l\'article', {'label_attr': {'class': 'form-check-label'}}) }}
                         {{ form_widget(form.isArchived, {'attr': {'class': 'form-check-input'}}) }}
                     </div>
-                    <button type="submit" class="btn btn-success">Créer</button>
+                    <button type="submit" class="btn btn-success">{{ button_name|default('Créer') }}</button>
                 {{ form_end(form) }}
             </div>
         </div>

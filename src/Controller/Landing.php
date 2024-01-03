@@ -13,4 +13,10 @@ class Landing extends AbstractController
     {
         return $this->render('landing.html.twig');
     }
+
+    #[Route('/rgpd', name: 'rgpd')]
+    public function rgpd(): Response
+    {
+        return $this->render('rgpd.html.twig');
+    }
 }
