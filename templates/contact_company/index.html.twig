@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demande de partenariat
+{% endblock %}
+
+{% block body %}
+
+
+	{% form_theme form with [
+    'bootstrap_5_layout.html.twig'
+] %}
+
+	{% include "commons/_navbar.html.twig" %}
+
+
+	<div class="container my-5">
+		<div class="row">
+			<div class="col-md-12">
+				<p class="mb-4">Vous souhaitez devenir partenaire, proposer vos produits ou simplement une demande d'information ? Vous êtes au bon endroit. Remplissez le formulaire ci-dessous et nous vous recontacterons dans les plus brefs délais. Le recrutement est ouvert à tous, peu importe votre âge, votre sexe ou votre nationalité.</p>
+				<p class="mb-2">
+					<strong>Voici comment nous procédons :</strong>
+				</p>
+				<ul class="list-unstyled mb-4">
+					<li class="mb-2">Une fois le formulaire rempli, nous vous contacterons pour comprendre votre besoin.</li>
+					<li class="mb-2">Si nous répondons favorablement nous pouvons vous proposer une rencontre afin d'établir un lien sincère.</li>
+					<li>Même si malheureusement notre réponse est négative, nous vous donnerons les raisons et essayerons de vous orienter au mieux.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<h1>Contact Entrprise</h1>
+
+		{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+		<div class="mb-3">
+			{{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_row(form.firstname, {'attr': {'class': 'form-control'}}) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_row(form.lastname, {'attr': {'class': 'form-control'}}) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_row(form.company, {'attr': {'class': 'form-control'}}) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_row(form.motif, {'attr': {'class': 'form-select'}}) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_row(form.text, {'attr': {'class': 'form-control'}}) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_row(form.condition, {'attr': {'class': 'form-control'}}) }}
+			<p>
+				<small>
+					<a href="{{path('rgpd')}}">Veuillez retrouver ici la close concernant la conservations des données</a>
+				</small>
+			</p>
+		</div>
+
+		<button type="submit" class="btn btn-primary">Envoyer</button>
+
+		{{ form_end(form) }}
+	</div>
+
+{% endblock %}
