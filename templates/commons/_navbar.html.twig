@@ -1,67 +1,82 @@
 {% if is_granted('ROLE_EDITOR') %}
-  {% include 'commons/_editor_navbar.html.twig' %}
+	{% include 'commons/_editor_navbar.html.twig' %}
 {% else %}
-<nav class="navbar navbar-expand-lg bg-body-tertiary ">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Logo</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Accueil</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Influenceurs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{path('contact_influencer_index')}}">Devenir Influenceur</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="{{path('blog_index')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Blog
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{path('blog_index')}}">Dernier Articles</a></li>
-            <li class=" btn btn-warning"><a class="dropdown-item" href="{{path('blog_archived')}}">Articles Archivés</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">L'équipe</a>
-        </li>
-        <li class="nav-item ms-5 dropstart">
-            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-              </svg>
-            </a>
-        <ul class="dropdown-menu">
-    {% if app.user == true %}
-      {% if is_granted('ROLE_CEO') %}
-          <li><a class="dropdown-item">Tableau de bord</a></li>
-       {% else %}  
-          <li><a class="dropdown-item">Profil</a></li>
-          <li><a class="dropdown-item" href="{{ path('logout') }}">Déconnexion</a></li>
-      {% endif %}
-    {% else %}
-          <li><a class="dropdown-item" href="{{ path('login') }}">Connexion</a></li>
-          <li><a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a></li>
-    {% endif %}
-      </ul>
-        </li>
-        {% if app.user == true %}
-        <li class="nav-link">
-            Bienvenue <b>{{app.user.firstname}}</b>
-        </li>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary ">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Logo</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="#">Accueil</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Influenceurs</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{path('contact_influencer_index')}}">Devenir Influenceur</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('contact_company_index')}}">Contact Entrprise</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="{{path('blog_index')}}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Blog
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a class="dropdown-item" href="{{path('blog_index')}}">Dernier Articles</a>
+							</li>
+							<li class=" btn btn-warning">
+								<a class="dropdown-item" href="{{path('blog_archived')}}">Articles Archivés</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">L'équipe</a>
+					</li>
+					<li class="nav-item ms-5 dropstart">
+						<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewbox="0 0 16 16">
+								<path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+								<path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+							</svg>
+						</a>
+						<ul class="dropdown-menu">
+							{% if app.user == true %}
+								{% if is_granted('ROLE_CEO') %}
+									<li>
+										<a class="dropdown-item">Tableau de bord</a>
+									</li>
+								{% else %}
+									<li>
+										<a class="dropdown-item">Profil</a>
+									</li>
+									<li>
+										<a class="dropdown-item" href="{{ path('logout') }}">Déconnexion</a>
+									</li>
+								{% endif %}
+							{% else %}
+								<li>
+									<a class="dropdown-item" href="{{ path('login') }}">Connexion</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a>
+								</li>
+							{% endif %}
+						</ul>
+					</li>
+					{% if app.user == true %}
+						<li class="nav-link">
+							Bienvenue
+							<b>{{app.user.firstname}}</b>
+						</li>
 
-        {% endif %}
-      </ul>
-    </div>
-  </div>
-</nav>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</nav>
 {% endif %}

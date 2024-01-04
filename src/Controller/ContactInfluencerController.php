@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use App\Entity\ContactInfluencer;
 use App\Form\ContactInfluencerType;
-use App\Repository\ContactInfluencerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

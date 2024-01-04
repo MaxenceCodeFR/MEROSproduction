@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Merci !
+{% endblock %}
+
+{% block body %}
+	{% include "commons/_navbar.html.twig" %}
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-6 offset-md-3">
+				<div class="card">
+					<div class="card-body">
+						<h1 class="card-title text-center mb-4">Merci !</h1>
+						<p class="card-text text-center">
+							Nous avons bien reçu votre demande et nous vous recontacterons dans les plus brefs délais.
+						</p>
+						<div class="text-center">
+							<a href="{{ path('landing') }}" class="btn btn-primary mt-3">Retourner à l'accueil</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

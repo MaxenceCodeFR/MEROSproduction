@@ -1,44 +1,51 @@
 {% extends "base.html.twig" %}
 {% block title %}Bonjour
-	{{app.user.firstname}}
+	{{ app.user.firstname }}
 {% endblock %}
 {% block body %}
 	{% include "commons/_ceo_navbar.html.twig" %}
 	<div class="container">
-		<div class="text-center">
-			<h1>Bienvenue
+		<div class="text-center my-4">
+			<h1>Bienvenue,
 				{{ app.user.firstname }}</h1>
 		</div>
-		<div class="row mt-4">
-			<div class="col-sm-6">
-				<div class="card">
+		<div class="row">
+			<div class="col-md-6 mb-4">
+				<div class="card h-100 border-primary">
 					<div class="card-body">
-						<a href="{{path('ceo_candidate')}}" class="card-text stretched-link">Consulter les candidatures</a>
+						<h5 class="card-title text-primary">Candidatures</h5>
+						<p class="card-text">Accédez et gérez les candidatures.</p>
+						<a href="{{ path('ceo_candidate') }}" class="btn btn-outline-primary stretched-link">Consulter</a>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-6">
-				<div class="card">
+			<div class="col-md-6 mb-4">
+				<div class="card h-100 border-info">
 					<div class="card-body">
-						<a href="{{path('ceo_request')}}">Consulter les demandes d'informations</a>
+						<h5 class="card-title text-info">Demandes d'informations</h5>
+						<p class="card-text">Consultez les demandes d'informations reçues.</p>
+						<a href="{{ path('ceo_request') }}" class="btn btn-outline-info stretched-link">Consulter</a>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-6 mt-2">
-				<div class="card">
+			<div class="col-md-6 mb-4">
+				<div class="card h-100 border-warning">
 					<div class="card-body">
-						<p class="card-text">Consulter les demandes de partenariat</p>
+						<h5 class="card-title text-warning">Partenariats</h5>
+						<p class="card-text">Examinez les demandes de partenariat.</p>
+						<a href="{{ path('ceo_company') }}" class="btn btn-outline-warning stretched-link">Consulter</a>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-6 mt-2">
-				<div class="card">
+			<div class="col-md-6 mb-4">
+				<div class="card h-100 border-success">
 					<div class="card-body">
-						<a href="{{path('ceo_profil')}}">Consulter votre profil</a>
+						<h5 class="card-title text-success">Votre Profil</h5>
+						<p class="card-text">Gérez les paramètres de votre profil.</p>
+						<a href="{{ path('ceo_profil') }}" class="btn btn-outline-success stretched-link">Consulter</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 {% endblock %}

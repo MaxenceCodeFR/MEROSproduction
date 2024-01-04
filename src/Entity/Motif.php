@@ -24,9 +24,13 @@ class Motif
     #[ORM\OneToMany(mappedBy: 'motif', targetEntity: ContactInfluencer::class)]
     private Collection $contactInfluencers;
 
+    #[ORM\OneToMany(mappedBy: 'motif', targetEntity: ContactCompany::class)]
+    private Collection $contactCompanies;
+
     public function __construct()
     {
         $this->contactInfluencers = new ArrayCollection();
+        $this->contactCompanies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +86,36 @@ class Motif
             // set the owning side to null (unless already changed)
             if ($contactInfluencer->getMotif() === $this) {
                 $contactInfluencer->setMotif(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ContactCompany>
+     */
+    public function getContactCompanies(): Collection
+    {
+        return $this->contactCompanies;
+    }
+
+    public function addContactCompany(ContactCompany $contactCompany): static
+    {
+        if (!$this->contactCompanies->contains($contactCompany)) {
+            $this->contactCompanies->add($contactCompany);
+            $contactCompany->setMotif($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactCompany(ContactCompany $contactCompany): static
+    {
+        if ($this->contactCompanies->removeElement($contactCompany)) {
+            // set the owning side to null (unless already changed)
+            if ($contactCompany->getMotif() === $this) {
+                $contactCompany->setMotif(null);
             }
         }
 

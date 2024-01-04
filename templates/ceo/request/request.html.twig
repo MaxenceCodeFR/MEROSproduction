@@ -4,16 +4,38 @@
 {% block body %}
 	{% include "commons/_ceo_navbar.html.twig" %}
 
-	{% for contact in contacts %}
-		{% if 'ROLE_INFLUENCER' not in contact.user.roles %}
-			<div class="card">
-				<div class="card-body">
-					<p class="card-text">{{contact.email}}</p>
-					<p class="card-text">{{contact.motif.motifInfluencer}}</p>
-					<a href="{{path('ceo_candidate_show', {'id': contact.id})}}" class="btn btn-primary">Voir la demande</a>
+	<div class="container mt-4">
+		{% for contact in contacts %}
+			{% if 'ROLE_INFLUENCER' not in contact.user.roles %}
+				<div class="card mb-3 shadow">
+					<div class="card-body">
+						<h5 class="card-title">{{ contact.user.firstname }}
+							{{ contact.user.lastname }}</h5>
+						<p class="card-text">
+							<strong>Email :</strong>
+							{{ contact.email }}</p>
+						<p class="card-text">
+							<strong>Motif :</strong>
+							{{ contact.motif.motifInfluencer }}</p>
+						<div class="d-flex justify-content-between">
+							<a href="{{ path('ceo_candidate_show', {'id': contact.id}) }}" class="btn btn-primary">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewbox="0 0 16 16">
+									<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+									<path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+								</svg>
+								Voir la demande
+							</a>
+							<a href="{{ path('ceo_candidate_delete', {'id': contact.id}) }}" class="btn btn-danger">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewbox="0 0 16 16">
+									<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+								</svg>
+								Supprimer la demande
+							</a>
+						</div>
+					</div>
 				</div>
-			</div>
-		{% endif %}
-	{% endfor %}
+			{% endif %}
+		{% endfor %}
+	</div>
 
 {% endblock %}
