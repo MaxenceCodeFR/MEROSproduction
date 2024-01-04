@@ -79,7 +79,7 @@ class AdminCeoController extends AbstractController
 
     //BOUTON POUR PASSER UN CANDIDAT EN CANDIDAT REFUSE
     #[Route('/delete-candidate/{id}', name: 'candidate_delete')]
-    public function deleteCandidate(Request $request, EntityManagerInterface $em, ContactInfluencerRepository $candidateRepo): Response
+    public function deleteCandidate(Request $request, EntityManagerInterface $em, ContactInfluencerRepository $candidateRepo, ContactInfluencer $contact): Response
     {
         // Récupération du candidat via son ID
         $candidate = $candidateRepo->find($request->get('id'));
@@ -91,8 +91,12 @@ class AdminCeoController extends AbstractController
 
             // Ajouter un message flash ou autre logique si nécessaire
         }
-
-        return $this->redirectToRoute('ceo_candidate');
+        // Si le motif est "Demande d'informations"(id 2 des différents motids), on redirige vers la page des demandes d'informations
+        if ($contact->getMotif(2)) {
+            return $this->redirectToRoute('ceo_request');
+        } else {
+            return $this->redirectToRoute('ceo_candidate');
+        }
     }
 
     //DEMANDES D'INFORMATIONS

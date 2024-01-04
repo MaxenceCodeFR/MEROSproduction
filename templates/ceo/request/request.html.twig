@@ -11,6 +11,7 @@
 					<p class="card-text">{{contact.email}}</p>
 					<p class="card-text">{{contact.motif.motifInfluencer}}</p>
 					<a href="{{path('ceo_candidate_show', {'id': contact.id})}}" class="btn btn-primary">Voir la demande</a>
+					<a href="{{ path('ceo_candidate_delete', {'id': contact.id})}}" class="btn btn-danger">Supprimer la demande</a>
 				</div>
 			</div>
 		{% endif %}
