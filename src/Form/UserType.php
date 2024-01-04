@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class UserType extends AbstractType
@@ -30,6 +31,11 @@ class UserType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'Image (Fichier PDF)',
+                'mapped' => false, // Le champ n'est pas directement mappé à la propriété d'entité
+                'required' => false,
             ])
             ->add('specialty', EntityType::class, [
                 'class' => Specialty::class,

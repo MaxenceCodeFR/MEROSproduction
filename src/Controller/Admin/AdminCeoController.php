@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Media;
 use App\Entity\Social;
 use App\Form\UserType;
 use App\Entity\ContactCompany;
@@ -173,6 +174,27 @@ class AdminCeoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form->get('image')->getData();
+            if ($file) {
+                $fileName = md5(uniqid('IMG_')) . '.' . $file->guessExtension();
+                $file->move($this->getParameter('uploads'), $fileName);
+
+                // Trouver les anciennes images de l'utilisateur
+                $oldMedias = $em->getRepository(Media::class)->findByUser($user);
+
+                // Supprimer les anciennes images
+                foreach ($oldMedias as $oldMedia) {
+                    $em->remove($oldMedia);
+                }
+
+                // Créer une nouvelle instance de Media
+                $media = new Media();
+                $media->setImages($fileName); // Définir l'image
+                $media->setUser($user); // Associer l'utilisateur
+                $em->persist($media);
+                $em->flush();
+            }
 
             //On boucle sur les socials de l'utilisateur
             foreach ($user->getSocial() as $social) {
