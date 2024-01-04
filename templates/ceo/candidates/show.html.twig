@@ -9,7 +9,7 @@
 	<div class="container mt-4">
 		<div class="row">
 			<div class="col-md-6">
-				<h2>{{ candidate.email }}</h2>
+				<a href="mailto:{{candidate.email}}" target="_blank" class="display-5">{{ candidate.email }}</a>
 				<p>{{ candidate.motif.motifInfluencer }}</p>
 				<h4>Comment nous a-t-il connus ?</h4>
 				<p>{{ candidate.answer }}</p>

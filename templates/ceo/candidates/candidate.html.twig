@@ -4,18 +4,23 @@
 {% block body %}
 	{% include "commons/_ceo_navbar.html.twig" %}
 
-	{% for contact in contacts %}
-		{% if 'ROLE_INFLUENCER' not in contact.user.roles %}
+	{% set noCandidatureDisplayed = true %}
+
+	{% for candidate in candidates %}
+		{% if 'ROLE_INFLUENCER' not in candidate.user.roles %}
 			<div class="card">
 				<div class="card-body">
-					<p class="card-text">{{contact.email}}</p>
-					<p class="card-text">{{contact.motif.motifInfluencer}}</p>
-					<a href="{{path('ceo_candidate_show', {'id': contact.id})}}" class="btn btn-primary">Voir la candidature</a>
-					{#<a href="{{path('contact_edit', {'id': contact.id})}}" class="btn btn-primary">Modifier</a>
-					                <a href="{{path('contact_delete', {'id': contact.id})}}" class="btn btn-primary">Supprimer</a> #}
+					<p class="card-text">{{ candidate.email }}</p>
+					<p class="card-text">{{ candidate.motif.motifInfluencer }}</p>
+					<a href="{{ path('ceo_candidate_show', {'id': candidate.id}) }}" class="btn btn-primary">Voir la candidature</a>
+					<a href="{{ path('ceo_candidate_delete', {'id': candidate.id}) }}" class="btn btn-danger">Ne pas retenir</a>
 				</div>
 			</div>
+			{% set noCandidatureDisplayed = false %}
 		{% endif %}
 	{% endfor %}
 
+	{% if noCandidatureDisplayed %}
+		<h1>Vous n'avez pas de candidature</h1>
+	{% endif %}
 {% endblock %}

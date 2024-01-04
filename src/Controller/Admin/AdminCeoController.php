@@ -39,15 +39,15 @@ class AdminCeoController extends AbstractController
     //////////////////////////////////////////////////////////////////////
     //Affichage des candidatures
     #[Route('/candidate', name: 'candidate')]
-    public function candidate(ContactInfluencerRepository $contacts, PaginatorInterface $paginatorInterface, Request $request): Response
+    public function candidate(ContactInfluencerRepository $candidates, PaginatorInterface $paginatorInterface, Request $request): Response
     {
-        $data = $contacts->findCandidate(1);
-        $contacts = $paginatorInterface->paginate(
+        $data = $candidates->findCandidate(1);
+        $candidates = $paginatorInterface->paginate(
             $data,
             $request->query->getInt('page', 1),
             15
         );
-        return $this->render('ceo/candidates/candidate.html.twig', compact('contacts'));
+        return $this->render('ceo/candidates/candidate.html.twig', compact('candidates'));
     }
     //Affichage d'un candidat en détail
     #[Route('/candidate/{id}', name: 'candidate_show')]
@@ -76,6 +76,25 @@ class AdminCeoController extends AbstractController
 
         return $this->redirectToRoute('ceo_candidate');
     }
+
+    //BOUTON POUR PASSER UN CANDIDAT EN CANDIDAT REFUSE
+    #[Route('/delete-candidate/{id}', name: 'candidate_delete')]
+    public function deleteCandidate(Request $request, EntityManagerInterface $em, ContactInfluencerRepository $candidateRepo): Response
+    {
+        // Récupération du candidat via son ID
+        $candidate = $candidateRepo->find($request->get('id'));
+
+        if ($candidate) {
+            // Supprimer la candidature
+            $em->remove($candidate);
+            $em->flush();
+
+            // Ajouter un message flash ou autre logique si nécessaire
+        }
+
+        return $this->redirectToRoute('ceo_candidate');
+    }
+
     //DEMANDES D'INFORMATIONS
     #[Route('/request', name: 'request')]
     public function request(ContactInfluencerRepository $contacts, PaginatorInterface $paginatorInterface, Request $request): Response
