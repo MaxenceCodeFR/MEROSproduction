@@ -76,12 +76,9 @@ class BlogController extends AbstractController
         $blog = new Blog();
         $form = $this->createForm(BlogType::class, $blog);
 
-
-
         $form->handleRequest($request);
 
         $contentFromTinymce = $blog->getContent();
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $blog->setIsArchived(false);

@@ -12,7 +12,13 @@
 		<div class="row">
 			<div class="col-md-6">
 				<h4 class="text-info">Informations personnelles :</h4>
+				{% for media in app.user.images %}
+					<img src="{{ asset('assets/uploads/' ~ media.getImages()) }}" class="rounded-circle img-fluid w-50 h-auto m-3">
+				{% endfor %}
+
+
 				<ul class="list-group">
+
 					<li class="list-group-item bg-light">
 						<strong>Prénom:</strong>
 						{{ app.user.firstname }}</li>

@@ -9,6 +9,10 @@
 		{{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
 		<div class="col-md-6">
 			<div class="mb-3">
+				{{ form_label(form.image, 'Image', {'label_attr': {'class': 'form-label'}}) }}
+				{{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+			</div>
+			<div class="mb-3">
 				{{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
 				{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
 			</div>
