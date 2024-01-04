@@ -88,8 +88,6 @@ class AdminCeoController extends AbstractController
             // Supprimer la candidature
             $em->remove($candidate);
             $em->flush();
-
-            // Ajouter un message flash ou autre logique si nécessaire
         }
         // Si le motif est "Demande d'informations"(id 2 des différents motids), on redirige vers la page des demandes d'informations
         if ($contact->getMotif(2)) {

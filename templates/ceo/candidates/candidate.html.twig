@@ -4,23 +4,44 @@
 {% block body %}
 	{% include "commons/_ceo_navbar.html.twig" %}
 
-	{% set noCandidatureDisplayed = true %}
+	<div class="container mt-4">
+		{% set noCandidatureDisplayed = true %}
 
-	{% for candidate in candidates %}
-		{% if 'ROLE_INFLUENCER' not in candidate.user.roles %}
-			<div class="card">
-				<div class="card-body">
-					<p class="card-text">{{ candidate.email }}</p>
-					<p class="card-text">{{ candidate.motif.motifInfluencer }}</p>
-					<a href="{{ path('ceo_candidate_show', {'id': candidate.id}) }}" class="btn btn-primary">Voir la candidature</a>
-					<a href="{{ path('ceo_candidate_delete', {'id': candidate.id}) }}" class="btn btn-danger">Ne pas retenir</a>
+		{% for candidate in candidates %}
+			{% if 'ROLE_INFLUENCER' not in candidate.user.roles %}
+				<div class="card mb-3 shadow">
+					<div class="card-body">
+						<h5 class="card-title">{{ candidate.user.firstname }}
+							{{ candidate.user.lastname }}</h5>
+						<p class="card-text">
+							<strong>Email :</strong>
+							{{ candidate.email }}</p>
+						<p class="card-text">
+							<strong>Motif :</strong>
+							{{ candidate.motif.motifInfluencer }}</p>
+						<div class="d-flex justify-content-between">
+							<a href="{{ path('ceo_candidate_show', {'id': candidate.id}) }}" class="btn btn-primary">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewbox="0 0 16 16">
+									<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+									<path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+								</svg>
+								Voir la candidature
+							</a>
+							<a href="{{ path('ceo_candidate_delete', {'id': candidate.id}) }}" class="btn btn-danger">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewbox="0 0 16 16">
+									<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+								</svg>
+								Ne pas retenir
+							</a>
+						</div>
+					</div>
 				</div>
-			</div>
-			{% set noCandidatureDisplayed = false %}
-		{% endif %}
-	{% endfor %}
+				{% set noCandidatureDisplayed = false %}
+			{% endif %}
+		{% endfor %}
 
-	{% if noCandidatureDisplayed %}
-		<h1>Vous n'avez pas de candidature</h1>
-	{% endif %}
+		{% if noCandidatureDisplayed %}
+			<h1 class="text-center mt-5">Vous n'avez pas de candidature</h1>
+		{% endif %}
+	</div>
 {% endblock %}

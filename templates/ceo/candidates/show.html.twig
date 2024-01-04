@@ -9,23 +9,29 @@
 	<div class="container mt-4">
 		<div class="row">
 			<div class="col-md-6">
-				<a href="mailto:{{candidate.email}}" target="_blank" class="display-5">{{ candidate.email }}</a>
-				<p>{{ candidate.motif.motifInfluencer }}</p>
-				<h4>Comment nous a-t-il connus ?</h4>
+				<h2 class="mb-3">Informations du Candidat</h2>
+				<a href="mailto:{{ candidate.email }}" target="_blank" class="h4 text-primary">{{ candidate.email }}</a>
+				<p class="mt-2">
+					<strong>Motif de la candidature :</strong>
+					{{ candidate.motif.motifInfluencer }}</p>
+				<h4 class="mt-4">Comment nous a-t-il connus ?</h4>
 				<p>{{ candidate.answer }}</p>
-				<p>{{ candidate.phone }}</p>
-				<p>{{ candidate.text }}</p>
+				<p>
+					<strong>Téléphone :</strong>
+					{{ candidate.phone }}</p>
+				<p class="mb-4">
+					<strong>Message :</strong>
+					{{ candidate.text }}</p>
 			</div>
 			<div class="col-md-6">
 				{% if candidate.motif.id == 2 %}
-					<p>Aucun CV n'a été envoyé avec la demande
-					</p>
+					<p class="alert alert-warning">Aucun CV n'a été envoyé avec la demande.</p>
 				{% else %}
-					<h4>CV</h4>
+					<h4 class="mb-3">CV</h4>
 					<embed src="{{ asset('assets/uploads/' ~ candidate.cv) }}" type="application/pdf" width="100%" height="600px"/>
-					<a href="{{path('ceo_set_influencer', {id: candidate.id})}}" class="btn btn-primary">Devenir influenceur</a>
-				</div>
-			{% endif %}
+					<a href="{{ path('ceo_set_influencer', {'id': candidate.id}) }}" class="btn btn-primary mt-3">Devenir influenceur</a>
+				{% endif %}
+			</div>
 		</div>
 	</div>
 {% endblock %}
