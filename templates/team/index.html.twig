@@ -27,12 +27,24 @@
 									</div>
 								</div>
 							</div>
-							<h6 class="text-center">Leurs spécialités</h6>
+							<h6 class="text-center">Ses spécialités</h6>
 							<ul class="list-group list-group-flush">
 								{% for specialty in team.specialty %}
 									<li class="list-group-item">#{{ specialty.name }}</li>
 								{% endfor %}
 							</ul>
+							<h6 class="text-center">Ses réseaux sociaux</h6>
+							{% for socialNetwork in team.socialNetworks %}
+								{% for name, url in socialNetwork %}
+									{% if url %}
+										<div>
+											<strong>{{ name }}:</strong>
+											<a href="{{ url }}">{{ url }}</a>
+										</div>
+									{% endif %}
+								{% endfor %}
+							{% endfor %}
+
 						</div>
 					</div>
 				</div>
