@@ -1,31 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Votre Rendez-Vous
-{% endblock %}
+{% block title %}Calendar index{% endblock %}
 
 {% block body %}
+    <h1>Calendar index</h1>
 
-	<div id="calendar"></div>
-{% endblock %}
-{% block cdn %}
-	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js" integrity="sha256-J37ZtjEw94oWBNZ9w/XC73raGXE9t10//XHJfKz2QCM=" crossorigin="anonymous"></script>
-{% endblock %}
-{% block javascript %}
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-var calendarEl = document.getElementById('calendar');
-var calendar = new FullCalendar.Calendar(calendarEl, {
-initialView: 'dayGridMonth',
-locale: 'fr',
-timeZone: 'Europe/Paris',
-headerToolbar: {
-start: 'prev,today,next',
-center: 'title',
-end: 'dayGridMonth,timeGridWeek,timeGridDay'
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Description</th>
+                <th>All_day</th>
+                <th>Background_color</th>
+                <th>Border_color</th>
+                <th>Text_color</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for calendar in calendars %}
+            <tr>
+                <td>{{ calendar.id }}</td>
+                <td>{{ calendar.title }}</td>
+                <td>{{ calendar.start ? calendar.start|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ calendar.end ? calendar.end|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ calendar.description }}</td>
+                <td>{{ calendar.allDay ? 'Yes' : 'No' }}</td>
+                <td>{{ calendar.backgroundColor }}</td>
+                <td>{{ calendar.borderColor }}</td>
+                <td>{{ calendar.textColor }}</td>
+                <td>
+                    <a href="{{ path('app_calendar_show', {'id': calendar.id}) }}">show</a>
+                    <a href="{{ path('app_calendar_edit', {'id': calendar.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-}
-});
-calendar.render();
-});
-	</script>
+    <a href="{{ path('app_calendar_new') }}">Create new</a>
 {% endblock %}

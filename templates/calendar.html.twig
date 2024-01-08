@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre Rendez-Vous
+{% endblock %}
+
+{% block body %}
+
+	<div id="calendar"></div>
+{% endblock %}
+{% block cdn %}
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js" integrity="sha256-J37ZtjEw94oWBNZ9w/XC73raGXE9t10//XHJfKz2QCM=" crossorigin="anonymous"></script>
+{% endblock %}
+{% block javascript %}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+var calendarEl = document.getElementById('calendar');
+var calendar = new FullCalendar.Calendar(calendarEl, {
+initialView: 'dayGridMonth',
+locale: 'fr',
+timeZone: 'Europe/Paris',
+headerToolbar: {
+start: 'prev,today,next',
+center: 'title',
+end: 'dayGridMonth,timeGridWeek,timeGridDay'
+},
+events: {{ data|raw }},
+editable: true
+
+});
+
+calendar.on('eventChange', (e) => {
+let url = `/api/${
+e.event.id
+}/edit`
+let data = {
+"title": e.event.title,
+"start": e.event.start,
+"end": e.event.end,
+"description": e.event.extendedProps.description,
+"backgroundColor": e.event.backgroundColor,
+"borderColor": e.event.borderColor,
+"textColor": e.event.textColor,
+"allDay": e.event.allDay
+}
+let xhr = new XMLHttpRequest
+xhr.open("PUT", url)
+xhr.send(JSON.stringify(data))
+})
+
+calendar.render();
+});
+	</script>
+{% endblock %}
