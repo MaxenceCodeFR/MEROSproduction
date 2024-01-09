@@ -1,0 +1,41 @@
+#calendar {
+    /* Ajoutez vos styles personnalisés ici */
+    margin: 20px 50px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.419);
+}
+
+@media (max-width: 767px) {
+
+    /* Styles pour les écrans mobiles (moins de 768px de large) */
+    #calendar {
+        margin: 10px 10px;
+        /* Réduire la marge sur les petits écrans */
+        padding: 10px;
+        /* Réduire le padding */
+        height: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+
+    /* Styles pour les écrans de taille moyenne et plus */
+    #calendar {
+        margin: 20px 50px;
+        /* Plus de marge sur les côtés pour les écrans plus larges */
+        padding: 20px;
+        /* Plus de padding */
+    }
+}
+
+
+html,
+body {
+    height: 100%;
+    /* Assure que le body prend toute la hauteur */
+    margin: 0;
+    /* Enlève la marge par défaut */
+    padding: 0;
+}
