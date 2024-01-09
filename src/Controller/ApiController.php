@@ -23,6 +23,8 @@ class ApiController extends AbstractController
     {
         //on récupère les données
         $data = json_decode($request->getContent());
+        // 
+        dump($data);
         //on vérifie si l'event existe
         if (
             isset($data->title) && !empty($data->title) &&
@@ -31,7 +33,9 @@ class ApiController extends AbstractController
             isset($data->description) && !empty($data->description) &&
             isset($data->backgroundColor) && !empty($data->backgroundColor) &&
             isset($data->borderColor) && !empty($data->borderColor) &&
-            isset($data->textColor) && !empty($data->textColor)
+            isset($data->textColor) && !empty($data->textColor) &&
+            isset($data->isArchived)
+
         ) {
             //Les données sont complètes
             $code = 200;
@@ -55,11 +59,11 @@ class ApiController extends AbstractController
             $calendar->setBorderColor($data->borderColor);
             $calendar->setTextColor($data->textColor);
             $calendar->setAllDay($data->allDay);
+            $calendar->setIsArchived(filter_var($data->isArchived, FILTER_VALIDATE_BOOLEAN));
         } else {
             //Les données sont incomplètes
             return new Response('Données incomplètes', 404);
         }
-
         //On sauvegarde en BDD
         $em->persist($calendar);
         $em->flush();

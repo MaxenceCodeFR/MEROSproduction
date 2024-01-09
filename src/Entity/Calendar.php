@@ -38,6 +38,9 @@ class Calendar
     #[ORM\Column(length: 7)]
     private ?string $text_color = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isArchived = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,6 +138,18 @@ class Calendar
     public function setTextColor(string $text_color): static
     {
         $this->text_color = $text_color;
+
+        return $this;
+    }
+
+    public function isIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(bool $isArchived): static
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }

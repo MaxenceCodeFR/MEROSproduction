@@ -54,6 +54,7 @@ class CalendarController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $calendar->setIsArchived(false);
             $entityManager->persist($calendar);
             $entityManager->flush();
 
@@ -101,5 +102,24 @@ class CalendarController extends AbstractController
         }
 
         return $this->redirectToRoute('app_calendar_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function manageAppointements(EntityManagerInterface $em, CalendarRepository $calendar): Response
+    {
+        $appointements = $calendar->findAll();
+
+        $currentDate = new \DateTime();
+        foreach ($appointements as $appointement) {
+            $daysSinceApointement = $appointement->getEnd()->diff($currentDate);
+
+            if ($daysSinceApointement > 60) {
+                $em->remove($appointement);
+            } elseif ($daysSinceApointement > 7) {
+                $appointement->setIsArchived(true);
+                $em->persist($appointement);
+            }
+        }
+        $em->flush();
+        return new Response('ok');
     }
 }

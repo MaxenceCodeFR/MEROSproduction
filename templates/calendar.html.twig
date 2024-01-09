@@ -6,6 +6,8 @@
 {% block body %}
 	{% include "commons/_ceo_navbar.html.twig" %}
 
+	<a href="{{path('app_calendar_new')}}" class="btn btn-success">Ajouter une date</a>
+	<a href="#" class="btn btn-warning">Editer mes dates</a>
 	<div id="calendar"></div>
 
 {% endblock %}
@@ -25,6 +27,7 @@ start: 'prev,today,next',
 center: 'title',
 end: 'dayGridMonth,timeGridWeek,timeGridDay'
 },
+nowIndicator: true,
 events: {{ data|raw }},
 editable: true
 
@@ -42,11 +45,14 @@ let data = {
 "backgroundColor": e.event.backgroundColor,
 "borderColor": e.event.borderColor,
 "textColor": e.event.textColor,
-"allDay": e.event.allDay
+"allDay": e.event.allDay,
+"isArchived": e.event.extendedProps.isArchived ? 1 : 0
 }
-let xhr = new XMLHttpRequest
-xhr.open("PUT", url)
-xhr.send(JSON.stringify(data))
+
+let xhr = new XMLHttpRequest();
+xhr.open("PUT", url);
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.send(JSON.stringify(data));
 })
 
 calendar.render();
