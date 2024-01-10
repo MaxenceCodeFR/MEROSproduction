@@ -104,22 +104,30 @@ class CalendarController extends AbstractController
         return $this->redirectToRoute('app_calendar_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    public function manageAppointements(EntityManagerInterface $em, CalendarRepository $calendar): Response
-    {
-        $appointements = $calendar->findAll();
+    //CETTE METHODE EST UTILISER DANS UNE COMMANDE (CRON TASK)
+    // public function manageAppointements(EntityManagerInterface $em, CalendarRepository $calendar): Response
+    // {
+    //     $appointements = $calendar->findAll();
+    //     $currentDate = new \DateTime();
 
-        $currentDate = new \DateTime();
-        foreach ($appointements as $appointement) {
-            $daysSinceApointement = $appointement->getEnd()->diff($currentDate);
+    //     foreach ($appointements as $appointement) {
+    //         // Assurez-vous que getEnd() renvoie un objet DateTime
+    //         if (!$appointement->getEnd()) {
+    //             continue; // Ou gérer l'erreur comme vous le souhaitez
+    //         }
 
-            if ($daysSinceApointement > 60) {
-                $em->remove($appointement);
-            } elseif ($daysSinceApointement > 7) {
-                $appointement->setIsArchived(true);
-                $em->persist($appointement);
-            }
-        }
-        $em->flush();
-        return new Response('ok');
-    }
+    //         $interval = $appointement->getEnd()->diff($currentDate);
+    //         $daysSinceAppointment = $interval->days; // Obtenez le nombre de jours
+
+    //         if ($daysSinceAppointment > 60) {
+    //             $em->remove($appointement);
+    //         } elseif ($daysSinceAppointment > 7) {
+    //             $appointement->setIsArchived(true);
+    //             $em->persist($appointement);
+    //         }
+    //     }
+
+    //     $em->flush();
+    //     return new Response('ok');
+    // }
 }
