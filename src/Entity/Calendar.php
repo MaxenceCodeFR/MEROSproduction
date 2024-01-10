@@ -41,6 +41,9 @@ class Calendar
     #[ORM\Column(nullable: true)]
     private ?bool $isArchived = null;
 
+    #[ORM\ManyToOne(inversedBy: 'calendar')]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -150,6 +153,18 @@ class Calendar
     public function setIsArchived(bool $isArchived): static
     {
         $this->isArchived = $isArchived;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

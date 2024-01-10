@@ -53,12 +53,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $text = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Calendar::class)]
+    private Collection $calendar;
+
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->social = new ArrayCollection();
         $this->specialty = new ArrayCollection();
         $this->contactInfluencers = new ArrayCollection();
+        $this->calendar = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,6 +276,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setText(?string $text): static
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Calendar>
+     */
+    public function getCalendar(): Collection
+    {
+        return $this->calendar;
+    }
+
+    public function addCalendar(Calendar $calendar): static
+    {
+        if (!$this->calendar->contains($calendar)) {
+            $this->calendar->add($calendar);
+            $calendar->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalendar(Calendar $calendar): static
+    {
+        if ($this->calendar->removeElement($calendar)) {
+            // set the owning side to null (unless already changed)
+            if ($calendar->getUser() === $this) {
+                $calendar->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Calendar;
 use App\Form\CalendarType;
 use App\Repository\CalendarRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/calendar')]
 class CalendarController extends AbstractController
@@ -17,7 +18,7 @@ class CalendarController extends AbstractController
     #[Route('/', name: 'calendar')]
     public function calendar(CalendarRepository $calendar): Response
     {
-        $events = $calendar->findAll();
+        $events = $calendar->findBy(['user' => $this->getUser()]);
 
         $meets = [];
         foreach ($events as $event) {
@@ -31,6 +32,8 @@ class CalendarController extends AbstractController
                 'borderColor' => $event->getBorderColor(),
                 'textColor' => $event->getTextColor(),
                 'allDay' => $event->isAllDay(),
+                'isArchived' => $event->isIsArchived() ? 'true' : 'false',
+                'user' => $event->getUser()->getId(),
             ];
         }
 
@@ -54,6 +57,7 @@ class CalendarController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $calendar->setUser($this->getUser());
             $calendar->setIsArchived(false);
             $entityManager->persist($calendar);
             $entityManager->flush();
