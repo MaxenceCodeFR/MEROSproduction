@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Calendar{% endblock %}
+{% block title %}Nouvel RDV
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Calendar</h1>
+	{% include "commons/_ceo_navbar.html.twig" %}
+	<h1>Créer un RDV</h1>
 
-    {{ include('calendar/_form.html.twig') }}
+	{{ include('calendar/_form.html.twig') }}
 
-    <a href="{{ path('app_calendar_index') }}">back to list</a>
+	<a href="{{ path('app_calendar_index') }}">Retour a la liste</a>
 {% endblock %}

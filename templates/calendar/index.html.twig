@@ -1,24 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Calendar Index
+{% block title %}Tout vos RDV
 {% endblock %}
 
 {% block body %}
-	<h1 class="text-center my-4">Calendar Index</h1>
+	{% include "commons/_ceo_navbar.html.twig" %}
+	<h1 class="text-center my-4">Tout vos RDV</h1>
 
 	<div class="table-responsive">
 		<table class="table table-hover">
 			<thead class="table-dark">
 				<tr>
 					<th>Id</th>
-					<th>Title</th>
-					<th>Start</th>
-					<th>End</th>
+					<th>Titre</th>
+					<th>Date de début</th>
+					<th>Date de fin</th>
 					<th>Description</th>
-					<th>All Day</th>
-					<th>Background Color</th>
-					<th>Border Color</th>
-					<th>Text Color</th>
+					<th>Tout la journée</th>
+					<th>Couleur de fond</th>
+					<th>Couleur de bordure</th>
+					<th>Couleur de text</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -31,12 +32,18 @@
 						<td>{{ calendar.end ? calendar.end|date('Y-m-d H:i:s') : '' }}</td>
 						<td>{{ calendar.description }}</td>
 						<td>{{ calendar.allDay ? 'Yes' : 'No' }}</td>
-						<td class="bg-color-cell" style="background-color: {{ calendar.backgroundColor }};"></td>
-						<td class="bg-color-cell" style="background-color: {{ calendar.borderColor }};"></td>
-						<td class="bg-color-cell" style="background-color: {{ calendar.textColor }};"></td>
 						<td>
-							<a href="{{ path('app_calendar_show', {'id': calendar.id}) }}" class="btn btn-primary btn-sm">Show</a>
-							<a href="{{ path('app_calendar_edit', {'id': calendar.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+							<span class="badge shadow" style="background-color: {{ calendar.backgroundColor }};">&nbsp;</span>
+						</td>
+						<td>
+							<span class="badge shadow" style="background-color: {{ calendar.borderColor }};">&nbsp;</span>
+						</td>
+						<td>
+							<span class="badge shadow" style="background-color: {{ calendar.textColor }};">&nbsp;</span>
+						</td>
+						<td>
+							<a href="{{ path('app_calendar_show', {'id': calendar.id}) }}" class="btn btn-primary btn-sm">Voir</a>
+							<a href="{{ path('app_calendar_edit', {'id': calendar.id}) }}" class="btn btn-secondary btn-sm">Editer</a>
 						</td>
 					</tr>
 				{% else %}
@@ -49,5 +56,5 @@
 		</table>
 	</div>
 
-	<a href="{{ path('app_calendar_new') }}" class="btn btn-success">Create new</a>
+	<a href="{{ path('app_calendar_new') }}" class="btn btn-success">Céer un nouvel RDV</a>
 {% endblock %}
