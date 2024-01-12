@@ -20,11 +20,12 @@
 		{# Initialisation fichier JS #}
 		<script src="{{asset('assets/javascript/bootstrap.bundle.min.js')}}"></script>
 		<script src="{{asset('assets/javascript/bootstrap.bundle.min.js.map')}}"></script>
-		{% block javascripts %}{% endblock %}
+		{% block cdn %}{% endblock %}
 	</head>
 	<body>
 		{% block body %}{% endblock %}
 
-
+		{# Initialisation fichier JS #}
+		{% block javascript %}{% endblock %}
 	</body>
 </html>

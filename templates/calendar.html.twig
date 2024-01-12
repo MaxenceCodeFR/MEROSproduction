@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vos Rendez-Vous
+{% endblock %}
+
+{% block body %}
+	{% include "commons/_ceo_navbar.html.twig" %}
+
+	<a href="{{path('app_calendar_new')}}" class="btn btn-success">Ajouter une date</a>
+	<a href="{{path('app_calendar_index')}}" class="btn btn-warning">Editer mes dates</a>
+	<div id="calendar"></div>
+
+{% endblock %}
+{% block cdn %}
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js" integrity="sha256-J37ZtjEw94oWBNZ9w/XC73raGXE9t10//XHJfKz2QCM=" crossorigin="anonymous"></script>
+{% endblock %}
+{% block javascript %}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+var calendarEl = document.getElementById('calendar');
+var calendar = new FullCalendar.Calendar(calendarEl, {
+initialView: 'dayGridMonth',
+locale: 'fr',
+timeZone: 'Europe/Paris',
+headerToolbar: {
+start: 'prev,today,next',
+center: 'title',
+end: 'dayGridMonth,timeGridWeek,timeGridDay'
+},
+businessHours: { // days of week. an array of zero-based day of week integers (0=Sunday)
+daysOfWeek: [
+1,
+2,
+3,
+4,
+5
+], // Monday - Thursday
+
+startTime: '9:00',
+endTime: '17:30'
+},
+nowIndicator: true,
+events: {{ data|raw }},
+editable: true
+
+});
+
+calendar.on('eventChange', (e) => {
+let url = `/api/${
+e.event.id
+}/edit`
+let data = {
+"title": e.event.title,
+"start": e.event.start,
+"end": e.event.end,
+"description": e.event.extendedProps.description,
+"backgroundColor": e.event.backgroundColor,
+"borderColor": e.event.borderColor,
+"textColor": e.event.textColor,
+"allDay": e.event.allDay,
+"isArchived": e.event.extendedProps.isArchived ? 1 : 0
+}
+
+let xhr = new XMLHttpRequest();
+xhr.open("PUT", url);
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.send(JSON.stringify(data));
+})
+
+calendar.render();
+});
+	</script>
+{% endblock %}
