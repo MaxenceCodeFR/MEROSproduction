@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\ResetPasswordRequestType;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
@@ -38,5 +39,14 @@ class LoginController extends AbstractController
     #[Route('/logout', name: 'logout', methods: ['GET'])]
     public function logout(): never
     {
+    }
+
+    #[Route('/reset-password', name: 'reset_password')]
+    public function resetPassword(): Response
+    {
+        $form = $this->createForm(ResetPasswordRequestType::class);
+        return $this->render('login/reset_password_request.html.twig', [
+            'requestPassForm' => $form->createView(),
+        ]);
     }
 }
