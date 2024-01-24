@@ -6,7 +6,9 @@ namespace App\Controller;
 use App\Entity\ContactCompany;
 use App\Form\ContactCompanyType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ContactCompanyController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, MailerInterface $mail): Response
     {
 
 
@@ -25,13 +27,22 @@ class ContactCompanyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contact->setIsDisplayed(true);
+
+            $email = (new TemplatedEmail())
+                ->from('no-reply@meros-production.fr')
+                ->to($contact->getEmail())
+                ->subject('Votre demande a bien été prise en compte')
+                ->htmlTemplate('emails/company.html.twig')
+                ->context(['contact' => $contact]);
+            $mail->send($email);
+
+            $this->addFlash('success', 'Votre demande a bien été prise en compte');
+
             $entityManager->persist($contact);
             $entityManager->flush();
 
             return $this->redirectToRoute('contact_company_thankyou');
         }
-
-
 
         return $this->render('contact_company/index.html.twig', [
             'form' => $form->createView(),

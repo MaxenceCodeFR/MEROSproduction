@@ -5,8 +5,11 @@ namespace App\Controller;
 
 use App\Entity\ContactInfluencer;
 use App\Form\ContactInfluencerType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ContactInfluencerController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, MailerInterface $mail, UserRepository $user): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -38,6 +41,30 @@ class ContactInfluencerController extends AbstractController
                 // Par exemple, définir $fileName à null ou à une valeur par défaut
                 $contact->setCv(null);
             }
+
+            $user = $user->findOneBy(['email' => $contact->getEmail()]);
+            if ($user) {
+                if ($contact->getMotif()->getId() == 1) {
+                    $email = (new TemplatedEmail())
+                        ->from('no-reply@meros-production.fr')
+                        ->to($contact->getEmail())
+                        ->subject('Votre candidature a bien été prise en compte')
+                        ->htmlTemplate('emails/influencer.html.twig')
+                        ->context(['user' => $user]);
+                    $mail->send($email);
+                } else {
+                    $email = (new TemplatedEmail())
+                        ->from('no-reply@meros-production.fr')
+                        ->to($contact->getEmail())
+                        ->subject('Votre demande a bien été prise en compte')
+                        ->htmlTemplate('emails/influencer_informations.html.twig')
+                        ->context(['user' => $user]);
+                    $mail->send($email);
+                }
+
+                $this->addFlash('success', 'Vous avez recu un email de confirmation. Merci de votre confiance');
+            }
+
             $entityManager->persist($contact);
             $entityManager->flush();
 
