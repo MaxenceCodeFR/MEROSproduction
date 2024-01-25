@@ -7,6 +7,7 @@ use App\Entity\Social;
 use App\Form\UserType;
 use App\Entity\ContactCompany;
 use App\Entity\ContactInfluencer;
+use App\Form\AffiliateInfluencerType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\ContactCompanyRepository;
@@ -126,9 +127,25 @@ class AdminCeoController extends AbstractController
     }
     //Affichage d'une demande d'entreprise en détail
     #[Route('/company/{id}', name: 'company_show')]
-    public function companyShow(ContactCompany $company)
+    public function companyShow(ContactCompany $company, EntityManagerInterface $em, Request $request): Response
     {
-        return $this->render('ceo/company/show.html.twig', compact('company'));
+        $form = $this->createForm(AffiliateInfluencerType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $company->setUser($form->get('user')->getData());
+            $em->persist($company);
+            $em->flush();
+
+            $this->addFlash('success', 'La demande a bien été traitée');
+            return $this->redirectToRoute('ceo_company');
+        }
+        return $this->render(
+            'ceo/company/show.html.twig',
+            [
+                'company' => $company,
+                'form' => $form->createView(),
+            ]
+        );
     }
     //Suppression d'une demande d'entreprise
     //Ce n'est pas vraiment une suppression, on garde les données donc on affiche ou pas en fonction du besoin

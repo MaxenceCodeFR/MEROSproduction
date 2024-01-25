@@ -35,6 +35,9 @@ class ContactCompany
     #[ORM\Column(nullable: true)]
     private ?bool $isDisplayed = true;
 
+    #[ORM\ManyToOne(inversedBy: 'contactCompanies')]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class ContactCompany
     public function setIsDisplayed(?bool $isDisplayed): static
     {
         $this->isDisplayed = $isDisplayed;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

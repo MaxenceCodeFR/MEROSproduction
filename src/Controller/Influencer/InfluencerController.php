@@ -2,12 +2,11 @@
 
 namespace App\Controller\Influencer;
 
-use App\Entity\User;
+use App\Entity\ContactCompany;
 use App\Entity\Media;
 use App\Entity\Social;
+use App\Entity\User;
 use App\Form\UserType;
-use App\Form\InfluencerType;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,5 +85,20 @@ class InfluencerController extends AbstractController
         return $this->render('influencer/profil/edit.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/contracts', name: 'contracts')]
+    public function influencerContracts(): Response
+    {
+        $user = $this->getUser();
+        $user->getContactCompanies();
+
+        return $this->render('influencer/influencer_contracts.html.twig', compact('user'));
+    }
+
+    #[Route('/contract/{id}', name: 'contract')]
+    public function influencerContract(ContactCompany $contact): Response
+    {
+        return $this->render('influencer/influencer_contract.html.twig', compact('contact'));
     }
 }
