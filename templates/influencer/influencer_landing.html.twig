@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	Votre tableau de bord
+{% endblock %}
+{% block body %}
+	<div class="jumbotron jumbotron-fluid bg-primary text-white">
+		<div class="container">
+			<h1 class="display-4">Tableau de bord</h1>
+			<p class="lead">Bienvenue sur votre tableau de bord</p>
+		</div>
+	</div>
+	<div class="container">
+		<div class="text-center my-4">
+			<h1>Bienvenue,
+				{{ app.user.firstname }}</h1>
+		</div>
+		<div class="row">
+			<div class="col-md-6 mb-4">
+				<div class="card h-100 border-primary">
+					<div class="card-body">
+						<h5 class="card-title text-primary">Vos Réseaux</h5>
+						<p class="card-text">Accédez et gérez les vos réseaux sociaux</p>
+						<a href="#" class="btn btn-outline-primary stretched-link">Consulter</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mb-4">
+				<div class="card h-100 border-info">
+					<div class="card-body">
+						<h5 class="card-title text-info">Vos Statistiques</h5>
+						<p class="card-text">Consultez vos statistiques</p>
+						<a href="#" class="btn btn-outline-info stretched-link">Consulter</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mb-4">
+				<div class="card h-100 border-warning">
+					<div class="card-body">
+						<h5 class="card-title text-warning">Partenariats</h5>
+						<p class="card-text">Consulter vos partenariats</p>
+						<a href="#" class="btn btn-outline-warning stretched-link">Consulter</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mb-4">
+				<div class="card h-100 border-success">
+					<div class="card-body">
+						<h5 class="card-title text-success">Votre Profil</h5>
+						<p class="card-text">Gérez les paramètres de votre profil.</p>
+						<a href="{{ path('influencer_profil') }}" class="btn btn-outline-success stretched-link">Consulter</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

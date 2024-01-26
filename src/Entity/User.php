@@ -59,6 +59,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Calendar::class)]
     private Collection $calendar;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ContactCompany::class)]
+    private Collection $contactCompanies;
+
 
     public function __construct()
     {
@@ -67,6 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->specialty = new ArrayCollection();
         $this->contactInfluencers = new ArrayCollection();
         $this->calendar = new ArrayCollection();
+        $this->contactCompanies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -319,6 +323,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($calendar->getUser() === $this) {
                 $calendar->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ContactCompany>
+     */
+    public function getContactCompanies(): Collection
+    {
+        return $this->contactCompanies;
+    }
+
+    public function addContactCompany(ContactCompany $contactCompany): static
+    {
+        if (!$this->contactCompanies->contains($contactCompany)) {
+            $this->contactCompanies->add($contactCompany);
+            $contactCompany->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactCompany(ContactCompany $contactCompany): static
+    {
+        if ($this->contactCompanies->removeElement($contactCompany)) {
+            // set the owning side to null (unless already changed)
+            if ($contactCompany->getUser() === $this) {
+                $contactCompany->setUser(null);
             }
         }
 

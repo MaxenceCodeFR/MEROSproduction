@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+{% block title %}Vos contrats et partenariats
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<h2 class="mb-4">Bonjour
+			{{ app.user.firstname }}</h2>
+		<div class="row">
+			{% for contact in user.contactCompanies %}
+				<div class="col-md-4 mb-4">
+					<div class="card h-100 shadow-sm">
+						<div class="card-body d-flex flex-column">
+							<h5 class="card-title">{{ contact.company }}</h5>
+							<p class="card-text mb-4">{{ contact.email }}</p>
+							<a href="{{ path('influencer_contract', {id:contact.id}) }}" class="btn btn-info mt-auto">Visualiser le partenariat en cours</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<p class="mt-5">Vous seul avez accès à cet espace et il faut aussi que ce soit un lieu de sécurité. En cas de problème, veuillez contacter le plus tôt possible votre agent référant.</p>
+	</div>
+{% endblock %}

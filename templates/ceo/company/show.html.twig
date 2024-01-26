@@ -15,6 +15,12 @@
 				<p>{{ company.firstname }}</p>
 				<p>{{ company.text }}</p>
 			</div>
+			<div>
+				{{ form_start(form) }}
+				{{ form_widget(form) }}
+				<button type="submit" class="btn btn-success">Choisir l'influenceur</button>
+				{{ form_end(form) }}
+			</div>
 			<a href="mailto:{{ company.email }}" target="_blank" class="btn btn-primary">Répondre</a>
 		</div>
 	</div>
