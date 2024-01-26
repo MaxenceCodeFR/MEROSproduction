@@ -21,7 +21,6 @@
 								{% if contact.start == null and contact.end == null %}
 									<p>Durée indéterminée pour le moment</p>
 								{% else %}
-
 									{{ contact.start ? contact.start|date('d-m-Y') : '' }}
 									-
 									{{ contact.end ? contact.end|date('d-m-Y') : '' }}
