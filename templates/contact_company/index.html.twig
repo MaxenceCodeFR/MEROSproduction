@@ -53,6 +53,19 @@
 			{{ form_row(form.motif, {'attr': {'class': 'form-select'}}) }}
 		</div>
 
+		<div class="mb-1">
+			<p>Proposez une date de contrat</p>
+			<small>Vous n'êtes pas obliger de selectionner une date. Cependant cela nous permettra une meilleure organisation</small>
+		</div>
+
+		<div class="mb-3">
+			{{ form_row(form.start, {'attr': {'class': 'form-control'}}) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_row(form.end, {'attr': {'class': 'form-control'}}) }}
+		</div>
+
 		<div class="mb-3">
 			{{ form_row(form.text, {'attr': {'class': 'form-control'}}) }}
 		</div>

@@ -9,8 +9,12 @@
 			<div class="row">
 				{% for comp in company %}
 					{% if comp.isDisplayed %}
+						{% set endDate = comp.end ? comp.end|date('U') : null %}
+						{% set oneWeekBeforeEnd = endDate ? endDate - (7 * 24 * 60 * 60) : null %}
+						{% set now = 'now'|date('U') %}
+						{% set isWarningPeriod = oneWeekBeforeEnd and now > oneWeekBeforeEnd %}
 						<div class="col-md-4 mb-4">
-							<div class="card h-100 shadow-sm">
+							<div class="card h-100 shadow-sm {{ isWarningPeriod ? 'bg-danger text-white' : '' }}">
 								<div class="card-header">
 									<h5 class="my-0">{{ comp.company }}</h5>
 								</div>
@@ -21,8 +25,17 @@
 									<p class="card-text">
 										<strong>Motif :</strong>
 										{{ comp.motif.motifCompany }}</p>
+									<p class="card-text">
+										{% if comp.start == null and comp.end == null %}
+											<p>Pas de dates défnies pour le moment</p>
+										{% else %}
+											<strong>Date proposées :</strong>
+											{{ comp.start ? comp.start|date('d-m-Y') : '' }}
+											-
+											{{ comp.end ? comp.end|date('d-m-Y') : '' }}</p>
+									{% endif %}
 								</div>
-								<div class="card-footer bg-white">
+								<div class="card-footer">
 									<a href="{{ path('ceo_company_show', {'id': comp.id}) }}" class="btn btn-primary btn-sm">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewbox="0 0 16 16">
 											<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>

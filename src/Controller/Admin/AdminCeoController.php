@@ -133,6 +133,16 @@ class AdminCeoController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $company->setUser($form->get('user')->getData());
+
+            $startDate = $form->get('start')->getData();
+            if ($startDate !== null) {
+                $company->setStart($startDate);
+            }
+
+            $endDate = $form->get('end')->getData();
+            if ($endDate !== null) {
+                $company->setEnd($endDate);
+            }
             $em->persist($company);
             $em->flush();
 
