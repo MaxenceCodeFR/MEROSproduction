@@ -38,11 +38,15 @@ class AppointementsCleanupCommand extends Command
 
             if ($daysSinceAppointment > 60) {
                 $this->entityManager->remove($appointment);
-                $output->writeln('Removed: ' . $appointment->getId());
+                $output->writeln('Removed: ' . $appointment->getId() . $appointment->getTitle());
             } elseif ($daysSinceAppointment > 7) {
                 $appointment->setIsArchived(true);
                 $this->entityManager->persist($appointment);
-                $output->writeln('Archived: ' . $appointment->getId());
+                $output->writeln('Archived: ' . $appointment->getId() . $appointment->getTitle());
+            } elseif ($daysSinceAppointment < $currentDate->format('H')) {
+                $appointment->setIsArchived(false);
+                $this->entityManager->persist($appointment);
+                $output->writeln('Unarchived: ' . $appointment->getId() . $appointment->getTitle());
             }
         }
 

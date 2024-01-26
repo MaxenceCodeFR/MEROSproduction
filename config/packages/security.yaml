@@ -35,7 +35,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/influencer, roles: ROLE_INFLUENCER}
-        - { path: ^/calendar, roles: ROLE_ADMIN }
+        - { path: ^/calendar, roles: [ROLE_INFLUENCER, ROLE_CEO]}
         - { path: ^/ceo, roles: ROLE_CEO }
         - { path: ^/editor-blog, roles: ROLE_EDITOR }
         - { path: ^/blog/edit, roles: ROLE_EDITOR }
