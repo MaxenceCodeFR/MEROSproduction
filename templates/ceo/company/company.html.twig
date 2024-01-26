@@ -21,6 +21,11 @@
 									<p class="card-text">
 										<strong>Motif :</strong>
 										{{ comp.motif.motifCompany }}</p>
+									<p class="card-text">
+										<strong>Date proposées :</strong>
+										{{ comp.start ? comp.start|date('Y-m-d') : '' }}
+										-
+										{{ comp.end ? comp.end|date('Y-m-d') : '' }}</p>
 								</div>
 								<div class="card-footer bg-white">
 									<a href="{{ path('ceo_company_show', {'id': comp.id}) }}" class="btn btn-primary btn-sm">

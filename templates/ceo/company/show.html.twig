@@ -11,6 +11,9 @@
 			<div class="col-md-6">
 				<h2>{{ company.email }}</h2>
 				<p>{{ company.motif.motifCompany }}</p>
+				<p>{{ company.start ? company.start|date('d-m-Y') : '' }}
+					-
+					{{ company.end ? company.end|date('d-m-Y') : '' }}</p>
 				<p>{{ company.firstname }}</p>
 				<p>{{ company.firstname }}</p>
 				<p>{{ company.text }}</p>

@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class AffiliateInfluencerType extends AbstractType
 {
@@ -31,6 +32,16 @@ class AffiliateInfluencerType extends AbstractType
                         ->where('u.roles LIKE :role')
                         ->setParameter('role', '%"ROLE_INFLUENCER"%');
                 },
+            ])
+            ->add('start', DateTimeType::class, [
+                'widget' => 'single_text',
+                'label' => 'Début du contrat',
+                'required' => false,
+            ])
+            ->add('end', DateTimeType::class, [
+                'widget' => 'single_text',
+                'label' => 'Fin du contrat',
+                'required' => false,
             ]);
     }
 
