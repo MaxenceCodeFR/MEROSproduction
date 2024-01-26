@@ -4,7 +4,9 @@
 {% endblock %}
 
 {% block body %}
-	{% include "commons/_ceo_navbar.html.twig" %}
+	{% if is_granted('ROLE_CEO') %}
+		{% include "commons/_ceo_navbar.html.twig" %}
+	{% endif %}
 	<h1 class="my-4 text-center">Votre Date</h1>
 
 	<table class="table table-striped">
@@ -32,6 +34,10 @@
 			<tr>
 				<th>Toute la journée</th>
 				<td>{{ calendar.allDay ? 'Oui' : 'Non' }}</td>
+			</tr>
+			<tr>
+				<th>Archivé ?</th>
+				<td>{{ calendar.isArchived ? 'Oui' : 'Non' }}</td>
 			</tr>
 			<tr>
 				<th>Couleur de fond</th>

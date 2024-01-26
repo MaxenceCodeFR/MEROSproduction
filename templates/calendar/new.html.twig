@@ -4,7 +4,9 @@
 {% endblock %}
 
 {% block body %}
-	{% include "commons/_ceo_navbar.html.twig" %}
+	{% if is_granted('ROLE_CEO') %}
+		{% include "commons/_ceo_navbar.html.twig" %}
+	{% endif %}
 	<h1>Créer un RDV</h1>
 
 	{{ include('calendar/_form.html.twig') }}
