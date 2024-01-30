@@ -7,6 +7,7 @@ use App\Entity\Social;
 use App\Form\UserType;
 use App\Entity\ContactCompany;
 use App\Entity\ContactInfluencer;
+use App\Entity\Notification;
 use App\Form\AffiliateInfluencerType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -14,6 +15,7 @@ use App\Repository\ContactCompanyRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\ContactInfluencerRepository;
+use App\Repository\NotificationRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -24,16 +26,16 @@ class AdminCeoController extends AbstractController
     /////AFFICHAGE DE L'ACCUEIL DE CEO////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     #[Route('/', name: 'index')]
-    public function index(): Response
+    public function index(NotificationRepository $notification): Response
     {
-
+        $notifications = $notification->findAll();
         // $users = $paginatorInterface->paginate(
         //     $userRepository,
         //     $request->query->getInt('page', 1),
         //     8
         // );
         // var_dump($users);
-        return $this->render('ceo/index.html.twig');
+        return $this->render('ceo/index.html.twig', compact('notifications'));
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -123,12 +125,27 @@ class AdminCeoController extends AbstractController
     public function company(ContactCompanyRepository $company)
     {
         $company = $company->findAll();
+        // dd($company);
         return $this->render('ceo/company/company.html.twig', compact('company'));
     }
     //Affichage d'une demande d'entreprise en détail
     #[Route('/company/{id}', name: 'company_show')]
     public function companyShow(ContactCompany $company, EntityManagerInterface $em, Request $request): Response
     {
+        $notification = $company->getNotification();
+        if ($notification) {
+            $notification->setIsNew(false);
+            $notification->setIsSeen(true);
+    
+            // Vérifiez si la notification peut être supprimée
+            if (!$notification->isIsNew() && $notification->isIsSeen()) {
+                $em->remove($notification);
+                $company->setNotification(null); // Retirez la référence de la notification dans ContactCompany
+            }
+    
+            $em->flush(); // Appliquez les changements immédiatement
+        }
+
         $form = $this->createForm(AffiliateInfluencerType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
