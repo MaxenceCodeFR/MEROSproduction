@@ -11,7 +11,10 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-primary">
+				<div class="card h-100 border-primary position-relative">
+					{% if influencerNotificationsCount > 0 %}
+						<span class="badge bg-danger text-white position-absolute" style="top: -10px; right: -10px;">{{ influencerNotificationsCount }}</span>
+					{% endif %}
 					<div class="card-body">
 						<h5 class="card-title text-primary">Candidatures</h5>
 						<p class="card-text">Accédez et gérez les candidatures.</p>
@@ -30,8 +33,8 @@
 			</div>
 			<div class="col-md-6 mb-4">
 				<div class="card h-100 border-warning position-relative">
-					{% if notifications %}
-						<span class="badge bg-danger text-white position-absolute" style="top: -10px; right: -10px;">{{ notifications|length }}</span>
+					{% if companyNotificationsCount > 0 %}
+						<span class="badge bg-danger text-white position-absolute" style="top: -10px; right: -10px;">{{ companyNotificationsCount }}</span>
 					{% endif %}
 					<div class="card-body">
 						<h5 class="card-title text-warning">Partenariats</h5>
