@@ -44,6 +44,9 @@ class ContactCompany
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $end = null;
 
+    #[ORM\ManyToOne(inversedBy: 'contactCompanies')]
+    private ?Notification $notification = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -165,6 +168,18 @@ class ContactCompany
     public function setEnd(?\DateTimeInterface $end): static
     {
         $this->end = $end;
+
+        return $this;
+    }
+
+    public function getNotification(): ?Notification
+    {
+        return $this->notification;
+    }
+
+    public function setNotification(?Notification $notification): static
+    {
+        $this->notification = $notification;
 
         return $this;
     }

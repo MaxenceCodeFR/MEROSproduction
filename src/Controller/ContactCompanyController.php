@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Notification;
 use App\Entity\ContactCompany;
 use App\Form\ContactCompanyType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,18 +27,26 @@ class ContactCompanyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //afficher le formulaire lors de sa création 
             $contact->setIsDisplayed(true);
 
+            //generer une notification lors de sa création
+            $notification = new Notification();
+            $notification->setIsNew(true);
+            $notification->setIsSeen(false);
+            $contact->setNotification($notification);
+            
             $email = (new TemplatedEmail())
-                ->from('no-reply@meros-production.fr')
-                ->to($contact->getEmail())
-                ->subject('Votre demande a bien été prise en compte')
-                ->htmlTemplate('emails/company.html.twig')
-                ->context(['contact' => $contact]);
+            ->from('no-reply@meros-production.fr')
+            ->to($contact->getEmail())
+            ->subject('Votre demande a bien été prise en compte')
+            ->htmlTemplate('emails/company.html.twig')
+            ->context(['contact' => $contact]);
             $mail->send($email);
-
+            
             $this->addFlash('success', 'Votre demande a bien été prise en compte');
-
+            
+            $entityManager->persist($notification);
             $entityManager->persist($contact);
             $entityManager->flush();
 
