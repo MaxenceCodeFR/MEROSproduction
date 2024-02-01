@@ -34,7 +34,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/influencer, roles: ROLE_INFLUENCER}
+        - { path: ^/influencer, roles: [ROLE_INFLUENCER, ROLE_CEO]}
         - { path: ^/calendar, roles: [ROLE_INFLUENCER, ROLE_CEO]}
         - { path: ^/ceo, roles: ROLE_CEO }
         - { path: ^/editor-blog, roles: ROLE_EDITOR }

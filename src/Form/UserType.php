@@ -7,6 +7,9 @@ use App\Entity\Specialty;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -33,8 +36,24 @@ class UserType extends AbstractType
                 'by_reference' => false,
             ])
             ->add('image', FileType::class, [
-                'label' => 'Image (Fichier PDF)',
-                'mapped' => false, // Le champ n'est pas directement mappé à la propriété d'entité
+                'label' => 'Image (Fichier WebP)',
+                'mapped' => false, 
+                'required' => false,
+                'constraints' => [
+                    new Image([
+                        'maxWidth' => 500,
+                        'maxHeight' => 500,
+                        'mimeTypes' => ['image/webp'],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide au format WebP.',
+                    ]),
+                    new File([
+                        'maxSize' => '1024k',
+                        'maxSizeMessage' => 'Le fichier est trop volumineux ({{ size }} {{ suffix }}). La taille maximale autorisée est de {{ limit }} {{ suffix }}.',
+                    ])
+                ],
+            ])
+            ->add('isFamous', CheckboxType::class, [
+                'label' => 'Cocher si l\'influenceur est célèbre',
                 'required' => false,
             ])
             ->add('specialty', EntityType::class, [

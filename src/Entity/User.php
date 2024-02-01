@@ -62,6 +62,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ContactCompany::class)]
     private Collection $contactCompanies;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isFamous = null;
+
 
     public function __construct()
     {
@@ -355,6 +358,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $contactCompany->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsFamous(): ?bool
+    {
+        return $this->isFamous;
+    }
+
+    public function setIsFamous(?bool $isFamous): static
+    {
+        $this->isFamous = $isFamous;
 
         return $this;
     }

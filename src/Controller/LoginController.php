@@ -42,8 +42,9 @@ class LoginController extends AbstractController
             //Si le role est editeur alors il ira vers le blog
         } elseif ($this->isGranted('ROLE_EDITOR')) {
             return $this->redirectToRoute('editor_index');
+        } elseif( $this->isGranted('ROLE_INFLUENCER')) {
+            return $this->redirectToRoute('influencer_index');
         } else {
-            //Si le role est user ou en dessous de editeur alors il ira vers la page d'accueil
             return $this->redirectToRoute('landing');
         }
     }
