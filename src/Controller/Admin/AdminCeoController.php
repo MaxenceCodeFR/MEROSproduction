@@ -250,11 +250,19 @@ class AdminCeoController extends AbstractController
 
 
     #[Route('/manage-influencer', name: 'manage_influencer')]
-    public function manageInfluencer(UserRepository $userRepository):Response
+    public function manageInfluencer(UserRepository $userRepository, Request $request):Response
     {
+        $keyword = $request->query->get('keyword');
+
+        if ($keyword) {
+            $results = $userRepository->searchInfluencer($keyword);
+        } else {
+            $results = [];
+        }
+        
         $influencers = $userRepository->findRoleInfluencer();
 
-        return $this->render('ceo/influencer/manage_influencer.html.twig', compact('influencers'));
+        return $this->render('ceo/influencer/manage_influencer.html.twig', compact('influencers', 'results'));
     }
 
     #[Route('/manage-influencer/{id}', name:'influencer_show')]

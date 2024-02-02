@@ -73,98 +73,98 @@ class AdminBlogController extends AbstractController
     }
 
 
-    // #[Route('/archived/{id}', name: 'archive')]
-    // public function showArchived(Blog $blog): Response
-    // {
-    //     return $this->render('blog/show.html.twig', [
-    //         'blog' => $blog,
+    #[Route('/archived/{id}', name: 'archive')]
+    public function showArchived(Blog $blog): Response
+    {
+        return $this->render('blog/show.html.twig', [
+            'blog' => $blog,
 
-    //     ]);
-    // }
+        ]);
+    }
 
-    // #[Route('/{id}', name: 'show', methods: ['GET'])]
-    // public function show(Blog $blog): Response
-    // {
-    //     return $this->render('blog/show.html.twig', [
-    //         'blog' => $blog,
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    public function show(Blog $blog): Response
+    {
+        return $this->render('blog/show.html.twig', [
+            'blog' => $blog,
 
-    //     ]);
-    // }
+        ]);
+    }
 
-    // #[Route('/add', name: 'add')]
-    // public function add(Request $request, EntityManagerInterface $em): Response
-    // {
+    #[Route('/add', name: 'add')]
+    public function add(Request $request, EntityManagerInterface $em): Response
+    {
 
-    //     $blog = new Blog();
-    //     $form = $this->createForm(BlogType::class, $blog);
-
-
-
-    //     $form->handleRequest($request);
-
-    //     $contentFromTinymce = $blog->getContent();
+        $blog = new Blog();
+        $form = $this->createForm(BlogType::class, $blog);
 
 
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $blog->setIsArchived(false);
-    //         $blog->setCreatedAt(new \DateTimeImmutable());
 
-    //         $file = $form->get('image')->getData();
-    //         $fileName = md5(uniqid('IMG_')) . '.' . $file->guessExtension();
-    //         $blog->setImage($fileName);
-    //         $file->move($this->getParameter('uploads'), $fileName);
+        $form->handleRequest($request);
 
-    //         $em->persist($blog);
-    //         $em->flush();
+        $contentFromTinymce = $blog->getContent();
 
-    //         //Ajouter une redirection vers la page de l'article
-    //         return $this->redirectToRoute('blog_index');
-    //     }
 
-    //     return $this->render('blog/admin/add.html.twig', [
-    //         'form' => $form->createView(),
+        if ($form->isSubmitted() && $form->isValid()) {
+            $blog->setIsArchived(false);
+            $blog->setCreatedAt(new \DateTimeImmutable());
 
-    //     ]);
-    // }
+            $file = $form->get('image')->getData();
+            $fileName = md5(uniqid('IMG_')) . '.' . $file->guessExtension();
+            $blog->setImage($fileName);
+            $file->move($this->getParameter('uploads'), $fileName);
 
-    // #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    // public function edit(Request $request, Blog $blog, EntityManagerInterface $em): Response
-    // {
-    //     $form = $this->createForm(BlogType::class, $blog);
+            $em->persist($blog);
+            $em->flush();
 
-    //     $form->handleRequest($request);
+            //Ajouter une redirection vers la page de l'article
+            return $this->redirectToRoute('blog_index');
+        }
 
-    //     if ($form->isSubmitted() && $form->isValid()) {
+        return $this->render('blog/admin/add.html.twig', [
+            'form' => $form->createView(),
 
-    //         $file = $form->get('image')->getData();
-    //         if ($file) {
-    //             $fileName = md5(uniqid('IMG_')) . '.' . $file->guessExtension();
-    //             $blog->setImage($fileName);
-    //             $file->move($this->getParameter('uploads'), $fileName);
-    //         }
+        ]);
+    }
 
-    //         $em->flush();
+    #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Blog $blog, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(BlogType::class, $blog);
 
-    //         //Ajouter une redirection vers la page de l'article
-    //         return $this->redirectToRoute('blog_index');
-    //     }
+        $form->handleRequest($request);
 
-    //     return $this->render('blog/admin/edit.html.twig', [
-    //         'form' => $form->createView()
-    //     ]);
-    // }
+        if ($form->isSubmitted() && $form->isValid()) {
 
-    // #[Route('/delete/{id}', name: 'delete')]
-    // public function delete(Request $request, Blog $blog, EntityManagerInterface $em): Response
-    // {
-    //     $token = 'delete_' . $blog->getId();
-    //     $submittedToken = $request->request->get('_token');
+            $file = $form->get('image')->getData();
+            if ($file) {
+                $fileName = md5(uniqid('IMG_')) . '.' . $file->guessExtension();
+                $blog->setImage($fileName);
+                $file->move($this->getParameter('uploads'), $fileName);
+            }
 
-    //     if ($this->isCsrfTokenValid($token, $submittedToken)) {
-    //         $em->remove($blog);
-    //         $em->flush();
-    //     }
+            $em->flush();
 
-    //     return $this->redirectToRoute('blog_index');
-    // }
+            //Ajouter une redirection vers la page de l'article
+            return $this->redirectToRoute('blog_index');
+        }
+
+        return $this->render('blog/admin/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete')]
+    public function delete(Request $request, Blog $blog, EntityManagerInterface $em): Response
+    {
+        $token = 'delete_' . $blog->getId();
+        $submittedToken = $request->request->get('_token');
+
+        if ($this->isCsrfTokenValid($token, $submittedToken)) {
+            $em->remove($blog);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('blog_index');
+    }
 }
