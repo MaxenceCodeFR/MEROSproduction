@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 
+use App\Entity\Notification;
 use App\Entity\ContactInfluencer;
-use App\Form\ContactInfluencerType;
 use App\Repository\UserRepository;
+use App\Form\ContactInfluencerType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,12 @@ class ContactInfluencerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $notification = new Notification();
+            $notification->setIsNew(true);
+            $notification->setIsSeen(false);
+            $contact->setNotification($notification);
+
             $contact->setUser($this->getUser());
             // $file stores the uploaded PDF file
             $file = $form->get('cv')->getData();
@@ -52,6 +59,8 @@ class ContactInfluencerController extends AbstractController
                         ->htmlTemplate('emails/influencer.html.twig')
                         ->context(['user' => $user]);
                     $mail->send($email);
+                    $this->addFlash('success', 'Vous avez recu un email de confirmation. Merci de votre confiance');
+
                 } else {
                     $email = (new TemplatedEmail())
                         ->from('no-reply@meros-production.fr')
@@ -60,11 +69,12 @@ class ContactInfluencerController extends AbstractController
                         ->htmlTemplate('emails/influencer_informations.html.twig')
                         ->context(['user' => $user]);
                     $mail->send($email);
+                    $this->addFlash('success', 'Vous avez recu un email de confirmation. Merci de votre confiance');
                 }
 
-                $this->addFlash('success', 'Vous avez recu un email de confirmation. Merci de votre confiance');
             }
 
+            $entityManager->persist($notification);
             $entityManager->persist($contact);
             $entityManager->flush();
 

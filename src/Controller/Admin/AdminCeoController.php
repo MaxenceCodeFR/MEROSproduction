@@ -9,6 +9,8 @@ use App\Form\UserType;
 use App\Entity\ContactCompany;
 use App\Entity\ContactInfluencer;
 use App\Repository\UserRepository;
+use App\Entity\Notification;
+use App\Service\ManageNotification;
 use App\Form\AffiliateInfluencerType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -16,6 +18,7 @@ use App\Repository\ContactCompanyRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\ContactInfluencerRepository;
+use App\Repository\NotificationRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -26,16 +29,20 @@ class AdminCeoController extends AbstractController
     /////AFFICHAGE DE L'ACCUEIL DE CEO////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     #[Route('/', name: 'index')]
-    public function index(): Response
+    public function index(NotificationRepository $notificationRepository): Response
     {
-
-        // $users = $paginatorInterface->paginate(
-        //     $userRepository,
-        //     $request->query->getInt('page', 1),
-        //     8
-        // );
-        // var_dump($users);
-        return $this->render('ceo/index.html.twig');
+        
+        $companyNotificationsCount = 0;
+        $influencerNotificationsCount = 0;
+    
+        $notifications = $notificationRepository->findBy(['isNew' => true, 'isSeen' => false]);
+    
+        foreach ($notifications as $notification) {
+            $companyNotificationsCount += count($notification->getContactCompanies());
+            $influencerNotificationsCount += count($notification->getContactInfluencers());
+        }
+        
+        return $this->render('ceo/index.html.twig', compact('companyNotificationsCount', 'influencerNotificationsCount'));
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -45,19 +52,21 @@ class AdminCeoController extends AbstractController
     #[Route('/candidate', name: 'candidate')]
     public function candidate(ContactInfluencerRepository $candidates, PaginatorInterface $paginatorInterface, Request $request): Response
     {
-        $data = $candidates->findCandidate(1);
-        $candidates = $paginatorInterface->paginate(
-            $data,
-            $request->query->getInt('page', 1),
-            15
-        );
+        // $data = $candidates->findCandidate(1);
+        // $candidates = $paginatorInterface->paginate(
+        //     $data,
+        //     $request->query->getInt('page', 1),
+        //     15
+        // );
+        $candidates = $candidates->findAll();
         return $this->render('ceo/candidates/candidate.html.twig', compact('candidates'));
     }
     //Affichage d'un candidat en détail
     #[Route('/candidate/{id}', name: 'candidate_show')]
-    public function candidateShow(ContactInfluencer $candidate): Response
+    public function candidateShow(ContactInfluencer $candidate, ManageNotification $manageNotification): Response
     {
 
+        $manageNotification->updateNotificationStatus($candidate);
         return $this->render('ceo/candidates/show.html.twig', compact('candidate'));
     }
     //BOUTON POUR PASSER UN CANDIDAT EN INFLUENCEUR
@@ -125,12 +134,16 @@ class AdminCeoController extends AbstractController
     public function company(ContactCompanyRepository $company)
     {
         $company = $company->findAll();
+        // dd($company);
         return $this->render('ceo/company/company.html.twig', compact('company'));
     }
     //Affichage d'une demande d'entreprise en détail
     #[Route('/company/{id}', name: 'company_show')]
-    public function companyShow(ContactCompany $company, EntityManagerInterface $em, Request $request): Response
+    public function companyShow(ContactCompany $company, EntityManagerInterface $em, Request $request, ManageNotification $manageNotification): Response
     {
+        //cf src/Service/manageNotification.php
+        $manageNotification->updateNotificationStatus($company);
+
         $form = $this->createForm(AffiliateInfluencerType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
