@@ -1,6 +1,6 @@
 {% for label,messages in app.flashes %}
 	{% for message in messages %}
-		<div class="alert alert-{{ label }} alert-dismissible" role="alert">
+		<div class="alert flash alert-{{ label }} alert-dismissible" role="alert">
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
 			<div class="alert-message">
 				{{ message|raw }}
@@ -13,7 +13,7 @@
 
 <script>
 	document.addEventListener('DOMContentLoaded', function () { // Sélectionner tous les éléments avec la classe 'alert'
-var alerts = document.querySelectorAll('.alert');
+var alerts = document.querySelectorAll('.flash');
 
 // Parcourir chaque alerte
 alerts.forEach(function (alert) { // Disparaître après 5 secondes (5000 millisecondes)

@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	{{ influencer.firstname }}
+{% endblock %}
+{% block body %}
+	{% include "commons/_ceo_navbar.html.twig" %}
+
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="card text-center">
+					<div class="card-header">
+						Profil de l'Influenceur
+					</div>
+					<div class="card-body">
+						{% for image in influencer.images %}
+							<img src="{{ asset('assets/uploads/' ~ image.getImages()) }}" class="card-img-top rounded-circle img-fluid w-25 h-auto mx-auto d-block">
+						{% endfor %}
+						<h5 class="card-title mt-3">{{ influencer.firstname }}
+							{{ influencer.lastname }}</h5>
+						<p class="card-text mt-3">{{ influencer.text }}</p>
+						<p class="card-text mt-3">{{ influencer.email }}</p>
+						{% for specialty in influencer.specialty %}
+							<a class="card-text mt-3">#{{ specialty.name }}</a>
+						{% endfor %}
+						{% if influencer.isFamous %}
+							<div class="alert alert-success mt-3">
+								{{ influencer.firstname }}
+								est dans la liste des influenceurs du moment
+							</div>
+						{% else %}
+							<div class="alert alert-warning mt-3">
+								{{ influencer.firstname }}
+								n'est pas dans la liste des influenceurs du moment
+							</div>
+						{% endif %}
+					</div>
+					<div class="card-footer text-muted">
+						<a href="{{ path('ceo_influencer_edit', {'id': influencer.id}) }}" class="btn btn-warning">Modifier le profil</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

@@ -2,11 +2,13 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\User;
 use App\Entity\Media;
 use App\Entity\Social;
 use App\Form\UserType;
 use App\Entity\ContactCompany;
 use App\Entity\ContactInfluencer;
+use App\Repository\UserRepository;
 use App\Entity\Notification;
 use App\Service\ManageNotification;
 use App\Form\AffiliateInfluencerType;
@@ -254,6 +256,68 @@ class AdminCeoController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
+    //////////////////////////////////////////////////////////////////////
+    /////PARTIES "GESTION DES INFLUENCEURS"////////////////////////////////
+
+
+    #[Route('/manage-influencer', name: 'manage_influencer')]
+    public function manageInfluencer(UserRepository $userRepository, Request $request):Response
+    {
+        $keyword = $request->query->get('keyword');
+
+        if ($keyword) {
+            $results = $userRepository->searchInfluencer($keyword);
+        } else {
+            $results = [];
+        }
+        
+        $influencers = $userRepository->findRoleInfluencer();
+
+        return $this->render('ceo/influencer/manage_influencer.html.twig', compact('influencers', 'results'));
+    }
+
+    #[Route('/manage-influencer/{id}', name:'influencer_show')]
+    public function influencerShow(User $influencer):Response
+    {
+        return $this->render('ceo/influencer/show.html.twig', compact('influencer'));
+    }
+
+    #[Route('/manage-influencer/{id}/edit', name:'influencer_edit')]
+public function influencerEdit(Request $request, EntityManagerInterface $em, User $influencer): Response
+{
+    // Créez le formulaire en passant l'entité de l'influenceur
+    $form = $this->createForm(UserType::class, $influencer);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $file = $form->get('image')->getData();
+        if ($file) {
+            $fileName = md5(uniqid('IMG_')) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('uploads'), $fileName);
+
+            // Créer une nouvelle instance de Media si nécessaire
+            $media = $influencer->getImages() ?? new Media();
+            $media->setImages($fileName); // Définir l'image
+            $em->persist($media);
+
+            // Associer le media à l'influenceur si nécessaire
+            $influencer->addImage($media);
+        }
+
+        // Enregistrez les modifications de l'influenceur
+        $em->persist($influencer);
+        $em->flush();
+
+        // Rediriger ou afficher un message de succès après l'enregistrement
+        $this->addFlash('success','L\'influenceur a bien été modifié');
+        return $this->redirectToRoute('ceo_manage_influencer');
+    }
+
+    return $this->render('ceo/influencer/edit.html.twig', ['form'=> $form->createView()]);
+}
+
 }
 //////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
