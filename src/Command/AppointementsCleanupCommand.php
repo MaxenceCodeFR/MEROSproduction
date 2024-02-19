@@ -24,7 +24,7 @@ class AppointementsCleanupCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription('Archives les rdvs de plus de 7 jours et suprime les rdvs archivés de plus de 60 jours');
+        $this->setDescription('Archives les rdvs de plus de 7 jours et supprime les rdvs archivés de plus de 60 jours');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

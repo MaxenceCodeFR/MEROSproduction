@@ -167,4 +167,5 @@ class AdminBlogController extends AbstractController
 
         return $this->redirectToRoute('blog_index');
     }
+
 }
