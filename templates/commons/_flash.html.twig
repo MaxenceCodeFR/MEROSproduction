@@ -1,18 +1,21 @@
-{% for label,messages in app.flashes %}
-	{% for message in messages %}
-		<div class="alert flash alert-{{ label }} alert-dismissible" role="alert">
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
-			<div class="alert-message">
-				{{ message|raw }}
-				| Ce message disparaitra dans 5 secondes
+<div class="position-fixed bottom-0 end-0 p-3 flash" style="z-index: 1030; width: 40%;">
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ label }} alert-dismissible fade show m-3" role="alert">
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				<div class="alert-message">
+					{{ message|raw }}
+					| Ce message disparaitra dans 5 secondes
+				</div>
 			</div>
-		</div>
-
+		{% endfor %}
 	{% endfor %}
-{% endfor %}
+</div>
 
-<script>
-	document.addEventListener('DOMContentLoaded', function () { // Sélectionner tous les éléments avec la classe 'alert'
+
+{% block javascript %}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () { // Sélectionner tous les éléments avec la classe 'alert'
 var alerts = document.querySelectorAll('.flash');
 
 // Parcourir chaque alerte
@@ -22,4 +25,5 @@ alert.style.display = 'none';
 }, 5000);
 });
 });
-</script>
+	</script>
+{% endblock %}

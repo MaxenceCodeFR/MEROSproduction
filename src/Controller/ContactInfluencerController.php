@@ -8,18 +8,21 @@ use App\Entity\ContactInfluencer;
 use App\Repository\UserRepository;
 use App\Form\ContactInfluencerType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\EmailService;
 
 #[Route('/contact/influencer', name: 'contact_influencer_')]
 class ContactInfluencerController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(Request $request, EntityManagerInterface $entityManager, MailerInterface $mail, UserRepository $user): Response
+    public function index(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        UserRepository $user, 
+        EmailService $emailService): Response
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -52,23 +55,23 @@ class ContactInfluencerController extends AbstractController
             $user = $user->findOneBy(['email' => $contact->getEmail()]);
             if ($user) {
                 if ($contact->getMotif()->getId() == 1) {
-                    $email = (new TemplatedEmail())
-                        ->from('no-reply@meros-production.fr')
-                        ->to($contact->getEmail())
-                        ->subject('Votre candidature a bien été prise en compte')
-                        ->htmlTemplate('emails/influencer.html.twig')
-                        ->context(['user' => $user]);
-                    $mail->send($email);
+                    //! cf. 'src/Service/EmailService.php'
+                    $emailService->sendEmailFromNoReply(
+                        $contact->getEmail(),
+                        'Votre candidature a bien été prise en compte',
+                        'emails/influencer.html.twig',
+                        ['user' => $user]
+                    );
                     $this->addFlash('success', 'Vous avez recu un email de confirmation. Merci de votre confiance');
 
                 } else {
-                    $email = (new TemplatedEmail())
-                        ->from('no-reply@meros-production.fr')
-                        ->to($contact->getEmail())
-                        ->subject('Votre demande a bien été prise en compte')
-                        ->htmlTemplate('emails/influencer_informations.html.twig')
-                        ->context(['user' => $user]);
-                    $mail->send($email);
+                    //! cf. 'src/Service/EmailService.php'
+                    $emailService->sendEmailFromNoReply(
+                        $contact->getEmail(),
+                        'Votre demande a bien été prise en compte',
+                        'emails/influencer.html.twig',
+                        ['user' => $user]
+                    );
                     $this->addFlash('success', 'Vous avez recu un email de confirmation. Merci de votre confiance');
                 }
 

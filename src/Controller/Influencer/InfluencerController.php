@@ -47,7 +47,7 @@ class InfluencerController extends AbstractController
 
             $file = $form->get('image')->getData();
             if ($file) {
-                $fileName = md5(uniqid('IMG_')) . '.' . $file->guessExtension();
+                $fileName = 'INFLU'. '_' . md5(uniqid()) . '.' . $file->guessExtension();
                 $file->move($this->getParameter('uploads'), $fileName);
 
                 // Trouver les anciennes images de l'utilisateur

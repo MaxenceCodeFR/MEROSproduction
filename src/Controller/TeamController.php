@@ -15,10 +15,10 @@ class TeamController extends AbstractController
     #[Route('/team', name: 'team')]
     public function index(UserRepository $userRepository): Response
     {
-        //Je récupère tous les utilisateurs ayant le rôle ROLE_CEO
-        //grace a une query builder dans le UserRepository
+        //*Je récupère tous les utilisateurs ayant le rôle ROLE_CEO
+        //!grace a une query builder dans le UserRepository
         $teams = $userRepository->findUsersWithRoleCEO();
-        dump($teams);
+        
 
         //Pour eviter de faire une boucle dans le twig
         //je vais créer un tableau d'objet avec les réseaux sociaux

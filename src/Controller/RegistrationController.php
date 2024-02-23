@@ -5,10 +5,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +21,8 @@ class RegistrationController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager,
         UserRepository $user,
-        MailerInterface $mail
+        EmailService $emailService,
+
     ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -33,16 +33,15 @@ class RegistrationController extends AbstractController
             //Obliger de mettre un token vide car ne peut pas être 'null'
             $user->setResetToken('');
 
-            $email = (new TemplatedEmail())
-                ->from('no-reply@meros-production')
-                ->to($user->getEmail())
-                ->subject('Bienvenue sur Meros Production')
-                ->htmlTemplate('emails/welcome.html.twig')
-                ->context([
-                    'user' => $user,
-                ]);
+            $emailService->sendEmailFromNoReply(
+                $user->getEmail(),
+                'Bienvenue chez MEROS Productions',
+                'emails/registration.html.twig',
+                ['user' => $user]
+            );
 
-            $mail->send($email);
+            $this->addFlash('success', 'Votre compte a bien été créé un mail de confirmation vous a été envoyé. Merci de votre confiance');
+
 
             // encode the plain password
             $user->setPassword(

@@ -16,7 +16,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminBlogController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(BlogRepository $blogRepository, PaginatorInterface $paginatorInterface, Request $request): Response
+    public function index(
+        BlogRepository $blogRepository, 
+        PaginatorInterface $paginatorInterface, 
+        Request $request): Response
     {
         //Récupération des articles non archivés via la méthode findAll() du repository
         //Cette méthode est modifiée dans le repository pour ne récupérer que les articles non archivés
@@ -47,7 +50,10 @@ class AdminBlogController extends AbstractController
     }
 
     #[Route('/editor-archived', name: 'archived')]
-    public function archived(BlogRepository $blogRepository, PaginatorInterface $paginatorInterface, Request $request): Response
+    public function archived(
+        BlogRepository $blogRepository, 
+        PaginatorInterface $paginatorInterface, 
+        Request $request): Response
     {
         //Récupération des articles archivés via la méthode findBy() du repository
         //Cette méthode est native donc non-modifiée
@@ -98,8 +104,6 @@ class AdminBlogController extends AbstractController
         $blog = new Blog();
         $form = $this->createForm(BlogType::class, $blog);
 
-
-
         $form->handleRequest($request);
 
         $contentFromTinymce = $blog->getContent();
@@ -110,7 +114,7 @@ class AdminBlogController extends AbstractController
             $blog->setCreatedAt(new \DateTimeImmutable());
 
             $file = $form->get('image')->getData();
-            $fileName = md5(uniqid('IMG_')) . '.' . $file->guessExtension();
+            $fileName = md5(uniqid('BLOG_')) . '.' . $file->guessExtension();
             $blog->setImage($fileName);
             $file->move($this->getParameter('uploads'), $fileName);
 

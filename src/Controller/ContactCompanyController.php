@@ -7,18 +7,20 @@ use App\Entity\Notification;
 use App\Entity\ContactCompany;
 use App\Form\ContactCompanyType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\EmailService;
 
 #[Route('/contact/company', name: 'contact_company_')]
 class ContactCompanyController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(Request $request, EntityManagerInterface $entityManager, MailerInterface $mail): Response
+    public function index(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        EmailService $emailService): Response
     {
 
 
@@ -27,22 +29,22 @@ class ContactCompanyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //afficher le formulaire lors de sa création 
+            //*afficher le formulaire lors de sa création 
             $contact->setIsDisplayed(true);
 
-            //generer une notification lors de sa création
+            //*generer une notification lors de sa création
             $notification = new Notification();
             $notification->setIsNew(true);
             $notification->setIsSeen(false);
             $contact->setNotification($notification);
             
-            $email = (new TemplatedEmail())
-            ->from('no-reply@meros-production.fr')
-            ->to($contact->getEmail())
-            ->subject('Votre demande a bien été prise en compte')
-            ->htmlTemplate('emails/company.html.twig')
-            ->context(['contact' => $contact]);
-            $mail->send($email);
+            //! voir  'src/Service/EmailService.php'
+            $emailService->sendEmailFromNoReply(
+                $contact->getEmail(),
+                'Votre demande a bien été prise en compte',
+                'emails/company.html.twig',
+                ['contact' => $contact]
+            );
             
             $this->addFlash('success', 'Votre demande a bien été prise en compte');
             
