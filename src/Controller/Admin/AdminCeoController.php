@@ -9,7 +9,6 @@ use App\Form\UserType;
 use App\Entity\ContactCompany;
 use App\Entity\ContactInfluencer;
 use App\Repository\UserRepository;
-use App\Entity\Notification;
 use App\Service\ManageNotification;
 use App\Form\AffiliateInfluencerType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,7 +49,10 @@ class AdminCeoController extends AbstractController
     //////////////////////////////////////////////////////////////////////
     //Affichage des candidatures
     #[Route('/candidate', name: 'candidate')]
-    public function candidate(ContactInfluencerRepository $candidates, PaginatorInterface $paginatorInterface, Request $request): Response
+    public function candidate(
+        ContactInfluencerRepository $candidates,
+        PaginatorInterface $paginatorInterface,
+        Request $request): Response
     {
         // $data = $candidates->findCandidate(1);
         // $candidates = $paginatorInterface->paginate(
@@ -63,7 +65,9 @@ class AdminCeoController extends AbstractController
     }
     //Affichage d'un candidat en détail
     #[Route('/candidate/{id}', name: 'candidate_show')]
-    public function candidateShow(ContactInfluencer $candidate, ManageNotification $manageNotification): Response
+    public function candidateShow(
+        ContactInfluencer $candidate, 
+        ManageNotification $manageNotification): Response
     {
 
         $manageNotification->updateNotificationStatus($candidate);
@@ -71,7 +75,10 @@ class AdminCeoController extends AbstractController
     }
     //BOUTON POUR PASSER UN CANDIDAT EN INFLUENCEUR
     #[Route('/set-influencer/{id}', name: 'set_influencer')]
-    function setInfluencer(Request $request, EntityManagerInterface $em, ContactInfluencerRepository $candidate): Response
+    function setInfluencer(
+        Request $request, 
+        EntityManagerInterface $em, 
+        ContactInfluencerRepository $candidate): Response
     {
         // Récupération du candidat via son ID
         $candidate = $candidate->find($request->get('id'));
@@ -92,7 +99,11 @@ class AdminCeoController extends AbstractController
 
     //BOUTON POUR PASSER UN CANDIDAT EN CANDIDAT REFUSE
     #[Route('/delete-candidate/{id}', name: 'candidate_delete')]
-    public function deleteCandidate(Request $request, EntityManagerInterface $em, ContactInfluencerRepository $candidateRepo, ContactInfluencer $contact): Response
+    public function deleteCandidate(
+        Request $request, 
+        EntityManagerInterface $em, 
+        ContactInfluencerRepository $candidateRepo, 
+        ContactInfluencer $contact): Response
     {
         // Récupération du candidat via son ID
         $candidate = $candidateRepo->find($request->get('id'));
@@ -102,7 +113,7 @@ class AdminCeoController extends AbstractController
             $em->remove($candidate);
             $em->flush();
         }
-        // Si le motif est "Demande d'informations"(id 2 des différents motids), on redirige vers la page des demandes d'informations
+        // Si le motif est "Demande d'informations"(id 2 des différents motifs), on redirige vers la page des demandes d'informations
         if ($contact->getMotif(2)) {
             return $this->redirectToRoute('ceo_request');
         } else {
@@ -112,7 +123,10 @@ class AdminCeoController extends AbstractController
 
     //DEMANDES D'INFORMATIONS
     #[Route('/request', name: 'request')]
-    public function request(ContactInfluencerRepository $contacts, PaginatorInterface $paginatorInterface, Request $request): Response
+    public function request(
+        ContactInfluencerRepository $contacts, 
+        PaginatorInterface $paginatorInterface, 
+        Request $request): Response
     {
         $data = $contacts->findCandidate(2);
         $contacts = $paginatorInterface->paginate(
@@ -139,7 +153,11 @@ class AdminCeoController extends AbstractController
     }
     //Affichage d'une demande d'entreprise en détail
     #[Route('/company/{id}', name: 'company_show')]
-    public function companyShow(ContactCompany $company, EntityManagerInterface $em, Request $request, ManageNotification $manageNotification): Response
+    public function companyShow(
+        ContactCompany $company, 
+        EntityManagerInterface $em, 
+        Request $request, 
+        ManageNotification $manageNotification): Response
     {
         //cf src/Service/manageNotification.php
         $manageNotification->updateNotificationStatus($company);
@@ -219,7 +237,7 @@ class AdminCeoController extends AbstractController
 
             $file = $form->get('image')->getData();
             if ($file) {
-                $fileName = md5(uniqid('IMG_')) . '.' . $file->guessExtension();
+                $fileName = md5(uniqid('CEO_')) . '.' . $file->guessExtension();
                 $file->move($this->getParameter('uploads'), $fileName);
 
                 // Trouver les anciennes images de l'utilisateur

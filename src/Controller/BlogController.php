@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Blog;
 use App\Form\BlogType;
-use Doctrine\ORM\EntityManager;
 use App\Repository\BlogRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -12,17 +11,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/blog', name: 'blog_')]
 class BlogController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(BlogRepository $blogRepository, PaginatorInterface $paginatorInterface, Request $request): Response
+    public function index(
+        BlogRepository $blogRepository, 
+        PaginatorInterface $paginatorInterface, 
+        Request $request): Response
     {
-        //Récupération des articles non archivés via la méthode findAll() du repository
-        //Cette méthode est modifiée dans le repository pour ne récupérer que les articles non archivés
-        //cf. BlogRepository.php => findAll()
+        //!Récupération des articles non archivés via la méthode findAll() du repository
+        //*Cette méthode est modifiée dans le repository pour ne récupérer que les articles non archivés
+        //!cf. BlogRepository.php => findAll()
         $data = $blogRepository->findAll();
         $blogs = $paginatorInterface->paginate(
             $data,
@@ -103,7 +104,10 @@ class BlogController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Blog $blog, EntityManagerInterface $em): Response
+    public function edit(
+        Request $request,
+        Blog $blog, 
+        EntityManagerInterface $em): Response
     {
         $form = $this->createForm(BlogType::class, $blog);
 
@@ -130,7 +134,10 @@ class BlogController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete')]
-    public function delete(Request $request, Blog $blog, EntityManagerInterface $em): Response
+    public function delete(
+    Request $request,
+    Blog $blog,
+    EntityManagerInterface $em): Response
     {
         $token = 'delete_' . $blog->getId();
         $submittedToken = $request->request->get('_token');
