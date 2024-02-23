@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PromotedLinkRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,9 +10,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class Landing extends AbstractController
 {
     #[Route('/', name: 'landing')]
-    public function index(): Response
+    public function index(PromotedLinkRepository $promotedLink): Response
     {
-        return $this->render('landing.html.twig');
+        $promotedLink = $promotedLink->findAll();
+        
+        return $this->render('landing.html.twig', compact('promotedLink'));
     }
 
     #[Route('/rgpd', name: 'rgpd')]

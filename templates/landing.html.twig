@@ -3,4 +3,10 @@
 	{% include 'commons/_navbar.html.twig' %}
 
 	<h1>Bienvenu</h1>
+
+	{% for promoted in promotedLink %}
+		{{promoted.plateform.name}}
+		{{promoted.user.firstname}}
+		{{promoted.link|raw}}
+	{% endfor %}
 {% endblock %}

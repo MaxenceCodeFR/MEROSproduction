@@ -2,11 +2,12 @@
 
 namespace App\Controller\Influencer;
 
-use App\Entity\ContactCompany;
 use App\Entity\Media;
 use App\Entity\Social;
-use App\Entity\User;
 use App\Form\UserType;
+use App\Entity\PromotedLink;
+use App\Entity\ContactCompany;
+use App\Form\PromotedLinkType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -100,5 +101,32 @@ class InfluencerController extends AbstractController
     public function influencerContract(ContactCompany $contact): Response
     {
         return $this->render('influencer/influencer_contract.html.twig', compact('contact'));
+    }
+
+//* Ajout des lien de promotion
+    #[Route('/add-promoted-links', name: 'promoted_links')]
+    public function addPromotedLinks(
+        Request $request,
+        EntityManagerInterface $em
+        ): Response
+    {
+        $user = $this->getUser(); // Récupérer l'utilisateur connecté
+        $promotedLink = new PromotedLink(); // Créer une nouvelle instance de PromotedLink
+
+        $form = $this->createForm(PromotedLinkType::class, $promotedLink); // Créer le formulaire
+        $form->handleRequest($request); // Gérer la requête
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $promotedLink->setUser($user); // Associer l'utilisateur à la promotion
+            $em->persist($promotedLink); // Persister la promotion
+            $em->flush(); // Exécuter la requête
+
+            $this->addFlash('success', 'Votre lien a bien été ajouté'); // Ajouter un message flash
+
+            // return $this->redirectToRoute('influencer_promoted_links'); // Rediriger l'utilisateur
+        }
+        return $this->render('influencer/promoted_links.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
