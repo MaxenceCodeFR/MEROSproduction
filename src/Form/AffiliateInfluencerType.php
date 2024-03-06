@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Calendar;
 use App\Entity\User;
 use App\Entity\ContactCompany;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class AffiliateInfluencerType extends AbstractType
 {
@@ -33,15 +33,10 @@ class AffiliateInfluencerType extends AbstractType
                         ->setParameter('role', '%"ROLE_INFLUENCER"%');
                 },
             ])
-            ->add('start', DateTimeType::class, [
-                'widget' => 'single_text',
-                'label' => 'Début du contrat',
+            ->add('calendar', CalendarType::class, [
+                'label' => 'Détails du calendrier',
                 'required' => false,
-            ])
-            ->add('end', DateTimeType::class, [
-                'widget' => 'single_text',
-                'label' => 'Fin du contrat',
-                'required' => false,
+                'include_color_options' => false, // Ne pas inclure les champs de couleur
             ]);
     }
 
@@ -49,6 +44,7 @@ class AffiliateInfluencerType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ContactCompany::class,
+            'data_class' => Calendar::class,
         ]);
     }
 }
