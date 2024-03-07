@@ -150,7 +150,7 @@ class AdminCeoController extends AbstractController
     public function company(ContactCompanyRepository $company)
     {
         $company = $company->findAll();
-        // dd($company);
+        //dd($company);
         return $this->render('ceo/company/company.html.twig', compact('company'));
     }
     //Affichage d'une demande d'entreprise en détail
@@ -166,36 +166,32 @@ class AdminCeoController extends AbstractController
 
         $calendar = new Calendar();
         $calendar->setTitle($company->getCompany());
-        $startDate = $company->getStart();
-        if ($startDate === null) {
-            $startDate = new \DateTime();
-        }
+        $startDate = $company->getStart() ?? new \DateTime(); // Utilisation de l'opérateur null coalescent
+        $endDate = $company->getEnd() ?? new \DateTime();
         $calendar->setStart($startDate);
-        $endDate = $company->getEnd();
-        if ($endDate === null) {
-            $endDate = new \DateTime();
-        }
         $calendar->setEnd($endDate);
         $calendar->setBackgroundColor('#FFFFFF');
         $calendar->setBorderColor('#FFFFFF');
         $calendar->setTextColor('#5AC432');
 
+// Création et traitement du formulaire
         $form = $this->createForm(CalendarType::class, $calendar, [
             'include_color_options' => false
         ]);
+
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->get('user')->getData();
             $company->setUser($user);
 
-            $startDate = $form->get('start')->getData();
-            $endDate = $form->get('end')->getData();
-            $calendar->setStart($startDate);
-            $calendar->setEnd($endDate);
+            // Mettre à jour $company avec les dates de $calendar issues du formulaire
+            $company->setStart($calendar->getStart());
+            $company->setEnd($calendar->getEnd());
 
-
+            // Persister les entités $calendar et $company
             $em->persist($calendar);
-            $em->persist($company);// Persister l'entité Calendrier
+            $em->persist($company);
             $em->flush();
 
             $this->addFlash('success', 'La demande a bien été traitée');

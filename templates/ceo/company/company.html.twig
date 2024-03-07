@@ -15,8 +15,19 @@
 						{% set isWarningPeriod = oneWeekBeforeEnd and now > oneWeekBeforeEnd %}
 						<div class="col-md-4 mb-4">
 							<div class="card h-100 shadow-sm {{ isWarningPeriod ? 'bg-danger text-white' : '' }} position-relative">
-								<div class="card-header">
+								<div class="card-header d-flex justify-content-between align-items-center">
 									<h5 class="my-0">{{ comp.company }}</h5>
+
+									{% if comp.user %}
+										{% for media in comp.user.images %}
+											<img src="{{ asset('assets/uploads/' ~ media.getImages()) }}" style="width: 40px; height: 40px;" class="rounded-circle img-fluid">
+										{% else %}
+											Pas d'image
+										{% endfor %}
+									{% else %}
+										Pas d'utilisateur
+									{% endif %}
+
 
 									{% if comp.notification and comp.notification.isIsNew == 1 and comp.notification.isIsSeen == 0 %}
 										<span class="badge bg-danger text-white position-absolute" style="top: -10px; right: -10px;">Nouveau</span>
@@ -31,9 +42,9 @@
 										{{ comp.motif.motifCompany }}</p>
 									<p class="card-text">
 										{% if comp.start == null and comp.end == null %}
-											<p>Pas de dates défnies pour le moment</p>
+											<p>Pas de dates définies pour le moment</p>
 										{% else %}
-											<strong>Date proposées :</strong>
+											<strong>Dates proposées :</strong>
 											{{ comp.start ? comp.start|date('d-m-Y') : '' }}
 											-
 											{{ comp.end ? comp.end|date('d-m-Y') : '' }}</p>
