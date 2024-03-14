@@ -2,9 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Calendar;
 use App\Entity\User;
 use App\Entity\Media;
 use App\Entity\Social;
+use App\Form\CalendarType;
 use App\Form\UserType;
 use App\Entity\ContactCompany;
 use App\Entity\ContactInfluencer;
@@ -148,54 +150,68 @@ class AdminCeoController extends AbstractController
     public function company(ContactCompanyRepository $company)
     {
         $company = $company->findAll();
-        // dd($company);
+        //dd($company);
         return $this->render('ceo/company/company.html.twig', compact('company'));
     }
     //Affichage d'une demande d'entreprise en détail
     #[Route('/company/{id}', name: 'company_show')]
     public function companyShow(
-        ContactCompany $company, 
-        EntityManagerInterface $em, 
-        Request $request, 
+        ContactCompany $company,
+        EntityManagerInterface $em,
+        Request $request,
         ManageNotification $manageNotification): Response
     {
         //cf src/Service/manageNotification.php
         $manageNotification->updateNotificationStatus($company);
 
-        $form = $this->createForm(AffiliateInfluencerType::class);
+        $calendar = new Calendar();
+        $calendar->setTitle($company->getCompany());
+        $startDate = $company->getStart() ?? new \DateTime(); // Utilisation de l'opérateur null coalescent
+        $endDate = $company->getEnd() ?? new \DateTime();
+        $calendar->setStart($startDate);
+        $calendar->setEnd($endDate);
+        $calendar->setBackgroundColor('#FFFFFF');
+        $calendar->setBorderColor('#FFFFFF');
+        $calendar->setTextColor('#5AC432');
+
+// Création et traitement du formulaire
+        $form = $this->createForm(CalendarType::class, $calendar, [
+            'include_color_options' => false
+        ]);
+
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $company->setUser($form->get('user')->getData());
+            $user = $form->get('user')->getData();
+            $company->setUser($user);
 
-            $startDate = $form->get('start')->getData();
-            if ($startDate !== null) {
-                $company->setStart($startDate);
-            }
+            // Mettre à jour $company avec les dates de $calendar issues du formulaire
+            $company->setStart($calendar->getStart());
+            $company->setEnd($calendar->getEnd());
 
-            $endDate = $form->get('end')->getData();
-            if ($endDate !== null) {
-                $company->setEnd($endDate);
-            }
+            // Persister les entités $calendar et $company
+            $em->persist($calendar);
             $em->persist($company);
             $em->flush();
 
             $this->addFlash('success', 'La demande a bien été traitée');
             return $this->redirectToRoute('ceo_company');
         }
-        return $this->render(
-            'ceo/company/show.html.twig',
-            [
-                'company' => $company,
-                'form' => $form->createView(),
-            ]
-        );
+
+        return $this->render('ceo/company/show.html.twig', [
+            'company' => $company,
+            'form' => $form->createView(),
+        ]);
     }
     //Suppression d'une demande d'entreprise
     //Ce n'est pas vraiment une suppression, on garde les données donc on affiche ou pas en fonction du besoin
     #[Route('/company/{id}/delete', name: 'company_delete')]
-    public function companyDelete(ContactCompany $company, EntityManagerInterface $em)
+    public function companyDelete(ContactCompany $company, EntityManagerInterface $em, ManageNotification $manageNotification): Response
     {
         $company->setIsDisplayed(false);
+        if ($company->isIsDisplayed() === false) {
+            $manageNotification->updateNotificationStatus($company);
+        }
         $em->persist($company);
         $em->flush();
         return $this->redirectToRoute('ceo_company');

@@ -65,6 +65,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isFamous = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: PromotedLink::class)]
+    private Collection $promotedLinks;
+
 
     public function __construct()
     {
@@ -74,6 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->contactInfluencers = new ArrayCollection();
         $this->calendar = new ArrayCollection();
         $this->contactCompanies = new ArrayCollection();
+        $this->promotedLinks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -370,6 +374,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsFamous(?bool $isFamous): static
     {
         $this->isFamous = $isFamous;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PromotedLink>
+     */
+    public function getPromotedLinks(): Collection
+    {
+        return $this->promotedLinks;
+    }
+
+    public function addPromotedLink(PromotedLink $promotedLink): static
+    {
+        if (!$this->promotedLinks->contains($promotedLink)) {
+            $this->promotedLinks->add($promotedLink);
+            $promotedLink->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePromotedLink(PromotedLink $promotedLink): static
+    {
+        if ($this->promotedLinks->removeElement($promotedLink)) {
+            // set the owning side to null (unless already changed)
+            if ($promotedLink->getUser() === $this) {
+                $promotedLink->setUser(null);
+            }
+        }
 
         return $this;
     }

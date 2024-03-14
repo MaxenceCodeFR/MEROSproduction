@@ -38,7 +38,7 @@ class ContactCompanyController extends AbstractController
             $notification->setIsSeen(false);
             $contact->setNotification($notification);
             
-            //! voir  'src/Service/EmailService.php'
+            // voir  'src/Service/EmailService.php'
             $emailService->sendEmailFromNoReply(
                 $contact->getEmail(),
                 'Votre demande a bien été prise en compte',
