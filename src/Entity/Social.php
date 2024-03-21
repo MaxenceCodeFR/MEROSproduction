@@ -174,4 +174,5 @@ class Social
 
         return $this;
     }
+
 }

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+{% block title %} Vos influenceurs favoris {% endblock %}
+{% block body %}
+    {% include 'commons/_navbar.html.twig' %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Les influenceurs que vous suivez</h1>
+
+        <!-- Section pour les influenceurs célèbres -->
+        <div class="row mb-5 justify-content-center">
+            {% for influencer in influencers %}
+                {% if influencer.isFamous %}
+                    <div class="col-12 col-sm-6 col-md-3 align-content-around mb-4">
+                        <div class="card border-4 border-warning h-100 rounded-5 shadow-lg">
+                            <div class="card-header d-flex align-items-center bg-white rounded-top-5">
+                                {% for image in influencer.images %}
+                                    <img src="{{ asset('assets/uploads/' ~ image.getImages()) }}" class="rounded-circle" style="width: 80px; height: 80px;" alt="image de {{ influencer.firstname }} {{ influencer.lastname }}">
+                                {% endfor %}
+                                <span class="ms-2">{{ influencer.firstname }} {{ influencer.lastname }}</span>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="mt-auto">
+                                    {% for specialty in influencer.specialty %}
+                                        <span class="badge rounded-pill border bg-white text-black shadow-sm p-2">#{{ specialty.name }}</span>
+                                    {% endfor %}
+                                </div>
+                                <p class="card-text">{{ influencer.text }}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Section pour les influenceurs non célèbres -->
+        <div class="row">
+            {% for influencer in influencers %}
+                {% if not influencer.isFamous %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            {% for image in influencer.images %}
+                                <img src="{{ asset('assets/uploads/' ~ image.getImages()) }}" class="card-img-top rounded-circle w-50 mx-auto mt-3" alt="image de {{ influencer.firstname }} {{ influencer.lastname }}">
+                            {% endfor %}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ influencer.firstname }} {{ influencer.lastname }}</h5>
+                                <p class="card-text">{{ influencer.text }}</p>
+                                <div class="mt-auto">
+                                    {% for specialty in influencer.specialty %}
+                                        <span class="badge rounded-pill bg-primary">{{ specialty.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
