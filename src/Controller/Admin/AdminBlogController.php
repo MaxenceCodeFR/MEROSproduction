@@ -24,7 +24,7 @@ class AdminBlogController extends AbstractController
         //Récupération des articles non archivés via la méthode findAll() du repository
         //Cette méthode est modifiée dans le repository pour ne récupérer que les articles non archivés
         //cf. BlogRepository.php => findAll()
-        $data = $blogRepository->findAll();
+        $data = $blogRepository->findAllArticlesByDates();
 
         //On utilise le service KNP Paginator pour paginer les articles :
         //Le premier paramètre nous demande les données à paginer

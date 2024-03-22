@@ -20,7 +20,7 @@ class BlogRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Blog::class);
     }
-    public function findAll()
+    public function findAllArticlesByDates()
     {
         return $this->createQueryBuilder('a')
             ->where('a.isArchived = :archived')

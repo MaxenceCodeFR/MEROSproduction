@@ -62,7 +62,7 @@ class AdminCeoController extends AbstractController
         //     $request->query->getInt('page', 1),
         //     15
         // );
-        $candidates = $candidates->findAll();
+        $candidates = $candidates->findAllCandidatesByNewest();
         return $this->render('ceo/candidates/candidate.html.twig', compact('candidates'));
     }
     //Affichage d'un candidat en détail

@@ -16,7 +16,7 @@ class InfluencerLandingController extends AbstractController
     public function influencerLanding(UserRepository $userRepository): Response
     {
         $influencers = $userRepository->findRoleInfluencer();
-        
+
         return $this->render('influencer/landing/user_landing.html.twig', compact('influencers'));
     }
 }
