@@ -322,7 +322,7 @@ class AdminCeoController extends AbstractController
 public function influencerEdit(Request $request, EntityManagerInterface $em, User $influencer): Response
 {
     // Créez le formulaire en passant l'entité de l'influenceur
-    $form = $this->createForm(UserType::class, $influencer);
+    $form = $this->createForm(UserType::class, $influencer, ['isCEO' => true]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
