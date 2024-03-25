@@ -246,7 +246,7 @@ class AdminCeoController extends AbstractController
             $user->addSocial(new Social());
         }
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['isCEO' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

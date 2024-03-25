@@ -103,7 +103,7 @@ class InfluencerController extends AbstractController
         return $this->render('influencer/influencer_contract.html.twig', compact('contact'));
     }
 
-//* Ajout des lien de promotion
+//* Ajout des liens de promotion
     #[Route('/add-promoted-links', name: 'promoted_links')]
     public function addPromotedLinks(
         Request $request,
@@ -111,12 +111,22 @@ class InfluencerController extends AbstractController
         ): Response
     {
         $user = $this->getUser(); // Récupérer l'utilisateur connecté
-        $promotedLink = new PromotedLink(); // Créer une nouvelle instance de PromotedLink
+        // Compter le nombre de liens promus existants pour cet utilisateur
+        $countPromotedLinks = $em->getRepository(PromotedLink::class)->count(['user' => $user]);
 
+        $promotedLink = new PromotedLink(); // Créer une nouvelle instance de PromotedLink
         $form = $this->createForm(PromotedLinkType::class, $promotedLink); // Créer le formulaire
         $form->handleRequest($request); // Gérer la requête
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($countPromotedLinks >= 2) {
+                $this->addFlash('error', 'Vous ne pouvez pas ajouter plus de 2 liens promus.');
+                // Vous pouvez choisir de renvoyer la vue avec le formulaire et le message d'erreur
+                // ou de rediriger l'utilisateur vers une autre route
+                return $this->render('influencer/promoted_links.html.twig', [
+                    'form' => $form->createView(),
+                ]);
+            }
             $promotedLink->setUser($user); // Associer l'utilisateur à la promotion
             $em->persist($promotedLink); // Persister la promotion
             $em->flush(); // Exécuter la requête
