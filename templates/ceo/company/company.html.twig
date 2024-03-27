@@ -20,7 +20,7 @@
 
 									{% if comp.user %}
 										{% for media in comp.user.images %}
-											<img src="{{ asset('assets/uploads/' ~ media.getImages()) }}" style="width: 40px; height: 40px;" class="rounded-circle img-fluid">
+											<img src="{{ asset('assets/uploads/' ~ media.getImages()) }}" style="width: 40px; height: 40px;" class="rounded-circle img-fluid" data-bs-toggle="tooltip" data-bs-title="{{ comp.user.firstname }} {{ comp.user.lastname }}">
 										{% else %}
 											Pas d'image
 										{% endfor %}
@@ -77,3 +77,10 @@
 		{% endif %}
 	</div>
 {% endblock %}
+{% block javascript %}
+	<script>
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+	</script>
+{% endblock %}
+

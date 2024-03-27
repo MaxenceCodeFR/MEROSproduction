@@ -62,7 +62,7 @@ class AdminCeoController extends AbstractController
         //     $request->query->getInt('page', 1),
         //     15
         // );
-        $candidates = $candidates->findAll();
+        $candidates = $candidates->findAllCandidatesByNewest();
         return $this->render('ceo/candidates/candidate.html.twig', compact('candidates'));
     }
     //Affichage d'un candidat en détail
@@ -246,7 +246,7 @@ class AdminCeoController extends AbstractController
             $user->addSocial(new Social());
         }
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['isCEO' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -322,7 +322,7 @@ class AdminCeoController extends AbstractController
 public function influencerEdit(Request $request, EntityManagerInterface $em, User $influencer): Response
 {
     // Créez le formulaire en passant l'entité de l'influenceur
-    $form = $this->createForm(UserType::class, $influencer);
+    $form = $this->createForm(UserType::class, $influencer, ['isCEO' => true]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {

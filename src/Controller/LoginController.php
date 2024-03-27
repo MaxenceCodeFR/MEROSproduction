@@ -77,7 +77,7 @@ class LoginController extends AbstractController
             //On récupère l'utilisateur par son email
             $user = $userRepository->findOneByEmail($form->get('email')->getData());
 
-            //Si l'utilisateur existe on lui genère un token UNIQUE
+            //Si l'utilisateur existe-t-on lui génère un token UNIQUE
             if ($user) {
                 $token = $token->generateToken();
                 //On enregistre le token dans la base de données

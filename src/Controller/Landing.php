@@ -10,11 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class Landing extends AbstractController
 {
     #[Route('/', name: 'landing')]
-    public function index(PromotedLinkRepository $promotedLink): Response
+    public function index(): Response
     {
-        $promotedLink = $promotedLink->findAll();
-        
-        return $this->render('landing.html.twig', compact('promotedLink'));
+        return $this->render('landing.html.twig');
     }
 
     #[Route('/rgpd', name: 'rgpd')]

@@ -36,7 +36,7 @@ class RegistrationController extends AbstractController
             $emailService->sendEmailFromNoReply(
                 $user->getEmail(),
                 'Bienvenue chez MEROS Productions',
-                'emails/registration.html.twig',
+                'emails/welcome.html.twig',
                 ['user' => $user]
             );
 

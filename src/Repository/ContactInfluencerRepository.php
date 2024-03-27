@@ -21,6 +21,14 @@ class ContactInfluencerRepository extends ServiceEntityRepository
         parent::__construct($registry, ContactInfluencer::class);
     }
 
+    public function findAllCandidatesByNewest()
+    {
+        return $this->createQueryBuilder('notif')
+            ->orderBy('notif.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findCandidate($motif)
     {
         return $this->createQueryBuilder('ci')

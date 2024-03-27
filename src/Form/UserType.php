@@ -52,16 +52,18 @@ class UserType extends AbstractType
                     ])
                 ],
             ])
-            ->add('isFamous', CheckboxType::class, [
-                'label' => 'Cocher si l\'influenceur est célèbre',
-                'required' => false,
-            ])
             ->add('specialty', EntityType::class, [
                 'class' => Specialty::class,
                 'choice_label' => 'name', // Utiliser le champ 'name' de Specialty
                 'multiple' => true,
                 'expanded' => true,
             ]);
+        if ($options['isCEO']){
+            $builder->add('isFamous', CheckboxType::class, [
+                'label' => 'Cocher si l\'influenceur est célèbre',
+                'required' => false,
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -69,5 +71,6 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
         ]);
+        $resolver->setRequired('isCEO');
     }
 }

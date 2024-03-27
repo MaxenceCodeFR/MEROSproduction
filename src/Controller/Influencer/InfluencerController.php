@@ -8,6 +8,7 @@ use App\Form\UserType;
 use App\Entity\PromotedLink;
 use App\Entity\ContactCompany;
 use App\Form\PromotedLinkType;
+use App\Repository\PromotedLinkRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +42,7 @@ class InfluencerController extends AbstractController
             $user->addSocial(new Social());
         }
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['isCEO' => false]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -103,30 +104,75 @@ class InfluencerController extends AbstractController
         return $this->render('influencer/influencer_contract.html.twig', compact('contact'));
     }
 
-//* Ajout des lien de promotion
-    #[Route('/add-promoted-links', name: 'promoted_links')]
+//* Ajout des liens de promotion
+    #[Route('/add-promoted-links', name: 'add_promoted_links')]
     public function addPromotedLinks(
         Request $request,
         EntityManagerInterface $em
         ): Response
     {
         $user = $this->getUser(); // Récupérer l'utilisateur connecté
-        $promotedLink = new PromotedLink(); // Créer une nouvelle instance de PromotedLink
+        // Compter le nombre de liens promus existants pour cet utilisateur
+        $countPromotedLinks = $em->getRepository(PromotedLink::class)->count(['user' => $user]);
 
+        $promotedLink = new PromotedLink(); // Créer une nouvelle instance de PromotedLink
         $form = $this->createForm(PromotedLinkType::class, $promotedLink); // Créer le formulaire
         $form->handleRequest($request); // Gérer la requête
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($countPromotedLinks >= 2) {
+                $this->addFlash('danger', 'Vous ne pouvez pas ajouter plus de 2 liens promus.');
+                // Vous pouvez choisir de renvoyer la vue avec le formulaire et le message d'erreur
+                // ou de rediriger l'utilisateur vers une autre route
+                return $this->redirectToRoute('influencer_promoted_links');
+            }
             $promotedLink->setUser($user); // Associer l'utilisateur à la promotion
             $em->persist($promotedLink); // Persister la promotion
             $em->flush(); // Exécuter la requête
 
             $this->addFlash('success', 'Votre lien a bien été ajouté'); // Ajouter un message flash
 
-            // return $this->redirectToRoute('influencer_promoted_links'); // Rediriger l'utilisateur
         }
-        return $this->render('influencer/promoted_links.html.twig', [
+        return $this->render('influencer/add_promoted_links.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/promoted-links', name: 'promoted_links')]
+    public function view(PromotedLinkRepository $promoted): Response
+    {
+        $promoted = $promoted->findBy(['user' => $this->getUser()]);
+
+        return $this->render('influencer/promoted_links.html.twig', ['promoted' => $promoted]);
+    }
+    #[Route('/edit-promoted-links/{id}', name: 'edit_promoted_links')]
+    public function editPromotedLinks(PromotedLink $promoted, Request $request, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(PromotedLinkType::class, $promoted);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($promoted);
+            $em->flush();
+
+            $this->addFlash('success', 'Le lien a bien été modifié');
+
+            return $this->redirectToRoute('influencer_promoted_links');
+        }
+
+        return $this->render('influencer/edit_promoted_links.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/delete-promoted-links/{id}', name: 'delete_promoted_links')]
+    public function delete(PromotedLink $promoted, EntityManagerInterface $em): Response
+    {
+        $em->remove($promoted);
+        $em->flush();
+
+        $this->addFlash('success', 'Le lien a bien été supprimé');
+
+        return $this->redirectToRoute('influencer_edit_promoted_links');
     }
 }
