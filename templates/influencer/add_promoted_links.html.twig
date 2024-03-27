@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+{% block title %}Ajouter des posts à la une !
+{% endblock %}
+{% block body %}
+	<div class="container mt-4">
+		<h2>Ajouter des posts à la une</h2>
+		{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+
+		<div class="mb-3">
+			{{ form_label(form.plateform, 'Plateforme', {'label_attr': {'class': 'form-label'}}) }}
+			{{ form_widget(form.plateform, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.plateform, {'attr': {'class': 'invalid-feedback'}}) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_label(form.link, 'Lien', {'label_attr': {'class': 'form-label'}}) }}
+			{{ form_widget(form.link, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.link, {'attr': {'class': 'invalid-feedback'}}) }}
+		</div>
+
+		<button type="submit" class="btn btn-primary">Soumettre</button>
+		{{ form_end(form) }}
+	</div>
+	<a href="{{path('influencer_index')}}" class="btn btn-success">Retourner a l'accueil</a>
+	<a href="{{path('influencer_profil')}}" class="btn btn-warning">Retourner au profil</a>
+{% endblock %}

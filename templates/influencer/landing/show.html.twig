@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %} Publications à la une {% endblock %}
+{% block body %}
+    {% include 'commons/_navbar.html.twig' %}
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Publications à la une de {{ user.firstname }}</h1>
+        <div class="d-flex flex-wrap justify-content-center">
+            {% if promoted is empty %}
+                <div class="alert alert-warning" role="alert">
+                    Aucune publication à la une pour le moment.
+                </div>
+            {% endif %}
+            {% for promoted in promoted %}
+                <div class="m-5">
+                    <div style="width: auto; overflow: hidden;">
+                        <div style="max-height: 633px; overflow: auto;">
+                            <!-- Le contenu du post Instagram sera intégré ici -->
+                            {{ promoted.link|raw }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

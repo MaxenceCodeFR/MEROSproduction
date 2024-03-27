@@ -1,26 +1,50 @@
-{% extends "base.html.twig" %}
-{% block title %}Ajouter des posts à la une !
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        .thumbnail-container {
+            width: 100%; /* ou une largeur fixe selon vos besoins */
+            max-height: 200px; /* ajustez selon vos besoins */
+            overflow: auto; /* permet le défilement si le contenu est trop grand */
+            margin-bottom: 15px; /* espace en dessous du conteneur, optionnel */
+        }
+    </style>
 {% endblock %}
+{% block title %}Vos posts à la une{% endblock %}
 {% block body %}
-	<div class="container mt-4">
-		<h2>Ajouter des posts à la une</h2>
-		{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+    <div class="container mt-5">
+        <h1 class="mb-4">Vos posts à la une</h1>
+        {% if promoted|length > 0 %}
+            <table class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Plateforme</th>
+                    <th scope="col">Lien</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for promo in promoted %}
+                    <tr>
+                        <td>{{ promo.plateform.name }}</td>
+                        <td>
+                            <div class="thumbnail-container">
+                                {{ promo.link|raw }}
+                            </div>
+                        </td>
+                        <td>
+                            <a href="{{ path('influencer_delete_promoted_links', {'id': promo.id}) }}" class="btn btn-danger h-auto">Supprimer</a>
+                        </td>
+                        <td>
+                            <a href="{{ path('influencer_edit_promoted_links', {'id': promo.id}) }}" class="btn btn-primary h-auto">Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Vous n'avez pas encore de posts promus. <a href="{{ path('influencer_add_promoted_links') }}" class="btn btn-primary">Ajouter un post</a></p>
+        {% endif %}
 
-		<div class="mb-3">
-			{{ form_label(form.plateform, 'Plateforme', {'label_attr': {'class': 'form-label'}}) }}
-			{{ form_widget(form.plateform, {'attr': {'class': 'form-control'}}) }}
-			{{ form_errors(form.plateform, {'attr': {'class': 'invalid-feedback'}}) }}
-		</div>
-
-		<div class="mb-3">
-			{{ form_label(form.link, 'Lien', {'label_attr': {'class': 'form-label'}}) }}
-			{{ form_widget(form.link, {'attr': {'class': 'form-control'}}) }}
-			{{ form_errors(form.link, {'attr': {'class': 'invalid-feedback'}}) }}
-		</div>
-
-		<button type="submit" class="btn btn-primary">Soumettre</button>
-		{{ form_end(form) }}
-	</div>
-	<a href="{{path('influencer_index')}}" class="btn btn-success">Retourner a l'accueil</a>
-	<a href="{{path('influencer_profil')}}" class="btn btn-warning">Retourner au profil</a>
+        <a href="{{ path('influencer_add_promoted_links') }}" class="btn btn-success">Ajouter une publication à la une</a>
+    </div>
 {% endblock %}

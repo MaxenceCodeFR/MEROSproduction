@@ -20,4 +20,13 @@ class InfluencerLandingController extends AbstractController
 
         return $this->render('influencer/landing/user_landing.html.twig', compact('influencers'));
     }
+
+    #[Route('/{id}', name: 'show')]
+    public function show(User $user): Response
+    {
+        $promoted = $user->getPromotedLinks();//Récuperer les liens promus de l'influencer
+
+
+        return $this->render('influencer/landing/show.html.twig', compact('promoted', 'user'));
+    }
 }
