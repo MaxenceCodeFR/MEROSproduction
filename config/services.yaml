@@ -7,6 +7,10 @@ parameters:
     uploads: '%kernel.project_dir%/public/assets/uploads'
 
 services:
+    GuzzleHttp\Client:
+        arguments:
+            $config:
+                verify: false
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

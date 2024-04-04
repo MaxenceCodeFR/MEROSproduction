@@ -41,6 +41,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $facebookId = null;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Media::class)]
     private Collection $images;
 
@@ -404,6 +407,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $promotedLink->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFacebookId(): ?string
+    {
+        return $this->facebookId;
+    }
+
+    public function setFacebookId(?string $facebookId): static
+    {
+        $this->facebookId = $facebookId;
 
         return $this;
     }

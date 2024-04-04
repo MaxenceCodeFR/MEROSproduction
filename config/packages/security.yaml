@@ -25,6 +25,11 @@ security:
                 path: logout
                 target: login
 
+            custom_authenticators:
+                - App\Security\FacebookAuthenticator
+
+            entry_point: form_login
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
