@@ -25,8 +25,9 @@ security:
                 path: logout
                 target: login
 
+            # activate different ways to authenticate
             custom_authenticators:
-                - App\Security\FacebookAuthenticator
+                          - App\Security\FacebookAuthenticator
 
             entry_point: form_login
 

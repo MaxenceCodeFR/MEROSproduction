@@ -71,6 +71,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: PromotedLink::class)]
     private Collection $promotedLinks;
 
+    #[ORM\OneToMany(mappedBy: 'relation', targetEntity: Publications::class)]
+    private Collection $publications;
+
 
     public function __construct()
     {
@@ -81,6 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->calendar = new ArrayCollection();
         $this->contactCompanies = new ArrayCollection();
         $this->promotedLinks = new ArrayCollection();
+        $this->publications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -419,6 +423,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFacebookId(?string $facebookId): static
     {
         $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Publications>
+     */
+    public function getPublications(): Collection
+    {
+        return $this->publications;
+    }
+
+    public function addPublication(Publications $publication): static
+    {
+        if (!$this->publications->contains($publication)) {
+            $this->publications->add($publication);
+            $publication->setRelation($this);
+        }
+
+        return $this;
+    }
+
+    public function removePublication(Publications $publication): static
+    {
+        if ($this->publications->removeElement($publication)) {
+            // set the owning side to null (unless already changed)
+            if ($publication->getRelation() === $this) {
+                $publication->setRelation(null);
+            }
+        }
 
         return $this;
     }

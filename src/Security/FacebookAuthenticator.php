@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Entity\User; // your user entity
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
@@ -40,7 +40,6 @@ class FacebookAuthenticator extends OAuth2Authenticator implements Authenticatio
     {
         $client = $this->clientRegistry->getClient('facebook_main');
         $accessToken = $this->fetchAccessToken($client);
-
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function() use ($accessToken, $client) {
                 /** @var FacebookUser $facebookUser */
@@ -63,7 +62,6 @@ class FacebookAuthenticator extends OAuth2Authenticator implements Authenticatio
                 $user->setFacebookId($facebookUser->getId());
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
-
                 return $user;
             })
         );
@@ -73,6 +71,7 @@ class FacebookAuthenticator extends OAuth2Authenticator implements Authenticatio
     {
         // change "app_homepage" to some route in your app
         $targetUrl = $this->router->generate('landing');
+        dd($token, $firewallName, $request);
 
         return new RedirectResponse($targetUrl);
 
