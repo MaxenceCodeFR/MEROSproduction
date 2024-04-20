@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Instagram Stats{% endblock %}
+
+{% block body %}
+    <h1>Instagram Insights</h1>
+
+    <h2>Total Likes: {{ totalLikes }}</h2>
+    <h2>Total Comments: {{ totalComments }}</h2>
+
+    <h3>Latest Media:</h3>
+    <ul>
+        {% for media in latestMedia %}
+            <li>
+                <img src="{{ media.media_url }}" alt="Instagram Media" style="width: 100px; height: auto;">  <!-- Displaying the media image -->
+                Likes: {{ media.like_count }}, Comments: {{ media.comment_count }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if insights %}
+        <h3>Account Insights:</h3>
+        <ul>
+            {% for insight in insights %}
+                <li>{{ insight.name }} ({{ insight.period }}): {{ insight.values[0].value }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

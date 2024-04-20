@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Facebook User Data</h1>
+    <p id="user-id"></p>
+    <p id="user-name"></p>
+    <p id="user-email"></p>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    fetch('/facebook/me')
+    .then(response => response.json())
+    .then(data => {
+    document.getElementById('user-id').textContent = 'ID: ' + data.id;
+    document.getElementById('user-name').textContent = 'Name: ' + data.name;
+    document.getElementById('user-email').textContent = 'Email: ' + data.email;
+});
+</script>
+{% endblock %}

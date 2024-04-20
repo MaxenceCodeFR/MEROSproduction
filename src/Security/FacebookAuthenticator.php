@@ -39,7 +39,32 @@ class FacebookAuthenticator extends OAuth2Authenticator implements Authenticatio
     public function authenticate(Request $request): Passport
     {
         $client = $this->clientRegistry->getClient('facebook_main');
-        $accessToken = $this->fetchAccessToken($client);
+
+        // Vérifier si le code d'autorisation est présent dans la requête
+        if (!$request->query->has('code')) {
+            throw new \RuntimeException('Authorization code not found');
+        }
+
+        $authorizationCode = $request->query->get('code');
+
+        // Récupération de l'AccessToken directement via la méthode recommandée
+        $accessToken = $client->getAccessToken(['code'=>$authorizationCode]);
+
+        // Vérifier si l'AccessToken est correctement formé et non nul
+        if (!$accessToken || !$accessToken->getToken()) {
+            throw new \RuntimeException('Invalid access token');
+        }
+
+        // Stockage de l'AccessToken dans la session
+        $session = $request->getSession();
+
+        // Vérifier si la session est démarrée
+        if (!$session->isStarted()) {
+            $session->start();
+        }
+
+        $session->set('fb_access_token', $accessToken->getToken());
+
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function() use ($accessToken, $client) {
                 /** @var FacebookUser $facebookUser */
@@ -69,14 +94,10 @@ class FacebookAuthenticator extends OAuth2Authenticator implements Authenticatio
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // change "app_homepage" to some route in your app
+
+        // Redirection vers la page de destination
         $targetUrl = $this->router->generate('landing');
-        dd($token, $firewallName, $request);
-
         return new RedirectResponse($targetUrl);
-
-        // or, on success, let the request continue to be handled by the controller
-        //return null;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
