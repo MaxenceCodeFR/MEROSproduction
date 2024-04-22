@@ -42,7 +42,7 @@ class FacebookAuthenticator extends OAuth2Authenticator implements Authenticatio
 
         // Vérifier si le code d'autorisation est présent dans la requête
         if (!$request->query->has('code')) {
-            throw new \RuntimeException('Authorization code not found');
+            throw new \RuntimeException('Le code fourni n\'est pas valide. Veuillez vous reconnecter a Facebook.');
         }
 
         $authorizationCode = $request->query->get('code');
@@ -96,7 +96,7 @@ class FacebookAuthenticator extends OAuth2Authenticator implements Authenticatio
     {
 
         // Redirection vers la page de destination
-        $targetUrl = $this->router->generate('landing');
+        $targetUrl = $this->router->generate('influencer_index');
         return new RedirectResponse($targetUrl);
     }
 

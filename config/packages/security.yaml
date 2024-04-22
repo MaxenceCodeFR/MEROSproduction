@@ -49,6 +49,7 @@ security:
         - { path: ^/blog/delete, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profil, roles: ROLE_INFLUENCER }
+        - { path: ^/connect/facebook, roles: ROLE_INFLUENCER }
     
     role_hierarchy:
         ROLE_INFLUENCER: ROLE_USER
