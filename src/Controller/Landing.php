@@ -12,6 +12,7 @@ class Landing extends AbstractController
     #[Route('/', name: 'landing')]
     public function index(): Response
     {
+
         return $this->render('landing.html.twig');
     }
 

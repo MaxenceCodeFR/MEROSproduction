@@ -14,3 +14,7 @@ blog_show:
     controller: App\Controller\BlogController::show
     methods: [GET]
 
+instagram_stats:
+    path: /instagram/stats
+    controller: App\Controller\InstagramStatsController::stats
+    methods: [GET]

@@ -26,6 +26,12 @@ security:
                 target: login
 
             # activate different ways to authenticate
+            custom_authenticators:
+                          - App\Security\FacebookAuthenticator
+
+            entry_point: form_login
+
+            # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
@@ -43,6 +49,7 @@ security:
         - { path: ^/blog/delete, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profil, roles: ROLE_INFLUENCER }
+        - { path: ^/connect/facebook, roles: ROLE_INFLUENCER }
     
     role_hierarchy:
         ROLE_INFLUENCER: ROLE_USER
