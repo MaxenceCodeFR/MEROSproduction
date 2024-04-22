@@ -21,13 +21,12 @@ class Plateform
     #[ORM\OneToMany(mappedBy: 'plateform', targetEntity: PromotedLink::class)]
     private Collection $promotedLinks;
 
-    #[ORM\OneToMany(mappedBy: 'plateform', targetEntity: Publications::class)]
-    private Collection $publications;
+
 
     public function __construct()
     {
         $this->promotedLinks = new ArrayCollection();
-        $this->publications = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -77,33 +76,7 @@ class Plateform
         return $this;
     }
 
-    /**
-     * @return Collection<int, Publications>
-     */
-    public function getPublications(): Collection
-    {
-        return $this->publications;
-    }
 
-    public function addPublication(Publications $publication): static
-    {
-        if (!$this->publications->contains($publication)) {
-            $this->publications->add($publication);
-            $publication->setPlateform($this);
-        }
 
-        return $this;
-    }
 
-    public function removePublication(Publications $publication): static
-    {
-        if ($this->publications->removeElement($publication)) {
-            // set the owning side to null (unless already changed)
-            if ($publication->getPlateform() === $this) {
-                $publication->setPlateform(null);
-            }
-        }
-
-        return $this;
-    }
 }
