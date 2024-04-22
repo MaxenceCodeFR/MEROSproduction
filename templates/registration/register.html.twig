@@ -43,6 +43,8 @@
                         {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
                     </div>
                     <button type="submit" class="btn btn-primary">Créer le compte</button>
+                {{ form_errors(registrationForm) }}
+                {{ form_errors(registrationForm.plainPassword) }}
                 {{ form_end(registrationForm) }}
             </div>
         </div>
