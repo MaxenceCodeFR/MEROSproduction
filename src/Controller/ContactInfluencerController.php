@@ -32,6 +32,7 @@ class ContactInfluencerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            //Faire service notifications
             $notification = new Notification();
             $notification->setIsNew(true);
             $notification->setIsSeen(false);

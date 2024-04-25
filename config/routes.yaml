@@ -18,3 +18,4 @@ instagram_stats:
     path: /instagram/stats
     controller: App\Controller\InstagramStatsController::stats
     methods: [GET]
+
