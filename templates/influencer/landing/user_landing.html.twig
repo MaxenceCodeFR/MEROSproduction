@@ -53,22 +53,40 @@
         </div>
 
         <!-- Section pour les influenceurs non célèbres -->
-        <div class="row">
+        <div class="row mb-5 justify-content-center">
             {% for influencer in influencers %}
                 {% if not influencer.isFamous %}
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            {% for image in influencer.images %}
-                                <img src="{{ asset('assets/uploads/' ~ image.getImages()) }}" class="card-img-top rounded-circle w-50 mx-auto mt-3" alt="image de {{ influencer.firstname }} {{ influencer.lastname }}">
-                            {% endfor %}
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">{{ influencer.firstname }} {{ influencer.lastname }}</h5>
-                                <p class="card-text">{{ influencer.text }}</p>
-                                <div class="mt-auto">
-                                    {% for specialty in influencer.specialty %}
-                                        <span class="badge rounded-pill bg-primary">{{ specialty.name }}</span>
+                    <div class="col-12 col-sm-6 col-md-3 align-content-around mb-4">
+                        <div class="card h-100 rounded-5 shadow-lg">
+                            <div class="card-header d-flex align-items-center bg-white rounded-top-5 border-0">
+                                {% if influencer.images|length > 0 %}
+                                    {% for image in influencer.images %}
+                                        <img src="{{ asset('assets/uploads/' ~ image.getImages()) }}" class="rounded-circle" style="width: 80px; height: 80px;" alt="image de {{ influencer.firstname|default('Inconnu') }} {{ influencer.lastname|default('') }}">
                                     {% endfor %}
+                                {% else %}
+                                    <img src="{{ asset('assets/images/default_avatar.webp') }}" class="rounded-circle" style="width: 80px; height: 80px;" alt="Image par défaut">
+                                {% endif %}
+                                <span class="ms-2">{{ influencer.firstname|default('Prénom inconnu') }} {{ influencer.lastname|default('Nom inconnu') }}</span>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div>
+                                    {% if influencer.specialty|length > 0 %}
+                                        {% for specialty in influencer.specialty %}
+                                            <span class="badge rounded-pill border bg-white text-black shadow-sm p-2">#{{ specialty.name }}</span>
+                                        {% endfor %}
+                                    {% else %}
+                                        <span class="badge rounded-pill bg-secondary">Aucune spécialité</span>
+                                    {% endif %}
                                 </div>
+                                {% if influencer.text %}
+                                    <p class="card-text">{{ influencer.text }}</p>
+                                {% else %}
+                                    <p class="card-text">Aucune description disponible pour le moment <br> Promis elle arrive vite !</p>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex flex-column    p-2">
+                                <!-- Social media links or other components can be added here -->
+                                <a href="{{ path('influencer_show', {id: influencer.id}) }}" class="btn btn-warning rounded-5 m-4">Voir ses publications</a>
                             </div>
                         </div>
                     </div>
@@ -76,4 +94,4 @@
             {% endfor %}
         </div>
     </div>
-{% endblock %}
+        {% endblock %}
