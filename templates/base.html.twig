@@ -11,6 +11,7 @@
 		{# Initialisation fichier CSS #}
 		<link
 		rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 		{# Initialisation fichier Bootstrap #}
 		<link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
@@ -20,6 +21,12 @@
 		{# Initialisation fichier JS #}
 		<script src="{{asset('assets/javascript/bootstrap.bundle.min.js')}}"></script>
 		<script src="{{asset('assets/javascript/bootstrap.bundle.min.js.map')}}"></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+		<script
+				src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+				integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+				crossorigin="anonymous"></script>
+
 		{% block cdn %}{% endblock %}
 	</head>
 	<body>

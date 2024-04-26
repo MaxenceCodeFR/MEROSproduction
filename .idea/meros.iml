@@ -154,5 +154,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sdk" level="application" />
+    <orderEntry type="library" name="select2" level="application" />
+    <orderEntry type="library" name="jquery-3.7.1.slim" level="application" />
   </component>
 </module>

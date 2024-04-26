@@ -16,7 +16,7 @@
 			<form action="{{ path('blog_index') }}" method="GET" class="row justify-content-end">
 				<div class="col-auto">
 					<div class="input-group">
-						<input type="text" name="keyword" class="form-control" placeholder="Rechercher...">
+						<input type="text" name="keyword" class="form-control select2-searchbar" placeholder="Rechercher...">
 						<div class="input-group-append">
 							<button type="submit" class="btn btn-primary">Rechercher</button>
 						</div>
@@ -33,6 +33,7 @@
 
 			<div class="row row-cols-1 row-cols-md-4 g-4">
 				{% for article in results %}
+
 					<div class="col">
 						<div class="card">
 							<img src="{{ asset('assets/uploads/' ~ article.image) }}" class="card-img-top" alt="{{ article.title }}">
@@ -68,5 +69,9 @@
 					</div>
 				{% endif %}
 			</div>
+
+				</div>
 		{% endif %}
 	{% endblock %}
+
+
