@@ -176,7 +176,8 @@ class AdminCeoController extends AbstractController
 
 // Création et traitement du formulaire
         $form = $this->createForm(CalendarType::class, $calendar, [
-            'include_color_options' => false
+            'include_color_options' => false,
+            'include_influencer' => true,
         ]);
 
         $form->handleRequest($request);

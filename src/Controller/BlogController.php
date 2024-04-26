@@ -17,13 +17,10 @@ class BlogController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(
-        BlogRepository $blogRepository, 
-        PaginatorInterface $paginatorInterface, 
+        BlogRepository $blogRepository,
+        PaginatorInterface $paginatorInterface,
         Request $request): Response
     {
-        //!Récupération des articles non archivés via la méthode findAll() du repository
-        //*Cette méthode est modifiée dans le repository pour ne récupérer que les articles non archivés
-        //!cf. BlogRepository.php => findAll()
         $data = $blogRepository->findAll();
         $blogs = $paginatorInterface->paginate(
             $data,
@@ -32,16 +29,27 @@ class BlogController extends AbstractController
         );
 
         $keyword = $request->query->get('keyword');
+        $results = [];
 
         if ($keyword) {
             $results = $blogRepository->searchByTitle($keyword);
+            // Check if the results array is empty and add a flash message if so
+            if (empty($results)) {
+                $this->addFlash('warning', 'Aucun article trouvé pour le mot-clé recherché.');
+            }
         } else {
-            // Gérer le cas où aucun mot-clé n'est saisi
-            $results = [];
+            // Optionally handle the case where no keyword is entered
+            $this->addFlash('info', 'Entrez un mot-clé pour rechercher des articles.');
         }
 
-        return $this->render('blog/index.html.twig', compact('blogs', 'results', 'keyword'));
+        return $this->render('blog/index.html.twig', [
+            'blogs' => $blogs,
+            'results' => $results,
+            'keyword' => $keyword
+        ]);
     }
+
+
 
     #[Route('/archived', name: 'archived')]
     public function archived(BlogRepository $blogRepository): Response

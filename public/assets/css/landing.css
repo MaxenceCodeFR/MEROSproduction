@@ -1,0 +1,44 @@
+.h1-h3{
+    h1 {
+        font-size: 3.5rem;
+        font-weight: 400;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+    }
+    h3 {
+        font-size: 1.5rem;
+        font-weight: 400;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+        color: #65a0f6;
+    }
+}
+
+.landing-image-9 {
+    img {
+        width: 100%;
+    }
+}
+
+.h1-h3-image-header{
+    display: flex;
+    align-items: center;
+    margin: 2em 10em;
+    justify-content: space-between;
+}
+
+.highlight-meros-span {
+    color: #65a0f6;
+}
+
+
+.section-card-about {
+    display: flex;
+    justify-content: space-between;
+    gap: 2em;
+    align-items: center;
+    margin: 2em 10em;
+        .card {
+            border-radius: 30px;
+        }
+}
