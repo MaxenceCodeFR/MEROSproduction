@@ -9,6 +9,7 @@ use App\Entity\PromotedLink;
 use App\Entity\ContactCompany;
 use App\Form\PromotedLinkType;
 use App\Repository\PromotedLinkRepository;
+use App\Service\HtmlSanitizerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -108,7 +109,8 @@ class InfluencerController extends AbstractController
     #[Route('/add-promoted-links', name: 'add_promoted_links')]
     public function addPromotedLinks(
         Request $request,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        HtmlSanitizerService $sanitizerService
         ): Response
     {
         $user = $this->getUser(); // Récupérer l'utilisateur connecté
@@ -126,6 +128,11 @@ class InfluencerController extends AbstractController
                 // ou de rediriger l'utilisateur vers une autre route
                 return $this->redirectToRoute('influencer_promoted_links');
             }
+
+            $link = $form->get('link')->getData();
+            $safelink = $sanitizerService->sanitize($link);
+            $promotedLink->setLink($safelink);
+
             $promotedLink->setUser($user); // Associer l'utilisateur à la promotion
             $em->persist($promotedLink); // Persister la promotion
             $em->flush(); // Exécuter la requête
@@ -173,6 +180,6 @@ class InfluencerController extends AbstractController
 
         $this->addFlash('success', 'Le lien a bien été supprimé');
 
-        return $this->redirectToRoute('influencer_edit_promoted_links');
+        return $this->redirectToRoute('influencer_promoted_links');
     }
 }
