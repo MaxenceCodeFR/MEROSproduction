@@ -45,6 +45,7 @@ class AffiliateInfluencerType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ContactCompany::class,
             'data_class' => Calendar::class,
+            'include_influencer' => true,
         ]);
     }
 }

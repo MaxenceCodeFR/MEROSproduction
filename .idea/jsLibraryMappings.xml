@@ -2,5 +2,6 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="PROJECT" libraries="{sdk, tilt.js}" />
+    <file url="PROJECT" libraries="{jquery-3.7.1.slim, sdk, select2}" />
   </component>
 </project>

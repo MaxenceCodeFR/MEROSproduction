@@ -53,7 +53,10 @@ class CalendarController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $calendar = new Calendar();
-        $form = $this->createForm(CalendarType::class, $calendar);
+        $form = $this->createForm(CalendarType::class, $calendar, [
+            'include_influencer' => true,
+
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
