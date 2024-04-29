@@ -1,3 +1,6 @@
 /* Ici on importe le fichier style.css */
 @import url("calendar.css");
 @import url("landing.css");
+@import url("variables.css");
+
+

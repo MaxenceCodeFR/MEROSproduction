@@ -15,11 +15,13 @@
 		{# Initialisation fichier Bootstrap #}
 		<link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
 		<link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css.map')}}">
+
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> {% block stylesheets %}{% endblock %}
 
 		{# Initialisation fichier JS #}
 		<script src="{{asset('assets/javascript/bootstrap.bundle.min.js')}}"></script>
 		<script src="{{asset('assets/javascript/bootstrap.bundle.min.js.map')}}"></script>
+
 		{% block cdn %}{% endblock %}
 	</head>
 	<body>
@@ -28,5 +30,6 @@
 
 		{# Initialisation fichier JS #}
 		{% block javascript %}{% endblock %}
+		<script src="{{asset('assets/javascript/tilt.js')}}"></script>
 	</body>
 </html>

@@ -155,5 +155,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sdk" level="application" />
+    <orderEntry type="library" name="tilt.js" level="application" />
   </component>
 </module>

@@ -65,6 +65,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult();
     }
 
+    public function findAboutInfluencer()
+    {
+        return $this->createQueryBuilder('i')
+            ->select(
+                'partial i.{id, firstname, lastname}', // Utiliser partial pour sélectionner des champs spécifiques
+                'img',  // Sélectionner les objets complets des images liées
+                'soc',  // Sélectionner les objets complets des réseaux sociaux liés
+                'sp'    // Sélectionner les objets complets des spécialités liées
+            )
+            ->leftJoin('i.images', 'img')  // Jointure avec la collection d'images
+            ->leftJoin('i.social', 'soc')  // Jointure avec la collection de réseaux sociaux
+            ->leftJoin('i.specialty', 'sp')  // Jointure avec la collection de spécialités
+            ->andWhere('i.roles LIKE :roles')
+            ->setParameter('roles', '%ROLE_INFLUENCER%')
+            ->getQuery()
+            ->getResult();
+    }
+
 
     public function searchInfluencer($keyword){
         return $this->createQueryBuilder('i')
