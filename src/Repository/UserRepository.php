@@ -69,7 +69,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         return $this->createQueryBuilder('i')
             ->select(
-                'partial i.{id, firstname, lastname}', // Utiliser partial pour sélectionner des champs spécifiques
+                'partial i.{id, firstname, lastname,isFamous}', // Utiliser partial pour sélectionner des champs spécifiques
                 'img',  // Sélectionner les objets complets des images liées
                 'soc',  // Sélectionner les objets complets des réseaux sociaux liés
                 'sp'    // Sélectionner les objets complets des spécialités liées
