@@ -19,7 +19,7 @@ class InfluencerLandingController extends AbstractController
         $breadcrumbService->add('Accueil', $this->generateUrl('landing'));
         $breadcrumbService->add('Nos Talents', $this->generateUrl('influencer_all'));
 
-        $influencers = $userRepository->findRoleInfluencer();
+        $influencers = $userRepository->findAboutInfluencer();
 
         $parameters = [
             'influencers' => $influencers,
