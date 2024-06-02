@@ -1,30 +1,74 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Candidature
-{% endblock %}
+{% block title %}Candidature{% endblock %}
 
 {% block body %}
 	{% include "commons/_ceo_navbar.html.twig" %}
-
+<body class="detail-company">
 	<div class="container mt-4">
 		<div class="row">
 			<div class="col-md-6">
-				<h2>{{ company.email }}</h2>
-				<p>{{ company.motif.motifCompany }}</p>
-				<p>{{ company.start ? company.start|date('d-m-Y') : '' }}
-					-
-					{{ company.end ? company.end|date('d-m-Y') : '' }}</p>
-				<p>{{ company.firstname }}</p>
-				<p>{{ company.firstname }}</p>
-				<p>{{ company.text }}</p>
+				<div class="card mb-4">
+					<div class="card-header">
+						<h2 class="card-title ">{{ company.email }}</h2>
+					</div>
+					<div class="card-body">
+						<p><strong>Motif:</strong> {{ company.motif.motifCompany }}</p>
+						<p><strong>Dates:</strong>
+							{{ company.start ? company.start|date('d-m-Y') : '' }}
+							-
+							{{ company.end ? company.end|date('d-m-Y') : '' }}
+						</p>
+						<p><strong>Contact:</strong> {{ company.firstname }} {{ company.lastname }}</p>
+						<pre><strong>Texte:</strong> {{ company.text }}</pre>
+					</div>
+				</div>
 			</div>
-			<div>
-				{{ form_start(form) }}
-				{{ form_widget(form) }}
-				<button type="submit" class="btn btn-success">Choisir l'influenceur</button>
-				{{ form_end(form) }}
+			<div class="col-md-6">
+				<div class="card mb-4">
+					<div class="card-body">
+						{{ form_start(form) }}
+						<div class="form-group">
+							{{ form_label(form.title, 'Titre du partenariat') }}
+							{{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.title) }}
+						</div>
+						<h3>Sélectionnez des dates</h3>
+						<div class="form-group">
+							{{ form_label(form.start, 'Date de début') }}
+							{{ form_widget(form.start, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.start) }}
+						</div>
+						<div class="form-group">
+							{{ form_label(form.end, 'Date de fin') }}
+							{{ form_widget(form.end, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.end) }}
+						</div>
+						<div class="form-group">
+							{{ form_label(form.description, 'Description du contrat') }}
+							{{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.description) }}
+						</div>
+						<div class="form-check">
+							{{ form_label(form.all_day, 'Journée entière') }}
+							{{ form_widget(form.all_day, {'attr': {'class': 'form-check-input'}}) }}
+							{{ form_errors(form.all_day) }}
+						</div>
+						{% if form.user is defined %}
+							<div class="form-group mb-3">
+								{{ form_label(form.user, 'Selectionnez un utilisateur') }}
+								{{ form_widget(form.user, {'attr': {'class': 'form-control'}}) }}
+								{{ form_errors(form.user) }}
+							</div>
+						{% endif %}
+						<button type="submit" class="btn btn-success">Choisir l'influenceur</button>
+						{{ form_end(form) }}
+					</div>
+				</div>
+				<a href="mailto:{{ company.email }}" target="_blank" class="btn btn-primary btn-block">Répondre par mail</a>
 			</div>
-			<a href="mailto:{{ company.email }}" target="_blank" class="btn btn-primary">Répondre</a>
+		</div>
 		</div>
 	</div>
+</body>
 {% endblock %}

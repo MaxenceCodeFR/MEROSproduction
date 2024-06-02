@@ -21,6 +21,20 @@ class ContactCompanyRepository extends ServiceEntityRepository
         parent::__construct($registry, ContactCompany::class);
     }
 
+
+    public function findEmailCompanyMotifStartEnd(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.email, c.id, c.company, m.motif_company as motif, c.start, c.end, u.firstname, u.lastname, img.images as userImage, c.isDisplayed, n.isNew as notificationIsNew, n.isSeen as notificationIsSeen')
+            ->leftJoin('c.motif', 'm')
+            ->leftJoin('c.user', 'u')
+            ->leftJoin('u.images', 'img')
+            ->leftJoin('c.notification', 'n')
+            ->orderBy('c.start', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return ContactCompany[] Returns an array of ContactCompany objects
 //     */

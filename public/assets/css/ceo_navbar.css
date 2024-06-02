@@ -1,0 +1,43 @@
+.offcanvas {
+    max-width: 200px!important;
+    background-color: #65a0f6!important;
+
+}
+
+.offcanvas-start .nav-link {
+    color: #fff;
+    border-radius: 15px;
+    padding: .5em 1em;
+    &:hover {
+        color: #fff;
+        background-color: #438dff;
+    }
+}
+
+.offcanvas-body, .offcanvas-header{
+    color: #fff;
+    background-color: #65a0f6;
+}
+
+
+.offcanvas-footer {
+    text-align: center;
+    padding: 1rem;
+}
+
+.offcanvas-footer img {
+    max-width: 100px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    border: #438dff solid 5px;
+    &:hover{
+        border: #bfd5fa solid 5px;
+
+    }
+}
+
+.detail-company{
+    margin-left: 200px;
+}

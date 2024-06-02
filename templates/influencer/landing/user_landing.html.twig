@@ -62,6 +62,18 @@
             {% endfor %}
         </div>
     </section>
+    <div class="do-the-same">
+                <div>
+                    <h2>Vous êtes influenceur ?</h2>
+                    <p>Vous souhaitez rejoindre notre communauté d'influenceurs ?</p>
+                    <a href="{{ path('contact_influencer_index') }}" class="btn btn-warning">Devenir Influenceur</a>
+                </div>
+                <div>
+                    <h2>Vous êtes une entreprise ?</h2>
+                    <p>Vous souhaitez collaborer avec nos influenceurs ?</p>
+                    <a href="{{ path('contact_company_index') }}" class="btn btn-warning">Contact Entreprise</a>
+                </div>
+    </div>
 
     {% include "commons/_footer.html.twig" %}
         {% endblock %}

@@ -23,11 +23,13 @@ class ContactCompanyController extends AbstractController
         EmailService $emailService): Response
     {
 
-
+        //Créer une nouvelle instance de l'entité ContactCompany
         $contact = new ContactCompany();
+        //Créer un formulaire à partir de l'entité ContactCompany et le stocké dans la variable $form
         $form = $this->createForm(ContactCompanyType::class, $contact);
+        //Récupérer les données de la requête
         $form->handleRequest($request);
-
+        //Vérifier si le formulaire a été soumis et est valide
         if ($form->isSubmitted() && $form->isValid()) {
             //*afficher le formulaire lors de sa création 
             $contact->setIsDisplayed(true);
@@ -45,16 +47,19 @@ class ContactCompanyController extends AbstractController
                 'emails/company.html.twig',
                 ['contact' => $contact]
             );
-            
+            //Ajouter un message flash de succès
             $this->addFlash('success', 'Votre demande a bien été prise en compte');
-            
+
+            //Mise en attente par l'ORM de $notification et $contact
             $entityManager->persist($notification);
             $entityManager->persist($contact);
+            //Ecriture en base de données
             $entityManager->flush();
 
+            //Rediriger l'utilisateur vers la page de remerciement
             return $this->redirectToRoute('contact_company_thankyou');
         }
-
+        //Afficher le formulaire
         return $this->render('contact_company/index.html.twig', [
             'form' => $form->createView(),
         ]);

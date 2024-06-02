@@ -108,7 +108,7 @@ class ContactCompanyType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Length([
-                        'max' => 1000,
+                        'max' => 10000,
                         'maxMessage' => 'Le message ne peut pas dépasser {{ limit }} caractères.'
                     ])
                 ],

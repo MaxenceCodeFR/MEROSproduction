@@ -147,9 +147,9 @@ class AdminCeoController extends AbstractController
     //////////////////////////////////////////////////////////////////////
     //Affichage des demandes des entreprises
     #[Route('/company', name: 'company')]
-    public function company(ContactCompanyRepository $company)
+    public function company(ContactCompanyRepository $companyRepository)
     {
-        $company = $company->findAll();
+        $company = $companyRepository->findEmailCompanyMotifStartEnd();
         //dd($company);
         return $this->render('ceo/company/company.html.twig', compact('company'));
     }

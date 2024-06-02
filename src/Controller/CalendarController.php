@@ -110,6 +110,7 @@ class CalendarController extends AbstractController
         EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $calendar->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Ce contrat à été supprimé avec succès.');
             $entityManager->remove($calendar);
             $entityManager->flush();
         }

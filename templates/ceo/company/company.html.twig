@@ -3,84 +3,88 @@
 {% endblock %}
 
 {% block body %}
-	{% include "commons/_ceo_navbar.html.twig" %}
-	<div class="container mt-4">
-		{% if company is not empty %}
-			<div class="row">
-				{% for comp in company %}
-					{% if comp.isDisplayed %}
-						{% set endDate = comp.end ? comp.end|date('U') : null %}
-						{% set oneWeekBeforeEnd = endDate ? endDate - (7 * 24 * 60 * 60) : null %}
-						{% set now = 'now'|date('U') %}
-						{% set isWarningPeriod = oneWeekBeforeEnd and now > oneWeekBeforeEnd %}
-						<div class="col-md-4 mb-4">
-							<div class="card h-100 shadow-sm {{ isWarningPeriod ? 'bg-danger text-white' : '' }} position-relative">
-								<div class="card-header d-flex justify-content-between align-items-center">
-									<h5 class="my-0">{{ comp.company }}</h5>
+    {% include "commons/_ceo_navbar.html.twig" %}
+    <div class="container mt-4">
+        {% if company is not empty %}
+            <div class="row">
+                {% for comp in company %}
+                    {% if comp.isDisplayed %}
+                        {% set endDate = comp.end ? comp.end|date('U') : null %}
+                        {% set oneWeekBeforeEnd = endDate ? endDate - (7 * 24 * 60 * 60) : null %}
+                        {% set now = 'now'|date('U') %}
+                        {% set isWarningPeriod = oneWeekBeforeEnd and now > oneWeekBeforeEnd %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm {{ isWarningPeriod ? 'bg-danger text-white' : '' }} position-relative">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="my-0">{{ comp.company }}</h5>
 
-									{% if comp.user %}
-										{% for media in comp.user.images %}
-											<img src="{{ asset('assets/uploads/' ~ media.getImages()) }}" style="width: 40px; height: 40px;" class="rounded-circle img-fluid" data-bs-toggle="tooltip" data-bs-title="{{ comp.user.firstname }} {{ comp.user.lastname }}">
-										{% else %}
-											Pas d'image
-										{% endfor %}
-									{% else %}
-										Pas d'utilisateur
-									{% endif %}
+                                    {% if comp.userImage %}
+                                        <img src="{{ asset('assets/uploads/' ~ comp.userImage) }}"
+                                             style="width: 40px; height: 40px;" class="rounded-circle img-fluid"
+                                             data-bs-toggle="tooltip"
+                                             data-bs-title="{{ comp.firstname }} {{ comp.lastname }}">
+                                    {% else %}
+                                        Pas d'image
+                                    {% endif %}
 
 
-									{% if comp.notification and comp.notification.isIsNew == 1 and comp.notification.isIsSeen == 0 %}
-										<span class="badge bg-danger text-white position-absolute" style="top: -10px; right: -10px;">Nouveau</span>
-									{% endif %}
-								</div>
-								<div class="card-body">
-									<p class="card-text">
-										<strong>Email :</strong>
-										{{ comp.email }}</p>
-									<p class="card-text">
-										<strong>Motif :</strong>
-										{{ comp.motif.motifCompany }}</p>
-									<p class="card-text">
-										{% if comp.start == null and comp.end == null %}
-											<p>Pas de dates définies pour le moment</p>
-										{% else %}
-											<strong>Dates proposées :</strong>
-											{{ comp.start ? comp.start|date('d-m-Y') : '' }}
-											-
-											{{ comp.end ? comp.end|date('d-m-Y') : '' }}</p>
-									{% endif %}
-								</div>
-								<div class="card-footer">
-									<a href="{{ path('ceo_company_show', {'id': comp.id}) }}" class="btn btn-primary btn-sm">
-										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewbox="0 0 16 16">
-											<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
-											<path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
-										</svg>
-										Voir</a>
-									<a href="{{ path('ceo_company_delete', {'id': comp.id}) }}" class="btn btn-danger btn-sm">
-										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewbox="0 0 16 16">
-											<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-										</svg>
-										Supprimer</a>
-								</div>
-							</div>
-						</div>
-					{% endif %}
-				{% else %}
-					<div class="col">
-						<p class="text-center">Il n'y a pas de demande.</p>
-					</div>
-				{% endfor %}
-			</div>
-		{% else %}
-			<p class="text-center">Il n'y a pas de demande.</p>
-		{% endif %}
-	</div>
+                                    {% if comp.notificationIsNew and not comp.notificationIsSeen %}
+                                        <span class="badge bg-danger text-white position-absolute"
+                                              style="top: -10px; right: -10px;">Nouveau</span>
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <strong>Email :</strong>
+                                        {{ comp.email }}</p>
+                                    <p class="card-text">
+                                        <strong>Motif :</strong>
+                                        {{ comp.motif }}</p>
+                                    <p class="card-text">
+                                        {% if comp.start == null and comp.end == null %}
+                                    <p>Pas de dates définies pour le moment</p>
+                                    {% else %}
+                                        <strong>Dates proposées :</strong>
+                                        {{ comp.start ? comp.start|date('d-m-Y') : '' }}
+                                        -
+                                        {{ comp.end ? comp.end|date('d-m-Y') : '' }}</p>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{{ path('ceo_company_show', {'id': comp.id}) }}"
+                                       class="btn btn-primary btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-eye-fill" viewbox="0 0 16 16">
+                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                        </svg>
+                                        Voir</a>
+                                    <a href="{{ path('ceo_company_delete', {'id': comp.id}) }}"
+                                       class="btn btn-danger btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-trash-fill" viewbox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                                        </svg>
+                                        Supprimer</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="col">
+                        <p class="text-center">Il n'y a pas de demande.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">Il n'y a pas de demande.</p>
+        {% endif %}
+    </div>
 {% endblock %}
 {% block javascript %}
-	<script>
-		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-	</script>
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
 {% endblock %}
 
