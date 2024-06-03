@@ -37,16 +37,22 @@ class LoginController extends AbstractController
     {
         //redirection en fonction du role
         //Si le rôle est CEO on redirige vers la page d'accueil du CEO
-        if ($this->isGranted('ROLE_CEO')) {
-            return $this->redirectToRoute('ceo_index');
-            //Si le role est editeur alors il ira vers le blog
-        } elseif ($this->isGranted('ROLE_EDITOR')) {
-            return $this->redirectToRoute('editor_index');
-        } elseif( $this->isGranted('ROLE_INFLUENCER')) {
-            return $this->redirectToRoute('influencer_index');
-        } else {
-            return $this->redirectToRoute('landing');
+        $roleRoutes = [
+            'ROLE_CEO' => 'ceo_index',
+            'ROLE_EDITOR' => 'editor_index',
+            'ROLE_INFLUENCER' => 'influencer_index',
+        ];
+
+        // Parcourir les rôles et rediriger si l'utilisateur a le rôle correspondant
+        foreach ($roleRoutes as $role => $route) {
+            if ($this->isGranted($role)) {
+                return $this->redirectToRoute($route);
+            }
         }
+
+        // Redirection par défaut si aucun rôle n'est trouvé
+        return $this->redirectToRoute('landing');
+
     }
 
     //Déconnexion

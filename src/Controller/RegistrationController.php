@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
+use App\Service\BreadcrumbService;
 use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,8 +23,13 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager,
         UserRepository $user,
         EmailService $emailService,
+        BreadcrumbService $breadcrumbService
 
     ): Response {
+
+        $breadcrumbService->add('Accueil', $this->generateUrl('landing'));
+        $breadcrumbService->add('S\'inscrire', $this->generateUrl('app_register'));
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -56,9 +62,10 @@ class RegistrationController extends AbstractController
 
             return $this->redirectToRoute('login');
         }
-
-        return $this->render('registration/register.html.twig', [
+        $parameters = [
             'registrationForm' => $form->createView(),
-        ]);
+            'breadcrumbs' => $breadcrumbService->getBreadcrumbs()
+        ];
+        return $this->render('registration/register.html.twig', $parameters);
     }
 }

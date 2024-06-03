@@ -5,17 +5,22 @@
 	{% if app.user == true %}
 		<div class="container mt-5">
 			<div class="row justify-content-center">
-				<div class="col-md-6 text-center">
-					<p class="display-4">Vous êtes déjà connecter !</p>
-					<a href="{{ path('landing') }}" class="btn btn-success">Accueil</a>
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-body text-center">
+							<h2 class="card-title">Vous êtes déjà connecté !</h2>
+							<a href="{{ path('landing') }}" class="btn btn-outline-primary mt-3">Accueil</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
+
 	{% else %}
 		<div class="container mt-5">
 			<div class="row justify-content-center">
 				<div class="col-md-6">
-					<h1 class="text-center mb-4">Connexion</h1>
+					<h1 class="text-center mb-4">Heureux de vous revoir !</h1>
 					{% if error %}
 						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 					{% endif %}

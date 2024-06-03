@@ -1,0 +1,80 @@
+.section-register{
+    background-color: white;
+    box-shadow: 25px 0 20px -20px rgba(0, 0, 0, 0.45);
+    height: 83.2vh;
+    h1{
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #65a0f6;
+
+    }
+    .row {
+        width: 100%;
+        .inside-row{
+            padding: 0 10em 0 10em;
+        }
+    }
+
+
+
+}
+
+.img-office-people{
+    z-index: -1;
+    background: rgb(65,61,130);
+    background: linear-gradient(162deg, rgba(65,61,130,1) 0%, rgba(101,160,246,1) 100%);
+    height: 83.2vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    img{
+        position: absolute;
+        bottom: -100px;
+        right: 0;
+        filter: drop-shadow(30px 10px 4px #4444dd);
+      }
+}
+
+.form-and-image{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.submit-subscribe{
+    background-color: #65a0f6;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .5s;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    &:hover{
+        letter-spacing: 5px;
+        box-shadow: rgb(101, 160, 246) 0px 6px 12px 1px, rgb(101, 160, 246) 0px 3px 7px 1px;
+    }
+}
+
+.text-office-people{
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 400;
+    padding: 0;
+    letter-spacing: 2px;
+    max-width: 35ch;
+}
+
+.quote-edgar{
+    display: flex;
+    flex-direction: column;
+    margin: 3em 0 0 2em;
+    small{
+        font-size: 1rem;
+        font-weight: 400;
+        color: #d2d2d2;
+        font-style: oblique;
+    }
+}
