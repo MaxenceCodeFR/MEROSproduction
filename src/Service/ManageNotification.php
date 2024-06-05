@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\ContactCompany;
 use App\Entity\ContactInfluencer;
 
+use App\Entity\Notification;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ManageNotification
@@ -39,6 +40,12 @@ class ManageNotification
 
             $this->em->flush();
         }
+
 }
 
+    public function getActiveNotifications(): array
+    {
+        $notificationRepo = $this->em->getRepository(Notification::class);
+        return $notificationRepo->findBy(['isNew' => true, 'isSeen' => false]);
+    }
 }

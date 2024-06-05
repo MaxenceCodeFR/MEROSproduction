@@ -3,6 +3,13 @@ nav[aria-label="breadcrumb"] {
     background: #f8f9fa;
     padding: 10px 20px;
     border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
 }
 
 /* Styles pour la liste des éléments de la breadcrumb */

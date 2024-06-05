@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Notification;
 use App\Entity\ContactCompany;
 use App\Form\ContactCompanyType;
+use App\Service\BreadcrumbService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +21,12 @@ class ContactCompanyController extends AbstractController
     public function index(
         Request $request, 
         EntityManagerInterface $entityManager, 
-        EmailService $emailService): Response
+        EmailService $emailService,
+        BreadcrumbService $breadcrumbService): Response
     {
 
+        $breadcrumbService->add('Accueil', $this->generateUrl('landing'));
+        $breadcrumbService->add('Contact entreprise', $this->generateUrl('contact_company_index'));
         //Créer une nouvelle instance de l'entité ContactCompany
         $contact = new ContactCompany();
         //Créer un formulaire à partir de l'entité ContactCompany et le stocké dans la variable $form
@@ -59,10 +63,12 @@ class ContactCompanyController extends AbstractController
             //Rediriger l'utilisateur vers la page de remerciement
             return $this->redirectToRoute('contact_company_thankyou');
         }
-        //Afficher le formulaire
-        return $this->render('contact_company/index.html.twig', [
+        $parameters = [
             'form' => $form->createView(),
-        ]);
+            'breadcrumbs' => $breadcrumbService->getBreadcrumbs()
+        ];
+        //Afficher le formulaire
+        return $this->render('contact_company/index.html.twig', $parameters);
     }
 
     #[Route('/thankyou', name: 'thankyou')]

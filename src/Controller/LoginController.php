@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\ResetPasswordType;
 use App\Repository\UserRepository;
 use App\Form\ResetPasswordRequestType;
+use App\Service\BreadcrumbService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,16 +21,22 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 class LoginController extends AbstractController
 {
     #[Route('/login', name: 'login')]
-    public function index(AuthenticationUtils $authenticationUtils): Response
+    public function index(AuthenticationUtils $authenticationUtils, BreadcrumbService $breadcrumbService): Response
     {
+        $breadcrumbService->add('Accueil', $this->generateUrl('landing'));
+        $breadcrumbService->add('Connexion', $this->generateUrl('login'));
+
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-
-        return $this->render('login/index.html.twig', [
+        $parameters = [
             'last_username' => $lastUsername,
             'error' => $error,
-        ]);
+            'breadcrumbs' => $breadcrumbService->getBreadcrumbs()
+        ];
+
+
+        return $this->render('login/index.html.twig', $parameters);
     }
 
     #[Route('/redirectAfterLogin', name: 'redirect_login', methods: ['GET'])]

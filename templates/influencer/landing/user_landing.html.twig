@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block title %} Vos influenceurs favoris {% endblock %}
 {% block body %}
+    <body class="body-blog">
     {% include 'commons/_navbar.html.twig' %}
 
-{% include 'commons/_breadcrumbs.html.twig' %}
+    {% include 'commons/_breadcrumbs.html.twig' %}
     <section class="influencer-landing mt-5">
         <div class="h3-h2-influenceur">
             <h3>Nos Influenceurs</h3>
@@ -11,69 +12,112 @@
         </div>
         <div class="container mt-5 section-all-influenceur">
             {% for influencer in influencers %}
-                    <div class="card mb-3 card-influencer">
-                        <div class="card-body">
-                            <div class="img-firstname-influencer">
-                                {% if influencer.images|length > 0 %}
-                                    {% for image in influencer.images %}
-                                        <img src="{{ asset('assets/uploads/' ~  image.getImages())}}" class="rounded-circle float-start me-3" style="width: 80px; height: 80px;" alt="Image de {{ influencer.firstname }} {{ influencer.lastname }}">
-                                    {% endfor %}
-                                {% else %}
-                                    <img src="{{ asset('assets/images/default_avatar.webp') }}" class="rounded-circle float-start me-3" style="width: 100px; height: 100px;">
-                                {% endif %}
-                                <h5 class="card-title">{{ influencer.firstname }} {{ influencer.lastname }}</h5>
-                            </div>
+                <div class="card mb-3 card-influencer">
+                    <div class="card-body">
+                        <div class="img-firstname-influencer">
+                            {% if influencer.images|length > 0 %}
+                                {% for image in influencer.images %}
+                                    <img src="{{ asset('assets/uploads/' ~  image.getImages()) }}"
+                                         class="rounded-circle float-start me-3" style="width: 80px; height: 80px;"
+                                         alt="Image de {{ influencer.firstname }} {{ influencer.lastname }}">
+                                {% endfor %}
+                            {% else %}
+                                <img src="{{ asset('assets/images/default_avatar.webp') }}"
+                                     class="rounded-circle float-start me-3" style="width: 100px; height: 100px;">
+                            {% endif %}
+                            <h5 class="card-title">{{ influencer.firstname }} {{ influencer.lastname }}</h5>
+                        </div>
 
-                            <div class="mt-4 specialty-influencer">
-                                <p class="category-specialty">Ses spécialités</p>
-                                {% if influencer.specialty|length > 0 %}
-                                    {% for specialty in influencer.specialty %}
-                                        <span class="badge rounded-pill border bg-white text-black shadow-sm p-2 me-2">#{{ specialty.name }}</span>
-                                    {% endfor %}
-                                {% else %}
-                                    <p>Désolé, {{ influencer.firstname }} n'a pas encore renseigné cette information </p>
-                                {% endif %}
-                            </div>
-                            <div class="social-links mt-3 ">
-                                <p class="category-social">Ses réseaux sociaux</p>
-                                {% if influencer.social|length > 0 %}
-                                    {% for social in influencer.social %}
-                                        {% if social.instagram %}
-                                            <div class="social-link card">
-                                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 48 48">
-                                                    <radialGradient id="yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1" cx="19.38" cy="42.035" r="44.899" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fd5"></stop><stop offset=".328" stop-color="#ff543f"></stop><stop offset=".348" stop-color="#fc5245"></stop><stop offset=".504" stop-color="#e64771"></stop><stop offset=".643" stop-color="#d53e91"></stop><stop offset=".761" stop-color="#cc39a4"></stop><stop offset=".841" stop-color="#c837ab"></stop></radialGradient><path fill="url(#yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1)" d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path><radialGradient id="yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2" cx="11.786" cy="5.54" r="29.813" gradientTransform="matrix(1 0 0 .6663 0 1.849)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4168c9"></stop><stop offset=".999" stop-color="#4168c9" stop-opacity="0"></stop></radialGradient><path fill="url(#yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2)" d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path><path fill="#fff" d="M24,31c-3.859,0-7-3.14-7-7s3.141-7,7-7s7,3.14,7,7S27.859,31,24,31z M24,19c-2.757,0-5,2.243-5,5	s2.243,5,5,5s5-2.243,5-5S26.757,19,24,19z"></path><circle cx="31.5" cy="16.5" r="1.5" fill="#fff"></circle><path fill="#fff" d="M30,37H18c-3.859,0-7-3.14-7-7V18c0-3.86,3.141-7,7-7h12c3.859,0,7,3.14,7,7v12	C37,33.86,33.859,37,30,37z M18,13c-2.757,0-5,2.243-5,5v12c0,2.757,2.243,5,5,5h12c2.757,0,5-2.243,5-5V18c0-2.757-2.243-5-5-5H18z"></path>
-                                                </svg>
-                                                <a href="{{ social.instagram }}" target="_blank" class="stretched-link">Instagram</a>
-                                            </div>
-                                        {% endif %}
-                                        {% if social.tiktok %}
-                                            <div class="social-link card">
-                                                <svg height="32" viewBox="-58.35000000000002 -186.70564362582354 2548.289756960746 2538.849821747569" width="32" xmlns="http://www.w3.org/2000/svg"><g fill="#25f4ee"><path d="M779.38 890.55v-88.12a650.81 650.81 0 0 0-92.45-7.94c-299.8-.64-565.22 193.64-655.25 479.6S47.92 1871.34 294 2042.56a684.7 684.7 0 0 1 485.36-1152z"/><path d="M796 1888.72c167.62-.23 305.4-132.28 312.74-299.74V94.62h273A512.17 512.17 0 0 1 1373.8 0h-373.41v1492.92c-6.21 168.31-144.32 301.63-312.74 301.9a317.76 317.76 0 0 1-144.45-36.11A313.48 313.48 0 0 0 796 1888.72zM1891.66 601.64v-83.06a509.85 509.85 0 0 1-282.4-85.22 517.79 517.79 0 0 0 282.4 168.28z"/></g><path d="M1609.26 433.36a514.19 514.19 0 0 1-127.84-339.47h-99.68a517.16 517.16 0 0 0 227.52 339.47zM686.93 1167.9a313.46 313.46 0 0 0-144.46 590.81A312.75 312.75 0 0 1 796 1262.51a329.69 329.69 0 0 1 92.44 14.49V897.05a654.77 654.77 0 0 0-92.44-7.22h-16.62v288.9a321.13 321.13 0 0 0-92.45-10.83z" fill="#fe2c55"/><path d="M1891.66 601.64v288.91a886.23 886.23 0 0 1-517.86-168.29v759.1c-.8 378.78-308.09 685.43-686.87 685.43A679.65 679.65 0 0 1 294 2042.56 685.43 685.43 0 0 0 1481.42 1576V819.05A887.71 887.71 0 0 0 2000 985.17v-372a529.59 529.59 0 0 1-108.34-11.53z" fill="#fe2c55"/><path d="M1373.8 1481.36v-759.1a886.11 886.11 0 0 0 518.58 166.12v-288.9a517.87 517.87 0 0 1-283.12-166.12 517.16 517.16 0 0 1-227.52-339.47h-273V1589a313.46 313.46 0 0 1-567 171.17 313.46 313.46 0 0 1 144.46-590.83 321.35 321.35 0 0 1 92.45 14.45V894.88A684.71 684.71 0 0 0 293.29 2050.5a679.65 679.65 0 0 0 393.64 116.29c378.78 0 686.07-306.65 686.87-685.43z"/></svg>
-                                                <a href="{{ social.tiktok }}" target="_blank" class="stretched-link">TikTok</a>
-                                            </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% else %}
-                                    <p>Désolé, {{ influencer.firstname }} n'a pas encore renseigné ces réseaux </p>
-                                {% endif %}
-                            </div>
+                        <div class="mt-4 specialty-influencer">
+                            <p class="category-specialty">Ses spécialités</p>
+                            {% if influencer.specialty|length > 0 %}
+                                {% for specialty in influencer.specialty %}
+                                    <span class="badge rounded-pill border bg-white text-black shadow-sm p-2 me-2">#{{ specialty.name }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <p>Désolé, {{ influencer.firstname }} n'a pas encore renseigné cette information </p>
+                            {% endif %}
+                        </div>
+                        <div class="social-links mt-3 ">
+                            <p class="category-social">Ses réseaux sociaux</p>
+                            {% if influencer.social|length > 0 %}
+                                {% for social in influencer.social %}
+                                    {% if social.instagram %}
+                                        <div class="social-link card">
+                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32"
+                                                 height="32" viewBox="0 0 48 48">
+                                                <radialGradient id="yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1" cx="19.38"
+                                                                cy="42.035" r="44.899" gradientUnits="userSpaceOnUse">
+                                                    <stop offset="0" stop-color="#fd5"></stop>
+                                                    <stop offset=".328" stop-color="#ff543f"></stop>
+                                                    <stop offset=".348" stop-color="#fc5245"></stop>
+                                                    <stop offset=".504" stop-color="#e64771"></stop>
+                                                    <stop offset=".643" stop-color="#d53e91"></stop>
+                                                    <stop offset=".761" stop-color="#cc39a4"></stop>
+                                                    <stop offset=".841" stop-color="#c837ab"></stop>
+                                                </radialGradient>
+                                                <path fill="url(#yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1)"
+                                                      d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path>
+                                                <radialGradient id="yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2" cx="11.786"
+                                                                cy="5.54" r="29.813"
+                                                                gradientTransform="matrix(1 0 0 .6663 0 1.849)"
+                                                                gradientUnits="userSpaceOnUse">
+                                                    <stop offset="0" stop-color="#4168c9"></stop>
+                                                    <stop offset=".999" stop-color="#4168c9" stop-opacity="0"></stop>
+                                                </radialGradient>
+                                                <path fill="url(#yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2)"
+                                                      d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path>
+                                                <path fill="#fff"
+                                                      d="M24,31c-3.859,0-7-3.14-7-7s3.141-7,7-7s7,3.14,7,7S27.859,31,24,31z M24,19c-2.757,0-5,2.243-5,5	s2.243,5,5,5s5-2.243,5-5S26.757,19,24,19z"></path>
+                                                <circle cx="31.5" cy="16.5" r="1.5" fill="#fff"></circle>
+                                                <path fill="#fff"
+                                                      d="M30,37H18c-3.859,0-7-3.14-7-7V18c0-3.86,3.141-7,7-7h12c3.859,0,7,3.14,7,7v12	C37,33.86,33.859,37,30,37z M18,13c-2.757,0-5,2.243-5,5v12c0,2.757,2.243,5,5,5h12c2.757,0,5-2.243,5-5V18c0-2.757-2.243-5-5-5H18z"></path>
+                                            </svg>
+                                            <a href="{{ social.instagram }}" target="_blank" class="stretched-link">Instagram</a>
+                                        </div>
+                                    {% endif %}
+                                    {% if social.tiktok %}
+                                        <div class="social-link card">
+                                            <svg height="32"
+                                                 viewBox="-58.35000000000002 -186.70564362582354 2548.289756960746 2538.849821747569"
+                                                 width="32" xmlns="http://www.w3.org/2000/svg">
+                                                <g fill="#25f4ee">
+                                                    <path d="M779.38 890.55v-88.12a650.81 650.81 0 0 0-92.45-7.94c-299.8-.64-565.22 193.64-655.25 479.6S47.92 1871.34 294 2042.56a684.7 684.7 0 0 1 485.36-1152z"/>
+                                                    <path d="M796 1888.72c167.62-.23 305.4-132.28 312.74-299.74V94.62h273A512.17 512.17 0 0 1 1373.8 0h-373.41v1492.92c-6.21 168.31-144.32 301.63-312.74 301.9a317.76 317.76 0 0 1-144.45-36.11A313.48 313.48 0 0 0 796 1888.72zM1891.66 601.64v-83.06a509.85 509.85 0 0 1-282.4-85.22 517.79 517.79 0 0 0 282.4 168.28z"/>
+                                                </g>
+                                                <path d="M1609.26 433.36a514.19 514.19 0 0 1-127.84-339.47h-99.68a517.16 517.16 0 0 0 227.52 339.47zM686.93 1167.9a313.46 313.46 0 0 0-144.46 590.81A312.75 312.75 0 0 1 796 1262.51a329.69 329.69 0 0 1 92.44 14.49V897.05a654.77 654.77 0 0 0-92.44-7.22h-16.62v288.9a321.13 321.13 0 0 0-92.45-10.83z"
+                                                      fill="#fe2c55"/>
+                                                <path d="M1891.66 601.64v288.91a886.23 886.23 0 0 1-517.86-168.29v759.1c-.8 378.78-308.09 685.43-686.87 685.43A679.65 679.65 0 0 1 294 2042.56 685.43 685.43 0 0 0 1481.42 1576V819.05A887.71 887.71 0 0 0 2000 985.17v-372a529.59 529.59 0 0 1-108.34-11.53z"
+                                                      fill="#fe2c55"/>
+                                                <path d="M1373.8 1481.36v-759.1a886.11 886.11 0 0 0 518.58 166.12v-288.9a517.87 517.87 0 0 1-283.12-166.12 517.16 517.16 0 0 1-227.52-339.47h-273V1589a313.46 313.46 0 0 1-567 171.17 313.46 313.46 0 0 1 144.46-590.83 321.35 321.35 0 0 1 92.45 14.45V894.88A684.71 684.71 0 0 0 293.29 2050.5a679.65 679.65 0 0 0 393.64 116.29c378.78 0 686.07-306.65 686.87-685.43z"/>
+                                            </svg>
+                                            <a href="{{ social.tiktok }}" target="_blank"
+                                               class="stretched-link">TikTok</a>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <p>Désolé, {{ influencer.firstname }} n'a pas encore renseigné ces réseaux </p>
+                            {% endif %}
                         </div>
                     </div>
+                </div>
             {% endfor %}
         </div>
     </section>
     <div class="do-the-same">
-                <div>
-                    <h2>Vous êtes influenceur ?</h2>
-                    <p>Vous souhaitez rejoindre notre communauté d'influenceurs ?</p>
-                    <a href="{{ path('contact_influencer_index') }}" class="btn btn-warning">Devenir Influenceur</a>
-                </div>
-                <div>
-                    <h2>Vous êtes une entreprise ?</h2>
-                    <p>Vous souhaitez collaborer avec nos influenceurs ?</p>
-                    <a href="{{ path('contact_company_index') }}" class="btn btn-warning">Contact Entreprise</a>
-                </div>
+        <div>
+            <h2>Vous êtes influenceur ?</h2>
+            <p>Vous souhaitez rejoindre notre communauté d'influenceurs ?</p>
+            <a href="{{ path('contact_influencer_index') }}" class="submit-subscribe">Devenir Influenceur</a>
+        </div>
+        <div>
+            <h2>Vous êtes une entreprise ?</h2>
+            <p>Vous souhaitez collaborer avec nos influenceurs ?</p>
+            <a href="{{ path('contact_company_index') }}" class="submit-subscribe">Contact Entreprise</a>
+        </div>
     </div>
 
     {% include "commons/_footer.html.twig" %}
-        {% endblock %}
+    </body>
+{% endblock %}

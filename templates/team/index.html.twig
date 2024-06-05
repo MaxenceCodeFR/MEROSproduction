@@ -3,7 +3,7 @@
 {% endblock %}
 {% block body %}
 	{% include "commons/_navbar.html.twig" %}
-	<h1 class="text-center my-4 ">La fine équipe</h1>
+	<h1 class="text-center my-4 h1-blog ">L'équipe MEROS</h1>
 	<div class="container mb-5">
 		<div class="row">
 			{% for team in teams %}
@@ -92,4 +92,6 @@
 			{% endfor %}
 		</div>
 	</div>
+	{% include "commons/_footer.html.twig" %}
+
 {% endblock %}

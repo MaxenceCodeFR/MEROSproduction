@@ -46,6 +46,8 @@ class AdminCeoController extends AbstractController
         return $this->render('ceo/index.html.twig', compact('companyNotificationsCount', 'influencerNotificationsCount'));
     }
 
+
+
     //////////////////////////////////////////////////////////////////////
     /////PARTIES "CANDIDATURES INFLUENCEURS" et "DEMANDES"////////////////
     //////////////////////////////////////////////////////////////////////
@@ -56,12 +58,7 @@ class AdminCeoController extends AbstractController
         PaginatorInterface $paginatorInterface,
         Request $request): Response
     {
-        // $data = $candidates->findCandidate(1);
-        // $candidates = $paginatorInterface->paginate(
-        //     $data,
-        //     $request->query->getInt('page', 1),
-        //     15
-        // );
+
         $candidates = $candidates->findAllCandidatesByNewest();
         return $this->render('ceo/candidates/candidate.html.twig', compact('candidates'));
     }
