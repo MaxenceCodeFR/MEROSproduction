@@ -12,10 +12,17 @@
 			</li>
 			<li class="nav-item">
 				<a class="nav-link position-relative" href="{{ path('ceo_company') }}">Gestion des contrats
+					{% if companyNotificationsCount > 0 %}
+						<span class="badge bg-danger text-white position-absolute" style="top: -10px; right: -10px;">{{ companyNotificationsCount }}</span>
+					{% endif %}
 				</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{ path('ceo_candidate') }}">Candidature</a>
+			<li class="nav-item position-relative">
+				<a class="nav-link" href="{{ path('ceo_candidate') }}">Candidature
+					{% if influencerNotificationsCount > 0 %}
+						<span class="badge bg-danger text-white position-absolute" style="top: 10px; right: 20px;">{{ influencerNotificationsCount }}</span>
+					{% endif %}
+				</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="{{ path('ceo_request') }}">Demande d'informations</a>

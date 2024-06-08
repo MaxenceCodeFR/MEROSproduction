@@ -3,8 +3,7 @@
 	{{ influencer.firstname }}
 {% endblock %}
 {% block body %}
-	{% include "commons/_ceo_navbar.html.twig" %}
-
+	{{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
 	<div class="container mt-5">
 		<div class="row justify-content-center">
 			<div class="col-md-6">

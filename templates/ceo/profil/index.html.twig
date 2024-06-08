@@ -4,8 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	{% include "commons/_ceo_navbar.html.twig" %}
-
+	{{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
 	<div class="container mt-4">
 		<h1 class="text-center mb-4">Votre profil</h1>
 

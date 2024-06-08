@@ -3,8 +3,7 @@
 {% endblock %}
 
 {% block body %}
-    {% include "commons/_ceo_navbar.html.twig" %}
-    <div class="container mt-4">
+    {{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}    <div class="container mt-4">
         {% if company is not empty %}
             <div class="row">
                 {% for comp in company %}

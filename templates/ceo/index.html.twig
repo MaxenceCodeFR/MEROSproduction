@@ -3,7 +3,7 @@
 	{{ app.user.firstname }}
 {% endblock %}
 {% block body %}
-	{% include "commons/_ceo_navbar.html.twig" %}
+	{{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
 	<div class="container">
 		<div class="text-center my-4">
 			<h1>Bienvenue,

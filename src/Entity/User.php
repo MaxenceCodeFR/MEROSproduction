@@ -53,16 +53,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Specialty::class, inversedBy: 'users')]
     private Collection $specialty;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ContactInfluencer::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ContactInfluencer::class,  cascade: ['remove'])]
     private Collection $contactInfluencers;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $text = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Calendar::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Calendar::class, cascade: ['remove'])]
     private Collection $calendar;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ContactCompany::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ContactCompany::class, cascade: ['remove'])]
     private Collection $contactCompanies;
 
     #[ORM\Column(nullable: true)]

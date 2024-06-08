@@ -32,6 +32,9 @@
 
 .highlight-meros-span {
     color: #65a0f6;
+    &:hover {
+        color: #9b9b9b;
+    }
 }
 
 @media screen and (max-width: 768px) {

@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Algolia\SearchBundle\SearchService;
+
 
 #[Route('/blog', name: 'blog_')]
 class BlogController extends AbstractController
@@ -25,9 +27,20 @@ class BlogController extends AbstractController
     {
         $breadcrumbService->add('Accueil', $this->generateUrl('landing'));
         $breadcrumbService->add('Blog', $this->generateUrl('blog_index'));
-        $data = $blogRepository->findAllArticlesByDates();
-        $blogs = $paginatorInterface->paginate(
-            $data,
+
+        $queryBuilder = $blogRepository->createQueryBuilder('b');
+
+        // Récupération des paramètres de tri
+        $sortField = $request->query->get('sort', 'b.created_at'); // champ par défaut
+        $sortDirection = $request->query->get('direction', 'desc'); // direction par défaut
+
+        // Ajout du tri à la requête
+        if ($sortField && $sortDirection) {
+            $queryBuilder->orderBy($sortField, $sortDirection);
+        }
+
+        $pagination = $paginatorInterface->paginate(
+            $queryBuilder->getQuery(),
             $request->query->getInt('page', 1),
             8
         );
@@ -37,23 +50,24 @@ class BlogController extends AbstractController
 
         if ($keyword) {
             $results = $blogRepository->searchByTitle($keyword);
-            // Check if the results array is empty and add a flash message if so
             if (empty($results)) {
                 $this->addFlash('warning', 'Aucun article trouvé pour le mot-clé recherché.');
             }
         } else {
-            // Optionally handle the case where no keyword is entered
             $this->addFlash('info', 'Entrez un mot-clé pour rechercher des articles.');
         }
-        
-        $paramaters = [
-            'blogs' => $blogs,
+
+        $parameters = [
+            'blogs' => $pagination,
             'results' => $results,
             'keyword' => $keyword,
+            'sortField' => $sortField,
+            'sortDirection' => $sortDirection,
             'breadcrumbs' => $breadcrumbService->getBreadcrumbs()
         ];
 
-        return $this->render('blog/index.html.twig', $paramaters);
+        return $this->render('blog/index.html.twig',
+            $parameters );
     }
 
 

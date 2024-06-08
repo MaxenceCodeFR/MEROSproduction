@@ -42,10 +42,4 @@ class ManageNotification
         }
 
 }
-
-    public function getActiveNotifications(): array
-    {
-        $notificationRepo = $this->em->getRepository(Notification::class);
-        return $notificationRepo->findBy(['isNew' => true, 'isSeen' => false]);
-    }
 }

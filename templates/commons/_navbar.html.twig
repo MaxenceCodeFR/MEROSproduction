@@ -1,6 +1,6 @@
 <nav class="navbar nav-home navbar-expand-lg z-3 bg-white ">
     <div class="container-fluid">
-        <a class="navbar-brand fs-1" href="{{ path('landing') }}">MER<img src="{{ asset('assets/images/logo.png') }}" class="thumbnail" style="max-width: 40px; margin-bottom: 5px;">S</a>
+        <a class="navbar-brand fs-1" href="{{ path('landing') }}">MER<img src="{{ asset('assets/images/logo.png') }}" class="thumbnail" style="max-width: 30px; margin-bottom: 0px;">S</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -8,36 +8,27 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ path('landing') }}">Accueil</a>
+                    <a class="nav-link active fs-4" aria-current="page" href="{{ path('landing') }}">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('influencer_all') }}">Nos Influenceurs</a>
+                    <a class="nav-link fs-4" href="{{ path('influencer_all') }}">Nos Influenceurs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('contact_influencer_index') }}">Devenir Influenceur</a>
+                    <a class="nav-link fs-4" href="{{ path('contact_influencer_index') }}"><span class="highlight-meros-span">Devenir Influenceur</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('contact_company_index') }}">Contact Entrprise</a>
+                    <a class="nav-link fs-4" href="{{ path('contact_company_index') }}">Contact Entreprise</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{{ path('blog_index') }}" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item">
+                    <a class="nav-link fs-4" href="{{ path('blog_index') }}">
                         Blog
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" href="{{ path('blog_index') }}">Dernier Articles</a>
-                        </li>
-                        <li class=" btn btn-warning">
-                            <a class="dropdown-item" href="{{ path('blog_archived') }}">Articles Archivés</a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('team') }}">L'équipe</a>
+                    <a class="nav-link fs-4" href="{{ path('team') }}">L'équipe</a>
                 </li>
                     {% if app.user == true %}
-                <li class="nav-link">
+                <li class="nav-link fs-4">
                     Bienvenue
                     <b>{{ app.user.firstname }}</b>
                 </li>

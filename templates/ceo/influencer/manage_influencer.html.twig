@@ -2,8 +2,7 @@
 {% block title %}Gérer les influenceurs
 {% endblock %}
 {% block body %}
-	{% include "commons/_ceo_navbar.html.twig" %}
-	<div class="container py-4">
+{{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}	<div class="container py-4">
 		<div class="row justify-content-center">
 			<div class="col-6">
 				<form id="searchForm" class="d-flex form-floating">

@@ -55,20 +55,20 @@ class AdminCeoController extends AbstractController
     #[Route('/candidate', name: 'candidate')]
     public function candidate(
         ContactInfluencerRepository $candidates,
-        PaginatorInterface $paginatorInterface,
-        Request $request): Response
+        ManageNotification $manageNotification): Response
     {
 
+        $manageNotification->updateNotificationStatus($candidates);
         $candidates = $candidates->findAllCandidatesByNewest();
-        return $this->render('ceo/candidates/candidate.html.twig', compact('candidates'));
+        return $this->render('ceo/candidates/candidate.html.twig', compact('candidates', ));
     }
     //Affichage d'un candidat en détail
     #[Route('/candidate/{id}', name: 'candidate_show')]
     public function candidateShow(
-        ContactInfluencer $candidate, 
-        ManageNotification $manageNotification): Response
+        ContactInfluencer $candidate,
+        ManageNotification $manageNotification
+        ): Response
     {
-
         $manageNotification->updateNotificationStatus($candidate);
         return $this->render('ceo/candidates/show.html.twig', compact('candidate'));
     }
@@ -77,8 +77,11 @@ class AdminCeoController extends AbstractController
     function setInfluencer(
         Request $request, 
         EntityManagerInterface $em, 
-        ContactInfluencerRepository $candidate): Response
+        ContactInfluencerRepository $candidate,
+
+    ): Response
     {
+
         // Récupération du candidat via son ID
         $candidate = $candidate->find($request->get('id'));
 
@@ -93,7 +96,7 @@ class AdminCeoController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('ceo_candidate');
+        return $this->redirectToRoute('ceo_candidate' , compact('candidate'));
     }
 
     //BOUTON POUR PASSER UN CANDIDAT EN CANDIDAT REFUSE
@@ -112,21 +115,18 @@ class AdminCeoController extends AbstractController
             $em->remove($candidate);
             $em->flush();
         }
-        // Si le motif est "Demande d'informations"(id 2 des différents motifs), on redirige vers la page des demandes d'informations
-        if ($contact->getMotif(2)) {
-            return $this->redirectToRoute('ceo_request');
-        } else {
             return $this->redirectToRoute('ceo_candidate');
-        }
+
     }
 
     //DEMANDES D'INFORMATIONS
     #[Route('/request', name: 'request')]
     public function request(
-        ContactInfluencerRepository $contacts, 
-        PaginatorInterface $paginatorInterface, 
+        ContactInfluencerRepository $contacts,
+        PaginatorInterface $paginatorInterface,
         Request $request): Response
     {
+
         $data = $contacts->findCandidate(2);
         $contacts = $paginatorInterface->paginate(
             $data,
@@ -223,7 +223,7 @@ class AdminCeoController extends AbstractController
     //////////////////////////////////////////////////////////////////////
     //Affichage du profil du CEO
     #[Route('/profil', name: 'profil')]
-    public function profile(): Response
+    public function profile(NotificationRepository $notificationRepository): Response
     {
         $user = $this->getUser();
         $socials = $user->getSocial();
@@ -234,7 +234,7 @@ class AdminCeoController extends AbstractController
 
     //Modification du profil du CEO
     #[Route('/profil/edit', name: 'profil_edit')]
-    public function profilEdit(Request $request, EntityManagerInterface $em): Response
+    public function profilEdit(Request $request, EntityManagerInterface $em,): Response
     {
         //On récupère l'utilisateur connecté
         $user = $this->getUser();
@@ -331,7 +331,7 @@ public function influencerEdit(Request $request, EntityManagerInterface $em, Use
 
             // Créer une nouvelle instance de Media si nécessaire
             $media = $influencer->getImages() ?? new Media();
-            $media->setImages($fileName); // Définir l'image
+            $media->setImages($file); // Définir l'image
             $em->persist($media);
 
             // Associer le media à l'influenceur si nécessaire
@@ -349,6 +349,19 @@ public function influencerEdit(Request $request, EntityManagerInterface $em, Use
 
     return $this->render('ceo/influencer/edit.html.twig', ['form'=> $form->createView()]);
 }
+    public function navbar(NotificationRepository $notificationRepository): Response
+    {
+        $companyNotificationsCount = 0;
+        $influencerNotificationsCount = 0;
+
+        $notifications = $notificationRepository->findBy(['isNew' => true, 'isSeen' => false]);
+
+        foreach ($notifications as $notification) {
+            $companyNotificationsCount += count($notification->getContactCompanies());
+            $influencerNotificationsCount += count($notification->getContactInfluencers());
+        }
+        return $this->render('commons/_ceo_navbar.html.twig', compact('companyNotificationsCount', 'influencerNotificationsCount'));
+    }
 
 }
 //////////////////////////////////////////////////////////////////////

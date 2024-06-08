@@ -2,8 +2,7 @@
 {% block title %}Edition du profil
 {% endblock %}
 {% block body %}
-	{% include "commons/_ceo_navbar.html.twig" %}
-
+	{{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
 	<div class="container">
 		<h1 class="mb-4">Modification de profil</h1>
 		{{ form_start(form, {'attr': {'class': 'row g-3'}}) }}

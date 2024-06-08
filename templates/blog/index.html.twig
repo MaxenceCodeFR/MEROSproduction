@@ -1,23 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Derniers Articles
-{% endblock %}
+{% block title %}Derniers Articles{% endblock %}
 
 {% block body %}
     <body class="body-blog">
     {% include "commons/_navbar.html.twig" %}
     {% include "commons/_breadcrumbs.html.twig" %}
     <div class="container">
-        <h1 class="h1-blog">Tout les articles</h1>
-
-        {# Barre de recherche simple avec Bootstrap
-				    cf. Controller/BlogController.php -> Route: 'blog_index' #}
+        <h1 class="h1-blog">Tous les articles</h1>
         <div class="container m-3 bg-white">
             <form action="{{ path('blog_index') }}" method="GET" class="row justify-content-end">
                 <div class="col-auto">
                     <div class="input-group">
-                        <input type="text" name="keyword" class="form-control select2-searchbar"
-                               placeholder="Rechercher...">
+                        <input type="text" name="keyword" class="form-control" placeholder="Rechercher...">
                         <div class="input-group-append">
                             <button type="submit" class="submit-subscribe w-100">Rechercher</button>
                         </div>
@@ -26,44 +21,45 @@
             </form>
         </div>
 
-        {# Affichage des resultats en fonction de la recherche précédente
-				  cf. Controller/BlogController.php -> Route: 'blog_index' #}
         {% if results %}
-        <a class="btn btn-primary m-3" href="{{ path('blog_index') }}">Retour aux articles</a>
-        <h2 class="h1-blog">Résultats de la recherche :</h2>
-
-        <div class="row row-cols-1 row-cols-md-4 g-4">
-            {% for article in results %}
-
-                <div class="col">
-                    <div class="card blog-card">
-                        <img src="{{ asset('assets/uploads/' ~ article.image) }}" class="card-img-top"
-                             alt="{{ article.title }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ article.title }}</h5>
-                            <p class="card-text">{{ article.createdAt|date('Y-m') }}</p>
-                            <a href="{{ path('blog_show', {id: article.id}) }}" class="button-blog stretched-link">Voir
-                                l'article</a>
+            <a class="btn btn-primary m-3" href="{{ path('blog_index') }}">Retour aux articles</a>
+            <h2 class="h1-blog">Résultats de la recherche :</h2>
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                {% for article in results %}
+                    <div class="col">
+                        <div class="card blog-card">
+                            <img src="{{ asset('assets/uploads/' ~ article.image) }}" class="card-img-top" alt="{{ article.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ article.title }}</h5>
+                                <p class="card-text">{{ article.createdAt|date('Y-m') }}</p>
+                                <a href="{{ path('blog_show', {id: article.id}) }}" class="button-blog stretched-link">Voir l'article</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-            {# Si je n'affiche pas de résultat j'affiche le reste des cards #}
-            {% else %}
+                {% endfor %}
+            </div>
+        {% else %}
             {% if blogs is empty %}
                 <p>Pas d'article disponible pour le moment.</p>
             {% else %}
+                <div class="sort-options mb-3">
+                    <a class="btn btn-link" href="{{ path('blog_index', {sort: 'b.title', direction: sortDirection == 'asc' ? 'desc' : 'asc'}) }}">
+                        Titre {{ sortField == 'b.title' ? (sortDirection == 'asc' ? '⬆️' : '⬇️') : '' }}
+                    </a>
+                    <a class="btn btn-link" href="{{ path('blog_index', {sort: 'b.created_at', direction: sortDirection == 'asc' ? 'desc' : 'asc'}) }}">
+                        Date de création {{ sortField == 'b.created_at' ? (sortDirection == 'asc' ? '⬆️' : '⬇️') : '' }}
+                    </a>
+                </div>
+
                 <div class="row row-cols-1 row-cols-md-4 g-4">
                     {% for blog in blogs %}
                         <div class="col">
-                            <div class="card blog-card h-100  ">
-                                <img src="{{ asset('assets/uploads/' ~ blog.image) }}" class="card-img-top"
-                                     alt="{{ blog.title }}">
+                            <div class="card blog-card h-100">
+                                <img src="{{ asset('assets/uploads/' ~ blog.image) }}" class="card-img-top" alt="{{ blog.title }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ blog.title }}</h5>
-                                    <p class="card-text">{{ blog.createdAt|date('Y-m') }}</p>
-                                    <a href="{{ path('blog_show', {id: blog.id}) }}" class="button-blog stretched-link">Voir
-                                        l'article</a>
+                                    <p class="card-text">{{ blog.createdAt|date('Y-m-d') }}</p>
+                                    <a href="{{ path('blog_show', {id: blog.id}) }}" class="button-blog stretched-link">Voir l'article</a>
                                 </div>
                             </div>
                         </div>
@@ -73,11 +69,8 @@
                     {{ knp_pagination_render(blogs) }}
                 </div>
             {% endif %}
-        </div>
+        {% endif %}
     </div>
-    {% endif %}
     {% include "commons/_footer.html.twig" %}
     </body>
 {% endblock %}
-
-

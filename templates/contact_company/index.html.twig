@@ -82,15 +82,19 @@
             <div class="mb-1">
                 <small>Vous n'êtes pas obligé de choisir une date</small>
             </div>
-            <div class="mb-3">
-                {{ form_row(form.condition) }}
+            <div class="mb-3 ">
+                <div class="form-check">
+                    {{ form_widget(form.condition, {'attr': {'class': 'form-check-input', 'style': 'zoom: 1.5;'}}) }}
+                    {{ form_label(form.condition, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                </div>
                 <p>
                     <small>
-                        <a href="{{ path('rgpd') }}">Veuillez retrouver ici la close concernant les conservations des
-                            données</a>
+                        <a href="{{ path('rgpd') }}">Veuillez retrouver ici la close concernant les conservations des données</a>
                     </small>
                 </p>
             </div>
+
+
 
             <button type="submit" class="submit-subscribe w-100 mb-3">Envoyer</button>
 
