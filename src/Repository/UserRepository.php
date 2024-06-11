@@ -65,6 +65,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult();
     }
 
+    public function findRoleInfluencerIsFamous()
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.roles LIKE :roles')
+            ->setParameter('roles', '%ROLE_INFLUENCER%')
+            ->andWhere('i.isFamous = :isFamous')
+            ->setParameter('isFamous', true)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findAboutInfluencer()
     {
         return $this->createQueryBuilder('i')

@@ -30,7 +30,7 @@ class AdminCeoController extends AbstractController
     /////AFFICHAGE DE L'ACCUEIL DE CEO////////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     #[Route('/', name: 'index')]
-    public function index(NotificationRepository $notificationRepository): Response
+    public function index(NotificationRepository $notificationRepository, ContactCompanyRepository $companyRepository,ContactInfluencerRepository $candidates,UserRepository $userRepository): Response
     {
         
         $companyNotificationsCount = 0;
@@ -42,8 +42,12 @@ class AdminCeoController extends AbstractController
             $companyNotificationsCount += count($notification->getContactCompanies());
             $influencerNotificationsCount += count($notification->getContactInfluencers());
         }
-        
-        return $this->render('ceo/index.html.twig', compact('companyNotificationsCount', 'influencerNotificationsCount'));
+
+        $company = $companyRepository->findEmailCompanyMotifStartEndLimited();
+        $candidates = $candidates->findAllCandidatesByNewestLimit();
+        $influencers = $userRepository->findRoleInfluencerIsFamous();
+
+        return $this->render('ceo/index.html.twig', compact('companyNotificationsCount', 'influencerNotificationsCount', 'company','candidates','influencers'));
     }
 
 
@@ -55,7 +59,8 @@ class AdminCeoController extends AbstractController
     #[Route('/candidate', name: 'candidate')]
     public function candidate(
         ContactInfluencerRepository $candidates,
-        ManageNotification $manageNotification): Response
+        ManageNotification $manageNotification,
+    ): Response
     {
 
         $manageNotification->updateNotificationStatus($candidates);
