@@ -78,3 +78,49 @@
         font-style: oblique;
     }
 }
+
+@media screen and (max-width: 768px) {
+
+    .section-register{
+        h1{
+            font-size: 2rem;
+        }
+        .row {
+            width: 100%;
+            .inside-row{
+                padding: 0 2em 0 2em;
+            }
+        }
+    }
+    .img-office-people{
+        display: none;
+        img{
+            display: none;
+        }
+    }
+    .form-and-image{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .text-office-people{
+        font-size: 1rem;
+        font-weight: 400;
+        padding: 0;
+        letter-spacing: 2px;
+        max-width: 35ch;
+    }
+    .quote-edgar{
+        display: flex;
+        flex-direction: column;
+        margin: 3em 0 0 2em;
+        small{
+            font-size: 1rem;
+            font-weight: 400;
+            color: #d2d2d2;
+            font-style: oblique;
+        }
+    }
+
+}

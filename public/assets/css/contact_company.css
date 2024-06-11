@@ -28,3 +28,25 @@
     width: 70%;
     margin: auto;
 }
+
+@media screen and (max-width: 768px) {
+    .company-form{
+        h1{
+            font-size: 2rem;
+        }
+    }
+
+    .contact-email-firstname-lastname-company{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .company-date{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .motif-text{
+        width: 100%;
+    }
+}

@@ -3,7 +3,8 @@
 {% block title %}Devenir Partenaire - Collaborer avec nos influenceurs et augmenter votre visibilité | MEROS
 {% endblock %}
 {% block meta %}
-    <meta name="description" content="Boostez votre marque en devenant partenaire de MEROS. Accédez à un réseau exclusif d'influenceurs créatifs et impactants, et découvrez des opportunités uniques pour accroître votre visibilité et engager votre audience de manière efficace">
+    <meta name="description"
+          content="Boostez votre marque en devenant partenaire de MEROS. Accédez à un réseau exclusif d'influenceurs créatifs et impactants, et découvrez des opportunités uniques pour accroître votre visibilité et engager votre audience de manière efficace">
 {% endblock %}
 
 {% block body %}
@@ -49,13 +50,13 @@
                         {{ form_row(form.firstname, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="mb-3">
-                        {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_row(form.lastname, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
 
                 <div class="contact-lastname-company p-3">
                     <div class="mb-3">
-                        {{ form_row(form.lastname, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
                     </div>
 
                     <div class="mb-3">
@@ -74,13 +75,13 @@
             </div>
 
             <div class="company-date">
-            <div class="mb-3">
-                {{ form_row(form.start, {'attr': {'class': 'form-control'}}) }}
-            </div>
+                <div class="mb-3">
+                    {{ form_row(form.start, {'attr': {'class': 'form-control'}}) }}
+                </div>
 
-            <div>
-                {{ form_row(form.end, {'attr': {'class': 'form-control'}}) }}
-            </div>
+                <div>
+                    {{ form_row(form.end, {'attr': {'class': 'form-control'}}) }}
+                </div>
             </div>
             <div class="mb-1">
                 <small>Vous n'êtes pas obligé de choisir une date</small>
@@ -92,11 +93,11 @@
                 </div>
                 <p>
                     <small>
-                        <a href="{{ path('rgpd') }}">Veuillez retrouver ici la close concernant les conservations des données</a>
+                        <a href="{{ path('rgpd') }}">Veuillez retrouver ici la close concernant les conservations des
+                            données</a>
                     </small>
                 </p>
             </div>
-
 
 
             <button type="submit" class="submit-subscribe w-100 mb-3">Envoyer</button>
@@ -105,10 +106,12 @@
         </div>
         <div class="img-office-people">
             <div class="quote-edgar">
-                <p class="text-office-people">"Faîtes aussi prospérer votre chiffre d'affaires en choisissant nos influenceurs"</p>
+                <p class="text-office-people">"Faîtes aussi prospérer votre chiffre d'affaires en choisissant nos
+                    influenceurs"</p>
                 <small>- Steeven Moreau, PDG Adjoint</small>
             </div>
             <img src="{{ asset('assets/images/poeple-vlogging.png') }}">
         </div>
     </div>
+    {% include "commons/_footer.html.twig" %}é
 {% endblock %}
