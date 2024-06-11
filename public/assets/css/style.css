@@ -1,3 +1,14 @@
 /* Ici on importe le fichier style.css */
 @import url("calendar.css");
 @import url("landing.css");
+@import url("footer.css");
+@import url("variables.css");
+@import url("navbar.css");
+@import url("user_landing.css");
+@import url("breadcrumbs.css");
+@import url("ceo_navbar.css");
+@import url("register.css");
+@import url("contact_company.css");
+@import url("blog.css");
+@import url("dashboard_ceo.css");
+@import url("profil_ceo.css");

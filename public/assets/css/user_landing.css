@@ -1,0 +1,83 @@
+.section-all-influenceur{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+    padding: 2em;
+
+    .img-firstname-influencer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .card-influencer {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 30px;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        width: 300px;
+    }
+
+    .specialty-influencer {
+        .category-specialty {
+            font-weight: bold;
+        }
+    }
+
+    .category-social {
+        font-weight: bold;
+    }
+
+}
+
+.section-two-buttons{
+    background-color: rgb(230, 230, 230);
+}
+
+@media (max-width: 992px) {
+
+    .section-all-influenceur {
+        display: flex;
+        flex-direction: column; /
+    }
+}
+
+@media (max-width: 768px) {
+    .section-all-influenceur {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        card{
+            width: 100%;
+        }
+    }
+
+    .img-firstname-influencer {
+        flex-direction: column; /* Les images et textes s'empilent verticalement */
+    }
+
+    .card-influencer, .social-link {
+        text-align: center; /* Centre le texte pour une meilleure lisibilité */
+        padding: 10px; /* Augmente le padding pour plus d'espace autour du texte */
+    }
+}
+
+.do-the-same{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 5em;
+}
+
+@media (max-width: 768px) {
+    .do-the-same {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 3em;
+    }
+}

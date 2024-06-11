@@ -29,6 +29,15 @@ class ContactInfluencerRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllCandidatesByNewestLimit()
+    {
+        return $this->createQueryBuilder('notif')
+            ->orderBy('notif.id', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findCandidate($motif)
     {
         return $this->createQueryBuilder('ci')

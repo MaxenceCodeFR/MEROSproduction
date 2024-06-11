@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\ContactCompany;
 use App\Entity\ContactInfluencer;
 
+use App\Entity\Notification;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ManageNotification
@@ -39,6 +40,6 @@ class ManageNotification
 
             $this->em->flush();
         }
-}
 
+}
 }

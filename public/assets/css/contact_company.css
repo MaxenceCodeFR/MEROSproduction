@@ -1,0 +1,52 @@
+.company-form{
+    max-height: 83vh;
+    overflow-y: auto;
+    h1{
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #65a0f6;
+
+    }
+}
+
+.contact-email-firstname-lastname-company{
+    display: flex;
+    justify-content: center;
+    gap: 3em;
+}
+
+.company-date{
+    display: flex;
+    justify-content: center;
+    gap: 4.5em;
+}
+
+.motif-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 70%;
+    margin: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .company-form{
+        h1{
+            font-size: 2rem;
+        }
+    }
+
+    .contact-email-firstname-lastname-company{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .company-date{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .motif-text{
+        width: 100%;
+    }
+}

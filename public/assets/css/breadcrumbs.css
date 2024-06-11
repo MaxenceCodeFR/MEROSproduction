@@ -1,0 +1,66 @@
+/* Styles généraux pour le conteneur de navigation */
+nav[aria-label="breadcrumb"] {
+    background: #f8f9fa;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+}
+
+/* Styles pour la liste des éléments de la breadcrumb */
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Styles pour chaque élément de la breadcrumb */
+.breadcrumb-item {
+    margin-right: 10px;
+    position: relative;
+}
+
+/* Styles pour le lien de chaque élément */
+.breadcrumb-item a {
+    text-decoration: none;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Styles pour les éléments sauf le dernier */
+.breadcrumb-item:not(:last-child)::after {
+    color: #6c757d;
+}
+
+/* Styles pour le dernier élément (élément actif) */
+.breadcrumb-item:last-child a {
+    color: #6c757d;
+
+}
+
+/* Styles pour les effets de hover */
+.breadcrumb-item a:hover {
+    background-color: #65a0f6;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Styles spécifiques pour les appareils mobiles */
+@media (max-width: 768px) {
+    .breadcrumb-item {
+        margin-right: 5px;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        margin-left: 5px;
+    }
+}

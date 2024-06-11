@@ -23,9 +23,34 @@ class PasswordRequirementsValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
 
-        // Regex to check the password strength
-        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $value, $matches)) {
-            $this->context->buildViolation($constraint->message)
+        // Check password length
+        if (strlen($value) < 8) {
+            $this->context->buildViolation($constraint->messageLength)
+                ->addViolation();
+            return;
+        }
+
+        // Check for uppercase letter
+        if (!preg_match('/[A-Z]/', $value)) {
+            $this->context->buildViolation($constraint->messageUppercase)
+                ->addViolation();
+        }
+
+        // Check for lowercase letter
+        if (!preg_match('/[a-z]/', $value)) {
+            $this->context->buildViolation($constraint->messageLowercase)
+                ->addViolation();
+        }
+
+        // Check for digit
+        if (!preg_match('/\d/', $value)) {
+            $this->context->buildViolation($constraint->messageDigit)
+                ->addViolation();
+        }
+
+        // Check for special character
+        if (!preg_match('/[@$!%*?&]/', $value)) {
+            $this->context->buildViolation($constraint->messageSpecialChar)
                 ->addViolation();
         }
     }

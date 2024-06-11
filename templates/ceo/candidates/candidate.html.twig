@@ -2,8 +2,7 @@
 {% block title %}Bonjour
 {% endblock %}
 {% block body %}
-	{% include "commons/_ceo_navbar.html.twig" %}
-
+	{{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
 	<div class="container mt-4">
 		{% set noCandidatureDisplayed = true %}
 

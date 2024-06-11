@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Blog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,6 +21,7 @@ class BlogRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Blog::class);
     }
+
     public function findAllArticlesByDates()
     {
         return $this->createQueryBuilder('a')
@@ -29,6 +31,23 @@ class BlogRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllWithTitleAndCreatedAt(): Query
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b.id', 'b.title', 'b.created_at', 'b.image')
+            ->getQuery();
+    }
+
+    public function findAllTest()
+    {
+        return $this->createQueryBuilder('i')
+            ->where('i.isArchived = :archived')
+            ->setParameter('archived', false)
+            ->orderBy('i.created_at', 'DESC')
+            ->getQuery();
+    }
+
 
     public function searchByTitle($keyword)
     {

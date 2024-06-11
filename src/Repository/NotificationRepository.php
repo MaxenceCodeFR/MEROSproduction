@@ -21,6 +21,20 @@ class NotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, Notification::class);
     }
 
+
+    public function countUnseenCompanyNotifications(): int
+    {
+        return $this->createQueryBuilder('n')
+            ->select('count(n.id)')
+            ->leftJoin('n.contactCompanies', 'cc')
+            ->where('n.isNew = :isNew')
+            ->andWhere('n.isSeen = :isSeen')
+            ->andWhere('cc IS NOT NULL')  // Assure que la notification est liée à une compagnie
+            ->setParameter('isNew', true)
+            ->setParameter('isSeen', false)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 //    /**
 //     * @return Notification[] Returns an array of Notification objects
 //     */

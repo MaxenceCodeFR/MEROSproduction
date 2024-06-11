@@ -1,0 +1,10 @@
+.footer{
+    background-color: rgb(225, 225, 225);
+    .footer-link{
+        text-decoration: none;
+        color: #000;
+    }
+    .footer-link:hover{
+        text-decoration: underline;
+    }
+}

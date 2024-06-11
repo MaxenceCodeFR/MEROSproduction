@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+p{
+    font-family: 'Nunito Sans', sans-serif;
+}
+.card-title{
+    color: #65a0f6!important;
+}
+h1, h2, h3, h4, h5, h6{
+    font-family: "Bebas Neue", cursive;
+    letter-spacing: 1px;
+}
+
+nav{
+    div{
+        a{
+            font-family: "Bebas Neue", cursive;
+        }
+    }
+}
+

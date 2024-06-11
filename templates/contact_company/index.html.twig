@@ -1,87 +1,117 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Demande de partenariat
+{% block title %}Devenir Partenaire - Collaborer avec nos influenceurs et augmenter votre visibilité | MEROS
+{% endblock %}
+{% block meta %}
+    <meta name="description"
+          content="Boostez votre marque en devenant partenaire de MEROS. Accédez à un réseau exclusif d'influenceurs créatifs et impactants, et découvrez des opportunités uniques pour accroître votre visibilité et engager votre audience de manière efficace">
 {% endblock %}
 
 {% block body %}
 
+    {% include "commons/_navbar.html.twig" %}
+    {% include "commons/_breadcrumbs.html.twig" %}
+    <div class="form-and-image">
+        <div class="container company-form">
+            <div>
+                <h1>Contact pour entreprise</h1>
+                <small>Plutôt partenariat ou placement de produit ?</small>
+            </div>
+            <div class="container my-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="mb-4">Vous souhaitez devenir partenaire, proposer vos produits ou simplement une
+                            demande
+                            d'information ? Vous êtes au bon endroit. Remplissez le formulaire ci-dessous et nous vous
+                            recontacterons dans les plus brefs délais.</p>
+                        <p class="mb-2">
+                            <strong>Voici comment nous procédons :</strong>
+                        </p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2">Une fois le formulaire rempli, nous vous contacterons pour comprendre votre
+                                besoin.
+                            </li>
+                            <li class="mb-2">Si nous répondons favorablement nous pouvons vous proposer une rencontre
+                                afin
+                                d'établir un lien sincère.
+                            </li>
+                            <li>Même si malheureusement notre réponse est négative, nous vous donnerons les raisons et
+                                essayerons de vous orienter au mieux.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-	{% form_theme form with [
-    'bootstrap_5_layout.html.twig'
-] %}
+            {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+            <div class="contact-email-firstname-lastname-company">
+                <div class="contact-email-firstname p-3">
+                    <div class="mb-3">
+                        {{ form_row(form.firstname, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(form.lastname, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
 
-	{% include "commons/_navbar.html.twig" %}
+                <div class="contact-lastname-company p-3">
+                    <div class="mb-3">
+                        {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(form.company, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="motif-text">
+                <div class="mb-3">
+                    {{ form_row(form.motif, {'attr': {'class': 'form-select'}}) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_row(form.text, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div class="company-date">
+                <div class="mb-3">
+                    {{ form_row(form.start, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div>
+                    {{ form_row(form.end, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="mb-1">
+                <small>Vous n'êtes pas obligé de choisir une date</small>
+            </div>
+            <div class="mb-3 ">
+                <div class="form-check">
+                    {{ form_widget(form.condition, {'attr': {'class': 'form-check-input', 'style': 'zoom: 1.5;'}}) }}
+                    {{ form_label(form.condition, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                </div>
+                <p>
+                    <small>
+                        <a href="{{ path('rgpd') }}">Veuillez retrouver ici la close concernant les conservations des
+                            données</a>
+                    </small>
+                </p>
+            </div>
 
 
-	<div class="container my-5">
-		<div class="row">
-			<div class="col-md-12">
-				<p class="mb-4">Vous souhaitez devenir partenaire, proposer vos produits ou simplement une demande d'information ? Vous êtes au bon endroit. Remplissez le formulaire ci-dessous et nous vous recontacterons dans les plus brefs délais.</p>
-				<p class="mb-2">
-					<strong>Voici comment nous procédons :</strong>
-				</p>
-				<ul class="list-unstyled mb-4">
-					<li class="mb-2">Une fois le formulaire rempli, nous vous contacterons pour comprendre votre besoin.</li>
-					<li class="mb-2">Si nous répondons favorablement nous pouvons vous proposer une rencontre afin d'établir un lien sincère.</li>
-					<li>Même si malheureusement notre réponse est négative, nous vous donnerons les raisons et essayerons de vous orienter au mieux.</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="container">
-		<h1>Contact Entrprise</h1>
+            <button type="submit" class="submit-subscribe w-100 mb-3">Envoyer</button>
 
-		{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
-
-		<div class="mb-3">
-			{{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
-		</div>
-
-		<div class="mb-3">
-			{{ form_row(form.firstname, {'attr': {'class': 'form-control'}}) }}
-		</div>
-
-		<div class="mb-3">
-			{{ form_row(form.lastname, {'attr': {'class': 'form-control'}}) }}
-		</div>
-
-		<div class="mb-3">
-			{{ form_row(form.company, {'attr': {'class': 'form-control'}}) }}
-		</div>
-
-		<div class="mb-3">
-			{{ form_row(form.motif, {'attr': {'class': 'form-select'}}) }}
-		</div>
-
-		<div class="mb-1">
-			<p>Proposez une date de contrat</p>
-			<small>Vous n'êtes pas obliger de selectionner une date. Cependant cela nous permettra une meilleure organisation</small>
-		</div>
-
-		<div class="mb-3">
-			{{ form_row(form.start, {'attr': {'class': 'form-control'}}) }}
-		</div>
-
-		<div class="mb-3">
-			{{ form_row(form.end, {'attr': {'class': 'form-control'}}) }}
-		</div>
-
-		<div class="mb-3">
-			{{ form_row(form.text, {'attr': {'class': 'form-control'}}) }}
-		</div>
-
-		<div class="mb-3">
-			{{ form_row(form.condition, {'attr': {'class': 'form-control'}}) }}
-			<p>
-				<small>
-					<a href="{{path('rgpd')}}">Veuillez retrouver ici la close concernant la conservations des données</a>
-				</small>
-			</p>
-		</div>
-
-		<button type="submit" class="btn btn-primary">Envoyer</button>
-
-		{{ form_end(form) }}
-	</div>
-
+            {{ form_end(form) }}
+        </div>
+        <div class="img-office-people">
+            <div class="quote-edgar">
+                <p class="text-office-people">"Faîtes aussi prospérer votre chiffre d'affaires en choisissant nos
+                    influenceurs"</p>
+                <small>- Steeven Moreau, PDG Adjoint</small>
+            </div>
+            <img src="{{ asset('assets/images/poeple-vlogging.png') }}">
+        </div>
+    </div>
+    {% include "commons/_footer.html.twig" %}é
 {% endblock %}

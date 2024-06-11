@@ -40,7 +40,7 @@ class ContactCompanyType extends AbstractType
                 ]
             ])
             ->add('company', TextType::class, [
-                'label' => 'Nom de l\'entreprise',
+                'label' => 'Entreprise',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Le nom de l\'entreprise est requis.'
@@ -108,7 +108,7 @@ class ContactCompanyType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Length([
-                        'max' => 1000,
+                        'max' => 10000,
                         'maxMessage' => 'Le message ne peut pas dépasser {{ limit }} caractères.'
                     ])
                 ],
@@ -126,11 +126,11 @@ class ContactCompanyType extends AbstractType
                 ]
             ])
             ->add('condition', CheckboxType::class, [
-                'label' => 'J\'accepte que mes données soient utilisées pour me recontacter',
+                'label' => 'Réglement général sur la protection des données (RGPD)',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'Vous devez accepter les conditions d\'utilisation pour continuer.'
+                        'message' => 'Vous devez accepter le réglement général sur la protection des données.'
                     ]),
                 ],
             ]);

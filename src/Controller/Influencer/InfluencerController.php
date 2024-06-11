@@ -4,6 +4,7 @@ namespace App\Controller\Influencer;
 
 use App\Entity\Media;
 use App\Entity\Social;
+use App\Entity\User;
 use App\Form\UserType;
 use App\Entity\PromotedLink;
 use App\Entity\ContactCompany;
@@ -91,11 +92,26 @@ class InfluencerController extends AbstractController
     }
 
     #[Route('/contracts', name: 'contracts')]
-    public function influencerContracts(): Response
+    public function influencerContracts(EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        $user->getContactCompanies();
 
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
+        }
+
+        $contracts = $user->getContactCompanies();
+        $currentDate = new \DateTime();
+
+        foreach ($contracts as $contract) {
+            if ($contract->getEnd() < $currentDate) {
+                $contract->setIsDisplayed(false);
+                $entityManager->persist($contract);
+            }
+        }
+
+        // Flush changes to the database
+        $entityManager->flush();
         return $this->render('influencer/influencer_contracts.html.twig', compact('user'));
     }
 

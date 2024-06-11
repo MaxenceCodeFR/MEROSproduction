@@ -11,7 +11,11 @@
             <div class="col-md-6 text-center">
                 <h1 class="display-4">Erreur 403 : Accès refusé</h1>
                 <p class="lead">Vous n'avez pas l'autorisation d'accéder à cette page.</p>
-                AJOUTER UNE REDICTION VERS LA PAGE D'ACCUEIL
+                {% if is_granted('ROLE_INFLUENCER') %}
+                    <a href="{{ path('influencer_index') }}" class="submit-subscribe">Retour à l'accueil</a>
+                {% else %}
+                    <a href="{{ path('login') }}" class="btn btn-primary">Se connecter</a>
+                {% endif %}
             </div>
         </div>
     </div>

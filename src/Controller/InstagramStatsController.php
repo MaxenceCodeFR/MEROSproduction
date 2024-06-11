@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use Symfony\Component\Routing\Attribute\Route;
 
 class InstagramStatsController extends AbstractController
 {
@@ -24,25 +26,23 @@ class InstagramStatsController extends AbstractController
                 $this->addFlash('error', 'No Instagram Business Account linked to this Facebook page.');
                 return $this->redirectToRoute('landing');
             }
-            $insightsData = $this->getInstagramInsights($instagramBusinessAccountId, $accessToken, 'impressions,reach,profile_views', 'day');
-            $allMedia = $this->getAllMedia($instagramBusinessAccountId, $accessToken);
-            $totalLikes = 0;
-            $totalComments = 0;
 
-            foreach ($allMedia as &$media) {
-                $likes = $this->getTotalLikesForMedia($media['id'], $accessToken);
-                $comments = $this->getTotalCommentsForMedia($media['id'], $accessToken);
-                $media['like_count'] = $likes;
-                $media['comment_count'] = $comments;
-                $totalLikes += $likes;
-                $totalComments += $comments;
-            }
+
+            $totalFollowers = $this->getTotalFollowers($instagramBusinessAccountId, $accessToken);
+            $instagramInsightsLast30Days = $this->getInstagramInsightsLast30Days($instagramBusinessAccountId, $accessToken);
+
+
+            $insightsData = $this->getInstagramInsights($instagramBusinessAccountId, $accessToken, 'impressions,reach,profile_views', 'day');
+            $totalLikes = 0;
+
 
             $latestThreeMedia = $this->getLimitedMedia($instagramBusinessAccountId, $accessToken, 3);
+
             foreach ($latestThreeMedia as &$media) {
                 $media['like_count'] = $this->getTotalLikesForMedia($media['id'], $accessToken);
-                $media['comment_count'] = $this->getTotalCommentsForMedia($media['id'], $accessToken);
                 $media['media_url'] = $this->getMediaUrl($media['id'], $accessToken);
+                $media['insights'] = $this->getMediaInsights($media['id'], $accessToken, ['engagement', 'reach', 'impressions']);
+                $totalLikes += $media['like_count'];
             }
 
         } catch (\Exception $e) {
@@ -53,8 +53,10 @@ class InstagramStatsController extends AbstractController
         return $this->render('instagram/stats.html.twig', [
             'insights' => $insightsData,
             'totalLikes' => $totalLikes,
-            'totalComments' => $totalComments,
             'latestMedia' => $latestThreeMedia,
+            'totalFollowers' => $totalFollowers,
+            'instagramInsightsLast30Days' => $instagramInsightsLast30Days,
+
         ]);
     }
 
@@ -79,11 +81,13 @@ class InstagramStatsController extends AbstractController
     }
 
     //Cette méthode retourne les statistiques Instagram
+    // Cette méthode retourne les statistiques Instagram pour une période donnée
     private function getInstagramInsights(string $id, string $accessToken, string $metrics, string $period): array {
         $url = "https://graph.facebook.com/v19.0/{$id}/insights?metric={$metrics}&period={$period}&access_token={$accessToken}";
         $response = file_get_contents($url);
         return json_decode($response, true)['data'];
     }
+
 
     //Cette méthode retourne le nombre total de likes pour un média donné
     private function getTotalLikesForMedia(string $mediaId, string $accessToken): int {
@@ -100,13 +104,8 @@ class InstagramStatsController extends AbstractController
         return json_decode($response, true)['data'] ?? [];
     }
 
-    //Cette méthode retourne le nombre total de commentaires pour un média donné
-    private function getTotalCommentsForMedia(string $mediaId, string $accessToken): int {
-        $url = "https://graph.facebook.com/v19.0/{$mediaId}?fields=comments_count&access_token={$accessToken}";
-        $response = file_get_contents($url);
-        $data = json_decode($response, true);
-        return $data['comments_count'] ?? 0;
-    }
+
+
 
     //Cette méthode retourne les 3 derniers médias grâce a $limit (voir doc API GRAPH
     private function getLimitedMedia(string $accountId, string $accessToken, int $limit): array {
@@ -122,5 +121,39 @@ class InstagramStatsController extends AbstractController
         $data = json_decode($response, true);
         return $data['media_url'] ?? '#';  // Default to '#' if no URL is found
     }
+    // Cette méthode retourne les insights pour une publication spécifique
+    private function getMediaInsights(string $mediaId, string $accessToken, array $metrics): array {
+        $metricString = implode(',', $metrics);
+        $url = "https://graph.facebook.com/v19.0/{$mediaId}/insights?metric={$metricString}&access_token={$accessToken}";
+        $response = file_get_contents($url);
+        $data = json_decode($response, true);
+        return $data['data'] ?? [];
+    }
+
+
+
+    private function getTotalFollowers(string $instagramBusinessAccountId, string $accessToken): int
+    {
+        $url = "https://graph.facebook.com/v19.0/{$instagramBusinessAccountId}?fields=followers_count&access_token={$accessToken}";
+        $response = file_get_contents($url);
+        $data = json_decode($response, true);
+
+        return $data['followers_count'] ?? 0;
+    }
+    private function getInstagramInsightsLast30Days(string $instagramBusinessAccountId, string $accessToken): array
+    {
+        $since = strtotime('-30 days');
+        $until = time();
+
+        $url = "https://graph.facebook.com/v19.0/{$instagramBusinessAccountId}/insights?metric=impressions,reach,profile_views&period=day&since={$since}&until={$until}&access_token={$accessToken}";
+
+        $response = file_get_contents($url);
+
+        $data = json_decode($response, true);
+
+        return $data['data'] ?? [];
+    }
 }
+
+
 

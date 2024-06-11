@@ -1,0 +1,22 @@
+.profil-ceo{
+    margin-left: 200px!important;
+}
+.profil-ceo{
+    .images-personal{
+        border-radius: 30px;
+        flex-direction: row;
+        justify-content: space-around;
+        img{
+
+        }
+    }
+    .list-group{
+
+    }
+    .list-group-item{
+        padding: 1em;
+    }
+    .text-personnal{
+        width: 40ch;
+    }
+}

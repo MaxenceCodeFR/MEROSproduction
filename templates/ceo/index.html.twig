@@ -1,66 +1,171 @@
 {% extends "base.html.twig" %}
 {% block title %}Bonjour
-	{{ app.user.firstname }}
+    {{ app.user.firstname }}
 {% endblock %}
 {% block body %}
-	{% include "commons/_ceo_navbar.html.twig" %}
-	<div class="container">
-		<div class="text-center my-4">
-			<h1>Bienvenue,
-				{{ app.user.firstname }}</h1>
-		</div>
-		<div class="row">
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-primary position-relative">
-					{% if influencerNotificationsCount > 0 %}
-						<span class="badge bg-danger text-white position-absolute" style="top: -10px; right: -10px;">{{ influencerNotificationsCount }}</span>
-					{% endif %}
-					<div class="card-body">
-						<h5 class="card-title text-primary">Candidatures</h5>
-						<p class="card-text">Accédez et gérez les candidatures.</p>
-						<a href="{{ path('ceo_candidate') }}" class="btn btn-outline-primary stretched-link">Consulter</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-info">
-					<div class="card-body">
-						<h5 class="card-title text-info">Demandes d'informations</h5>
-						<p class="card-text">Consultez les demandes d'informations reçues.</p>
-						<a href="{{ path('ceo_request') }}" class="btn btn-outline-info stretched-link">Consulter</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-warning position-relative">
-					{% if companyNotificationsCount > 0 %}
-						<span class="badge bg-danger text-white position-absolute" style="top: -10px; right: -10px;">{{ companyNotificationsCount }}</span>
-					{% endif %}
-					<div class="card-body">
-						<h5 class="card-title text-warning">Partenariats</h5>
-						<p class="card-text">Examinez les demandes de partenariat.</p>
-						<a href="{{ path('ceo_company') }}" class="btn btn-outline-warning stretched-link">Consulter</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-success">
-					<div class="card-body">
-						<h5 class="card-title text-success">Votre Profil</h5>
-						<p class="card-text">Gérez les paramètres de votre profil.</p>
-						<a href="{{ path('ceo_profil') }}" class="btn btn-outline-success stretched-link">Consulter</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-success">
-					<div class="card-body">
-						<h5 class="card-title text-success">Gestion des influenceurs</h5>
-						<p class="card-text">Gérez les influenceurs.</p>
-						<a href="{{ path('ceo_manage_influencer') }}" class="btn btn-outline-success stretched-link">Consulter</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <body class="ceo">
+    {{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
+    <div class="container ceo-dashboard">
+        <div class="text-center my-4">
+            <h1>Bienvenue,
+                {{ app.user.firstname }}</h1>
+        </div>
+        <h2 class="ceo-dashboard-title">Les derniers contrats</h2>
+        {% if company is not empty %}
+            <div class="row ceo-dashboard">
+                {% for comp in company %}
+                    {% if comp.isDisplayed %}
+                        {% set endDate = comp.end ? comp.end|date('U') : null %}
+                        {% set oneWeekBeforeEnd = endDate ? endDate - (7 * 24 * 60 * 60) : null %}
+                        {% set now = 'now'|date('U') %}
+                        {% set isWarningPeriod = oneWeekBeforeEnd and now > oneWeekBeforeEnd %}
+
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm {{ isWarningPeriod ? 'bg-danger text-white' : '' }} position-relative">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="my-0">{{ comp.company }}</h5>
+
+                                    {% if comp.userImage %}
+                                        <img src="{{ asset('assets/uploads/' ~ comp.userImage) }}"
+                                             style="width: 40px; height: 40px;" class="rounded-circle img-fluid"
+                                             data-bs-toggle="tooltip"
+                                             data-bs-title="{{ comp.firstname }} {{ comp.lastname }}">
+                                    {% else %}
+                                        Pas d'image
+                                    {% endif %}
+
+
+                                    {% if comp.notificationIsNew and not comp.notificationIsSeen %}
+                                        <span class="badge bg-danger text-white position-absolute"
+                                              style="top: -10px; right: -10px;">Nouveau</span>
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <strong>Email :</strong>
+                                        {{ comp.email }}</p>
+                                    <p class="card-text">
+                                        <strong>Motif :</strong>
+                                        {{ comp.motif }}</p>
+                                    <p class="card-text">
+                                        {% if comp.start == null and comp.end == null %}
+                                    <p>Pas de dates définies pour le moment</p>
+                                    {% else %}
+                                        <strong>Dates proposées :</strong>
+                                        {{ comp.start ? comp.start|date('d-m-Y') : '' }}
+                                        -
+                                        {{ comp.end ? comp.end|date('d-m-Y') : '' }}</p>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{{ path('ceo_company_show', {'id': comp.id}) }}"
+                                       class="btn btn-primary btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-eye-fill" viewbox="0 0 16 16">
+                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                        </svg>
+                                        Voir</a>
+                                    <a href="{{ path('ceo_company_delete', {'id': comp.id}) }}"
+                                       class="btn btn-danger btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-trash-fill" viewbox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                                        </svg>
+                                        Supprimer</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                {% else %}
+                    <div class="col">
+                        <p class="text-center">Il n'y a pas de demande.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">Il n'y a pas de demande.</p>
+        {% endif %}
+    </div>
+    <a class="btn btn-primary button-company-dashboard-ceo" href="{{ path('ceo_company') }}">Voir tout les contrats</a>
+    <h2 class="ceo-dashboard-title-2">Les dernière candidatures</h2>
+    <div class="container">
+        {% set noCandidatureDisplayed = true %}
+
+        <div class="row ceo-dashboard-candidates">
+            {% for candidate in candidates %}
+                {% if 'ROLE_INFLUENCER' not in candidate.user.roles %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm position-relative">
+                            {% if candidate.notification and candidate.notification.isIsNew == 1 and candidate.notification.isIsSeen == 0 %}
+                                <span class="badge bg-danger text-white position-absolute"
+                                      style="top: -10px; right: -10px;">Nouveau</span>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ candidate.user.firstname }}
+                                    {{ candidate.user.lastname }}</h5>
+                                <p class="card-text">
+                                    <strong>Email :</strong>
+                                    {{ candidate.email }}</p>
+                                <p class="card-text">
+                                    <strong>Motif :</strong>
+                                    {{ candidate.motif.motifInfluencer }}</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ path('ceo_candidate_show', {'id': candidate.id}) }}"
+                                       class="btn btn-outline-primary btn-sm">
+                                        Voir la candidature
+                                    </a>
+                                    <a href="{{ path('ceo_candidate_delete', {'id': candidate.id}) }}"
+                                       class="btn btn-outline-danger btn-sm">
+                                        Ne pas retenir
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% set noCandidatureDisplayed = false %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        {% if noCandidatureDisplayed %}
+            <h1 class="text-center mt-5">Vous n'avez pas de candidature</h1>
+        {% endif %}
+    </div>
+    <a class="btn btn-primary button-company-dashboard-ceo" href="{{ path('ceo_candidate') }}">Voir toutes les
+        candidatures</a>
+    <h2 class="ceo-dashboard-title-2">Les Influenceurs du moment</h2>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 g-4 ceo-dashboard-influencer">
+            {% for influencer in influencers %}
+                <div class="col">
+                    <a href="{{ path('ceo_influencer_show', {'id': influencer.id}) }}"
+                       class="text-decoration-none text-dark">
+                        <div class="card h-100 shadow {{ influencer.isFamous ? 'border-warning' : '' }}"
+                             style="{{ influencer.isFamous ? 'border-width:2px;' : '' }}">
+                            {% for media in influencer.images %}
+                                <img src="{{ asset('assets/uploads/' ~ media.getImages()) }}"
+                                     class="card-img-top rounded-circle img-fluid w-50 h-auto mx-auto mt-3">
+                            {% endfor %}
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ influencer.firstname }}
+                                    {{ influencer.lastname }}</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <a class="btn btn-primary button-company-dashboard-ceo my-5" href="{{ path('ceo_manage_influencer') }}">Voir les influenceurs</a>
+    </body>
+{% endblock %}
+{% block javascript %}
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
 {% endblock %}

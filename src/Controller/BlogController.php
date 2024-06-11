@@ -5,12 +5,15 @@ namespace App\Controller;
 use App\Entity\Blog;
 use App\Form\BlogType;
 use App\Repository\BlogRepository;
+use App\Service\BreadcrumbService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Algolia\SearchBundle\SearchService;
+
 
 #[Route('/blog', name: 'blog_')]
 class BlogController extends AbstractController
@@ -19,11 +22,25 @@ class BlogController extends AbstractController
     public function index(
         BlogRepository $blogRepository,
         PaginatorInterface $paginatorInterface,
+        BreadcrumbService $breadcrumbService,
         Request $request): Response
     {
-        $data = $blogRepository->findAll();
-        $blogs = $paginatorInterface->paginate(
-            $data,
+        $breadcrumbService->add('Accueil', $this->generateUrl('landing'));
+        $breadcrumbService->add('Blog', $this->generateUrl('blog_index'));
+
+        $queryBuilder = $blogRepository->createQueryBuilder('b');
+
+        // Récupération des paramètres de tri
+        $sortField = $request->query->get('sort', 'b.created_at'); // champ par défaut
+        $sortDirection = $request->query->get('direction', 'desc'); // direction par défaut
+
+        // Ajout du tri à la requête
+        if ($sortField && $sortDirection) {
+            $queryBuilder->orderBy($sortField, $sortDirection);
+        }
+
+        $pagination = $paginatorInterface->paginate(
+            $queryBuilder->getQuery(),
             $request->query->getInt('page', 1),
             8
         );
@@ -33,49 +50,71 @@ class BlogController extends AbstractController
 
         if ($keyword) {
             $results = $blogRepository->searchByTitle($keyword);
-            // Check if the results array is empty and add a flash message if so
             if (empty($results)) {
                 $this->addFlash('warning', 'Aucun article trouvé pour le mot-clé recherché.');
             }
         } else {
-            // Optionally handle the case where no keyword is entered
             $this->addFlash('info', 'Entrez un mot-clé pour rechercher des articles.');
         }
 
-        return $this->render('blog/index.html.twig', [
-            'blogs' => $blogs,
+        $parameters = [
+            'blogs' => $pagination,
             'results' => $results,
-            'keyword' => $keyword
-        ]);
+            'keyword' => $keyword,
+            'sortField' => $sortField,
+            'sortDirection' => $sortDirection,
+            'breadcrumbs' => $breadcrumbService->getBreadcrumbs()
+        ];
+
+        return $this->render('blog/index.html.twig',
+            $parameters );
     }
 
 
 
     #[Route('/archived', name: 'archived')]
-    public function archived(BlogRepository $blogRepository): Response
+    public function archived(BlogRepository $blogRepository, BreadcrumbService $breadcrumbService): Response
     {
+        $breadcrumbService->add('Accueil', $this->generateUrl('landing'));
+        $breadcrumbService->add('Articles archivés', $this->generateUrl('blog_archived'));
         //Récupération des articles archivés via la méthode findBy() du repository
         //Cette méthode est native donc non-modifiée
         $archived = $blogRepository->findBy(['isArchived' => true]);
-        return $this->render('blog/archived.html.twig', compact('archived'));
+
+        $parameters = [
+            'archived' => $archived,
+            'breadcrumbs' => $breadcrumbService->getBreadcrumbs()
+        ];
+        return $this->render('blog/archived.html.twig', $parameters);
     }
 
     #[Route('/archived/{id}', name: 'archive')]
-    public function showArchived(Blog $blog): Response
+    public function showArchived(Blog $blog, BreadcrumbService $breadcrumbService): Response
     {
-        return $this->render('blog/show.html.twig', [
-            'blog' => $blog,
+        $breadcrumbService->add('Accueil', $this->generateUrl('landing'));
+        $breadcrumbService->add('Articles archivés', $this->generateUrl('blog_archived'));
+        $breadcrumbService->add($blog->getTitle(), $this->generateUrl('blog_show', ['id' => $blog->getId()]));
 
-        ]);
+        $parameters = [
+            'blog' => $blog,
+            'breadcrumbs' => $breadcrumbService->getBreadcrumbs()
+        ];
+
+        return $this->render('blog/showArchived.html.twig', $parameters);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(Blog $blog): Response
+    public function show(Blog $blog, BreadcrumbService $breadcrumbService): Response
     {
-        return $this->render('blog/show.html.twig', [
-            'blog' => $blog,
+        $breadcrumbService->add('Accueil', $this->generateUrl('landing'));
+        $breadcrumbService->add('Blog', $this->generateUrl('blog_index'));
+        $breadcrumbService->add($blog->getTitle(), $this->generateUrl('blog_show', ['id' => $blog->getId()]));
 
-        ]);
+        $parameters = [
+            'blog' => $blog,
+            'breadcrumbs' => $breadcrumbService->getBreadcrumbs()
+        ];
+        return $this->render('blog/show.html.twig', $parameters);
     }
 
     #[Route('/add', name: 'add')]

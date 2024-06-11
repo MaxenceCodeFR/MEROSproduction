@@ -1,0 +1,128 @@
+.body-blog{
+    background-color: #ffffff;
+    opacity: 1;
+    background-image:  radial-gradient(#65a0f6 2px, transparent 2px), radial-gradient(#65a0f6 2px, #ffffff 2px);
+    background-size: 80px 80px;
+    background-position: 0 0,40px 40px;
+}
+.body-show-article{
+    background:
+            linear-gradient(135deg,#0000 20.5%,#abcdff 0 29.5%,#0000 0) 0 50px,
+            linear-gradient( 45deg,#0000 8%,#abcdff 0 17%, #0000 0 58%) 100px 0,
+            linear-gradient(135deg,#0000 8%,#abcdff 0 17%, #0000 0 58%,#abcdff 0 67%,#0000 0),
+            linear-gradient( 45deg,#0000 8%,#abcdff 0 17%, #0000 0 58%,#abcdff 0 67%,#0000 0 83%,#abcdff 0 92%,#0000 0),
+            #ffffff;
+    background-size: 200px 200px;
+
+
+}
+.blog-card{
+    background: rgba(255, 255, 255, 0.2)!important;
+    border-radius: 16px!important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1)!important;
+    backdrop-filter: blur(5px)!important;
+    -webkit-backdrop-filter: blur(5px)!important;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.h1-blog{
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2em;
+    color: #65a0f6;
+    background: white;
+}
+
+.button-blog {
+    background: #65a0f6;
+    color: white;
+    border-radius: 10px;
+    margin: 0 0 0.2em 0;
+    padding: 0.5em 1em;
+    font-size: 1.2rem;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+.article-show-container{
+    border-radius: 30px;
+    margin-bottom: 3em;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    max-width: 80%!important;
+}
+.img-show-blog{
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.article-show{
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+    blockquote{
+        text-align: center;
+    }
+}
+.h1-blog-show{
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2em;
+    color: #65a0f6;
+    padding: 1em 0;
+}
+
+
+/* ARCHIVES */
+.body-archived{
+    background-color: #ffffff;
+    opacity: 1;
+    background-image:  radial-gradient(#ffcd00 2px, transparent 2px), radial-gradient(#ffcd00 2px, #ffffff 2px);
+    background-size: 80px 80px;
+    background-position: 0 0,40px 40px;
+}
+
+.h1-blog-archived{
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2em;
+    color: #ffcd00;
+    background: white;
+}
+.title-article-archive{
+    color: #ffcd00!important;
+}
+
+.body-show-archived{
+    background:
+            linear-gradient(135deg,#0000 20.5%,#ffeda6 0 29.5%,#0000 0) 0 50px,
+            linear-gradient( 45deg,#0000 8%,#ffeda6 0 17%, #0000 0 58%) 100px 0,
+            linear-gradient(135deg,#0000 8%,#ffeda6 0 17%, #0000 0 58%,#ffeda6 0 67%,#0000 0),
+            linear-gradient( 45deg,#0000 8%,#ffeda6 0 17%, #0000 0 58%,#ffeda6 0 67%,#0000 0 83%,#ffeda6 0 92%,#0000 0),
+            #ffffff;
+    background-size: 200px 200px;
+}
+
+.h1-blog-show-archived{
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2em;
+    color: #ffcd00;
+    padding: 1em 0;
+}
+
+.archived-button{
+    background: #ffcd00;
+    color: white;
+    border-radius: 10px;
+    margin: 0 0 0.2em 0;
+    padding: 0.5em 1em;
+    font-size: 1.2rem;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
