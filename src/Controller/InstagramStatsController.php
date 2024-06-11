@@ -31,8 +31,8 @@ class InstagramStatsController extends AbstractController
             $totalFollowers = $this->getTotalFollowers($instagramBusinessAccountId, $accessToken);
             $instagramInsightsLast30Days = $this->getInstagramInsightsLast30Days($instagramBusinessAccountId, $accessToken);
 
+            $insightsData = $this->getInstagramInsights($instagramBusinessAccountId, $accessToken, 'reach,profile_views', 'day');
 
-            $insightsData = $this->getInstagramInsights($instagramBusinessAccountId, $accessToken, 'impressions,reach,profile_views', 'day');
             $totalLikes = 0;
 
 
@@ -41,7 +41,7 @@ class InstagramStatsController extends AbstractController
             foreach ($latestThreeMedia as &$media) {
                 $media['like_count'] = $this->getTotalLikesForMedia($media['id'], $accessToken);
                 $media['media_url'] = $this->getMediaUrl($media['id'], $accessToken);
-                $media['insights'] = $this->getMediaInsights($media['id'], $accessToken, ['engagement', 'reach', 'impressions']);
+                $media['insights'] = $this->getMediaInsights($media['id'], $accessToken, ['reach', 'impressions']);
                 $totalLikes += $media['like_count'];
             }
 
@@ -61,29 +61,39 @@ class InstagramStatsController extends AbstractController
     }
 
     //Cette méthode retourne l'identifiant de la page Facebook
-    private function getFacebookPageId(string $accessToken): string {
-        $url = "https://graph.facebook.com/v19.0/me/accounts?access_token={$accessToken}";
+    private function getFacebookPageId(string $accessToken): string
+    {
+        $url = "https://graph.facebook.com/v20.0/me/accounts?fields=id,instagram_business_account&access_token={$accessToken}";
         $response = file_get_contents($url);
         $data = json_decode($response, true);
-        return $data['data'][0]['id'];  // Assuming the first listed page is the correct one
+        // Vérifiez si le compte a un compte Instagram professionnel associé
+        foreach ($data['data'] as $page) {
+            if (isset($page['instagram_business_account'])) {
+                return $page['id'];
+            }
+        }
+        // Si aucun compte Instagram professionnel n'est trouvé, renvoyez une chaîne vide
+        return '';
     }
 
     //Cette méthode retourne l'identifiant du compte professionnel Instagram
-    private function getInstagramBusinessAccountId(string $pageId, string $accessToken): ?string {
-        $url = "https://graph.facebook.com/v19.0/{$pageId}?fields=instagram_business_account&access_token={$accessToken}";
+    private function getInstagramBusinessAccountId(string $pageId, string $accessToken): string
+    {
+        $url = "https://graph.facebook.com/v20.0/{$pageId}?fields=instagram_business_account&access_token={$accessToken}";
         $response = file_get_contents($url);
         $data = json_decode($response, true);
         if (isset($data['instagram_business_account'])) {
             return $data['instagram_business_account']['id'];
         } else {
-            return null;
+            return '';
         }
     }
+
 
     //Cette méthode retourne les statistiques Instagram
     // Cette méthode retourne les statistiques Instagram pour une période donnée
     private function getInstagramInsights(string $id, string $accessToken, string $metrics, string $period): array {
-        $url = "https://graph.facebook.com/v19.0/{$id}/insights?metric={$metrics}&period={$period}&access_token={$accessToken}";
+        $url = "https://graph.facebook.com/v20.0/{$id}/insights?metric={$metrics}&period={$period}&access_token={$accessToken}";
         $response = file_get_contents($url);
         return json_decode($response, true)['data'];
     }
@@ -91,7 +101,7 @@ class InstagramStatsController extends AbstractController
 
     //Cette méthode retourne le nombre total de likes pour un média donné
     private function getTotalLikesForMedia(string $mediaId, string $accessToken): int {
-        $url = "https://graph.facebook.com/v19.0/{$mediaId}?fields=like_count&access_token={$accessToken}";
+        $url = "https://graph.facebook.com/v20.0/{$mediaId}?fields=like_count&access_token={$accessToken}";
         $response = file_get_contents($url);
         $data = json_decode($response, true);
         return $data['like_count'] ?? 0;
@@ -99,7 +109,7 @@ class InstagramStatsController extends AbstractController
 
     //Cette méthode retourne tous les médias
     private function getAllMedia(string $accountId, string $accessToken): array {
-        $url = "https://graph.facebook.com/v19.0/{$accountId}/media?access_token={$accessToken}";
+        $url = "https://graph.facebook.com/v20.0/{$accountId}/media?access_token={$accessToken}";
         $response = file_get_contents($url);
         return json_decode($response, true)['data'] ?? [];
     }
@@ -109,14 +119,14 @@ class InstagramStatsController extends AbstractController
 
     //Cette méthode retourne les 3 derniers médias grâce a $limit (voir doc API GRAPH
     private function getLimitedMedia(string $accountId, string $accessToken, int $limit): array {
-        $url = "https://graph.facebook.com/v19.0/{$accountId}/media?limit={$limit}&access_token={$accessToken}";
+        $url = "https://graph.facebook.com/v20.0/{$accountId}/media?limit={$limit}&access_token={$accessToken}";
         $response = file_get_contents($url);
         $data = json_decode($response, true);
         return $data['data'] ?? [];
     }
 
     private function getMediaUrl(string $mediaId, string $accessToken): string {
-        $url = "https://graph.facebook.com/v19.0/{$mediaId}?fields=media_url&access_token={$accessToken}";
+        $url = "https://graph.facebook.com/v20.0/{$mediaId}?fields=media_url&access_token={$accessToken}";
         $response = file_get_contents($url);
         $data = json_decode($response, true);
         return $data['media_url'] ?? '#';  // Default to '#' if no URL is found
@@ -124,7 +134,7 @@ class InstagramStatsController extends AbstractController
     // Cette méthode retourne les insights pour une publication spécifique
     private function getMediaInsights(string $mediaId, string $accessToken, array $metrics): array {
         $metricString = implode(',', $metrics);
-        $url = "https://graph.facebook.com/v19.0/{$mediaId}/insights?metric={$metricString}&access_token={$accessToken}";
+        $url = "https://graph.facebook.com/v20.0/{$mediaId}/insights?metric={$metricString}&access_token={$accessToken}";
         $response = file_get_contents($url);
         $data = json_decode($response, true);
         return $data['data'] ?? [];
@@ -134,7 +144,7 @@ class InstagramStatsController extends AbstractController
 
     private function getTotalFollowers(string $instagramBusinessAccountId, string $accessToken): int
     {
-        $url = "https://graph.facebook.com/v19.0/{$instagramBusinessAccountId}?fields=followers_count&access_token={$accessToken}";
+        $url = "https://graph.facebook.com/v20.0/{$instagramBusinessAccountId}?fields=followers_count&access_token={$accessToken}";
         $response = file_get_contents($url);
         $data = json_decode($response, true);
 
