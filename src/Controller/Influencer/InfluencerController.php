@@ -9,6 +9,7 @@ use App\Form\UserType;
 use App\Entity\PromotedLink;
 use App\Entity\ContactCompany;
 use App\Form\PromotedLinkType;
+use App\Repository\CalendarRepository;
 use App\Repository\PromotedLinkRepository;
 use App\Service\HtmlSanitizerService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,9 +22,44 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class InfluencerController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function influencerLanding(): Response
+    public function influencerLanding(CalendarRepository $calendar): Response
     {
-        return $this->render('influencer/influencer_landing.html.twig');
+        $user = $this->getUser();
+
+
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
+        }
+
+        $contracts = $user->getContactCompanies()->toArray();
+        usort($contracts, function($a, $b) {
+            return $b->getEnd() <=> $a->getEnd(); // Assumer ici que getEnd() retourne une date valide
+        });
+
+        $latestContracts = array_slice($contracts, 0, 3);
+
+        $events = $calendar->findBy(['user' => $this->getUser()]);
+
+        $meets = [];
+        foreach ($events as $event) {
+            $meets[] = [
+                'id' => $event->getId(),
+                'title' => $event->getTitle(),
+                'start' => $event->getStart()->format('Y-m-d H:i:s'),
+                'end' => $event->getEnd()->format('Y-m-d H:i:s'),
+                'description' => $event->getDescription(),
+                'backgroundColor' => $event->getBackgroundColor(),
+                'borderColor' => $event->getBorderColor(),
+                'textColor' => $event->getTextColor(),
+                'allDay' => $event->isAllDay(),
+                'isArchived' => $event->isIsArchived() ? 'true' : 'false',
+                'user' => $event->getUser()->getId(),
+            ];
+        }
+
+        $data = json_encode($meets);
+
+        return $this->render('influencer/influencer_landing.html.twig', ['user' => $user, 'contacts' => $latestContracts, 'data' => $data]);
     }
 
     #[Route('/profil', name: 'profil')]

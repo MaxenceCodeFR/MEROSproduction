@@ -1,99 +1,43 @@
 {% extends "base.html.twig" %}
-{% block title %}
-	Votre tableau de bord
-{% endblock %}
+{% block title %}Votre tableau de bord{% endblock %}
 {% block body %}
-	<div class="jumbotron jumbotron-fluid bg-primary text-white">
-		<div class="container">
-			<h1 class="display-4">Tableau de bord</h1>
-			<p class="lead">Bienvenue sur votre tableau de bord</p>
+	{% include "commons/_influencer_navbar.html.twig" %}
+	<div class="container mt-4">
+		<h2 class="mb-4 title-influencer-landing">Bonjour {{ app.user.firstname }}</h2>
+		<div class="row w-75 contact-landing-influencer">
+			{% for contact in contacts %}
+				{% if contact.isDisplayed %}
+					{% set endDate = contact.end ? contact.end|date('U') : null %}
+					{% set oneWeekBeforeEnd = endDate ? endDate - (7 * 24 * 60 * 60) : null %}
+					{% set now = 'now'|date('U') %}
+					{% set isWarningPeriod = oneWeekBeforeEnd and now > oneWeekBeforeEnd %}
+					<div class="col-md-4 mb-4">
+						<div class="card h-100 shadow-sm {{ isWarningPeriod ? 'bg-danger text-white' : '' }}">
+							<div class="card-body d-flex flex-column">
+								<h5 class="card-title">{{ contact.company }}</h5>
+								<p class="card-text mb-4">{{ contact.email }}</p>
+								<p class="card-text mb-4">
+									{% if contact.start == null and contact.end == null %}
+								<p>Durée indéterminée pour le moment</p>
+								{% else %}
+									{{ contact.start ? contact.start|date('d-m-Y') : '' }} - {{ contact.end ? contact.end|date('d-m-Y') : '' }}
+								{% endif %}
+								</p>
+								<a href="{{ path('influencer_contract', {id:contact.id}) }}" class="btn {{ isWarningPeriod ? 'btn-light' : 'btn-primary' }} mt-auto">Visualiser le partenariat en cours</a>
+								{% if isWarningPeriod %}
+									<p class="mt-3">Attention, ce contrat se termine dans moins d'une semaine !</p>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
 		</div>
 	</div>
-	<div class="container">
-		<div class="text-center my-4">
-			<h1>Bienvenue,
-				{{ app.user.firstname }}</h1>
-		</div>
-		<div class="row">
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-primary">
-					<div class="card-body" >
-						<h5 class="card-title text-primary">Vos Réseaux</h5>
-						<p class="card-text">Accédez et gérez les vos réseaux sociaux</p>
-						<a href="#" class="btn btn-outline-primary stretched-link disabled">Consulter</a>
-						<p><b class="text-bg-danger">Cette feature est en cours de développement</b></p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-info">
-					<div class="card-body">
-						<h5 class="card-title text-info">Vos Statistiques</h5>
-						<p class="card-text">Consultez vos statistiques</p>
-						<a href="#" class="btn btn-outline-info stretched-link"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Consulter</a>
-					</div>
-				</div>
-			</div>
-			<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h1 class="modal-title fs-5" id="staticBackdropLabel">Avant de continuer....</h1>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							Seule les statistiques Instagram sont disponibles pour le moment.<br>
-							Vous devez vous connecter a votre compte Facebook pour continuer sinon vos statistiques ne seront pas disponibles.
-						</div>
-						<div class="modal-footer">
-							<a href="{{ path('connect_facebook_start') }}" class="btn btn-primary">
-								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-									<path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
-								</svg>
-								Connection via Facebook</a>
-							<a href="{{ path('instagram_stats') }}" class="btn btn-danger">Continuer</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-warning">
-					<div class="card-body">
-						<h5 class="card-title text-warning">Partenariats</h5>
-						<p class="card-text">Consulter vos partenariats</p>
-						<a href="{{ path('influencer_contracts') }}" class="btn btn-outline-warning stretched-link">Consulter</a>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-success">
-					<div class="card-body">
-						<h5 class="card-title text-success">Votre Profil</h5>
-						<p class="card-text">Gérez les paramètres de votre profil.</p>
-						<a href="{{ path('influencer_profil') }}" class="btn btn-outline-success stretched-link">Consulter</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-danger">
-					<div class="card-body">
-						<h5 class="card-title text-danger">Votre Agenda</h5>
-						<p class="card-text">Gérez et visualisez vos rendez-vous</p>
-						<a href="{{ path('calendar')}}" class="btn btn-outline-danger stretched-link">Consulter</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 border-warning">
-					<div class="card-body">
-						<h5 class="card-title text-warning">Vos posts à la une</h5>
-						<p class="card-text">Ajouter des posts à la une</p>
-						<a href="{{ path('influencer_promoted_links')}}" class="btn btn-outline-warning stretched-link">Consulter</a>
-					</div>
-				</div>
-			</div>
-		</div>
+	<a href="{{ path('influencer_contracts') }}" class="btn btn-primary button-company-dashboard-ceo " type="button">Voir les contrats</a>
+	<div class="mx-5">
+	{% include 'calendar.html.twig' %}
+		{% block calendarButtons %}{% endblock %}
 	</div>
-
 {% endblock %}
+

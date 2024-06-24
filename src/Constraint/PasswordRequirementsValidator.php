@@ -27,7 +27,6 @@ class PasswordRequirementsValidator extends ConstraintValidator
         if (strlen($value) < 8) {
             $this->context->buildViolation($constraint->messageLength)
                 ->addViolation();
-            return;
         }
 
         // Check for uppercase letter

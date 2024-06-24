@@ -2,47 +2,62 @@
 {% block title %}Edition de votre profil
 {% endblock %}
 {% block body %}
+{% include "commons/_influencer_navbar.html.twig" %}
+	<h1 class="mb-4 text-center">Modification de profil</h1>
+	<div class="container mt-5 d-flex flex-row">
+		{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
 
-	<div class="container">
-		<h1 class="mb-4">Formulaire Utilisateur</h1>
-		{{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
-		<div class="col-md-6">
-			<div class="mb-3">
-				{{ form_label(form.image, 'Image', {'label_attr': {'class': 'form-label'}}) }}
-				{{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
-				{{ form_errors(form.image) }}
-				<p>Veuillez choisir une image au format suivant : jpg, png, webp</p>
+		<div class="row">
+			<div class="col-md-6 card shadow form-edit-ceo w-auto ">
+				<div class="card-body">
+					<div class="mb-3 mt-3">
+						{{ form_label(form.lastname, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+						{{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="mb-3">
+						{{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+						{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="mb-3">
+						{{ form_label(form.firstname, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
+						{{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="mb-3">
+						{{ form_label(form.image, 'Image', {'label_attr': {'class': 'form-label'}}) }}
+						{{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="img-profil-edit">
+						{% for media in app.user.images %}
+							<img src="{{ asset('assets/uploads/' ~ media.getImages()) }}"
+								 class=" img-fluid h-auto p-3">
+						{% endfor %}
+					</div>
+				</div>
 			</div>
-			<div class="mb-3">
-				{{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
-				{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-			</div>
-			<div class="mb-3">
-				{{ form_label(form.firstname, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
-				{{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
-			</div>
-			<div class="mb-3">
-				{{ form_label(form.lastname, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
-				{{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+
+			<div class="col-md-6">
+				<div class="card shadow p-4 mb-3 socials-desc">
+					<div class="mb-3 d-flex flex-column">
+						{{ form_label(form.text, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+						{{ form_widget(form.text, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="mb-3 d-flex flex-column">
+						{{ form_label(form.social, 'Réseaux Sociaux', {'label_attr': {'class': 'form-label'}}) }}
+						{{ form_widget(form.social) }}
+					</div>
+
+				</div>
+				<div class="mb-3 card shadow p-4 specialty-ceo-edit">
+					{{ form_label(form.specialty, 'Spécialité', {'label_attr': {'class': 'form-label'}}) }}
+					{{ form_widget(form.specialty) }}
+				</div>
 			</div>
 		</div>
-		<div class="col-md-6">
-			<div class="mb-3">
-				{{ form_label(form.text, 'Description', {'label_attr': {'class': 'form-label'}}) }}
-				{{ form_widget(form.text, {'attr': {'class': 'form-control'}}) }}
-			</div>
-			<div class="mb-3">
-				{{ form_label(form.social, 'Réseaux Sociaux', {'label_attr': {'class': 'form-label mb-3'}}) }}
-				{{ form_widget(form.social, {'attr': {'class': 'form-control'}}) }}
-			</div>
-			<div class="mb-3">
-				{{ form_label(form.specialty, 'Spécialité', {'label_attr': {'class': 'form-label'}}) }}
-				{{ form_widget(form.specialty, {'attr': {'class': 'form-control'}}) }}
-			</div>
+
+		<div class="d-flex justify-content-center mt-4">
+			<button type="submit" class="btn btn-primary">Enregistrer</button>
 		</div>
-		<div class="col-12">
-			<button type="submit" class="btn btn-primary mt-3">Enregistrer</button>
-		</div>
+
 		{{ form_end(form) }}
 	</div>
 {% endblock %}

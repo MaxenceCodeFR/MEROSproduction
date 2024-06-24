@@ -5,8 +5,7 @@
 	{{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
 	<div class="container mt-4">
 		{% set noCandidatureDisplayed = true %}
-
-		<div class="row">
+		<div class="row company-ceo">
 			{% for candidate in candidates %}
 				{% if 'ROLE_INFLUENCER' not in candidate.user.roles %}
 					<div class="col-md-6 col-lg-4 mb-4">

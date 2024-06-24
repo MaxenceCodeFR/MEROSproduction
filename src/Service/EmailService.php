@@ -6,14 +6,13 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 
 class EmailService {
-    private $mailer;
 
-    public function __construct(MailerInterface $mailer)
+    public function __construct(private MailerInterface $mailer)
     {
-        $this->mailer = $mailer;
     }
 
-    public function sendEmailFromNoReply(string $to, string $subject, string $template, array $context) {
+    public function sendEmailFromNoReply(string $to, string $subject, string $template, array $context): void
+    {
 
         $email = (new TemplatedEmail())
             ->from('no-reply@meros-production.fr')

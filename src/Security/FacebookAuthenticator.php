@@ -96,7 +96,7 @@ class FacebookAuthenticator extends OAuth2Authenticator implements Authenticatio
     {
 
         // Redirection vers la page de destination
-        $targetUrl = $this->router->generate('influencer_index');
+        $targetUrl = $this->router->generate('instagram_stats');
         return new RedirectResponse($targetUrl);
     }
 

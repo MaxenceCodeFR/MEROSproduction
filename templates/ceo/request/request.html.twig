@@ -2,7 +2,7 @@
 {% block title %}Bonjour{% endblock %}
 {% block body %}
 	{{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
-	<div class="container mt-4">
+	<div class="container mt-4 w-75" style="margin-left: 250px">
 		{% if contacts is empty %}
 			<div class="alert alert-info" role="alert">
 				Aucune demande disponible.

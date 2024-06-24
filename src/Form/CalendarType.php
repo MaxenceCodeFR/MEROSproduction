@@ -46,7 +46,7 @@ class CalendarType extends AbstractType
                 ]
             ])
             ->add('description', TextType::class, [
-                'required' => false
+                'required' => true,
             ])
             ->add('all_day', CheckboxType::class, [
                 'required' => false

@@ -19,7 +19,7 @@
                 <div class="col-md-6">
                     <article>{{ blog.content|raw }}</article>
                     <p class="mt-3">Publié le :
-                        {{ blog.createdAt|date('Y-m-d H:i:s') }}</p>
+                        {{ blog.createdAt|date('d-m-Y H:i:s') }}</p>
                     {% if blog.isArchived == true %}
                         <p class="text-danger">Cet article a été archivé et n'est peut-être plus à jour.</p>
                     {% endif %}

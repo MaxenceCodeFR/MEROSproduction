@@ -57,10 +57,6 @@
         }
     }
 
-    .img-firstname-influencer {
-        flex-direction: column; /* Les images et textes s'empilent verticalement */
-    }
-
     .card-influencer, .social-link {
         text-align: center; /* Centre le texte pour une meilleure lisibilité */
         padding: 10px; /* Augmente le padding pour plus d'espace autour du texte */

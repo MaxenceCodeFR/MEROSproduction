@@ -2,11 +2,13 @@
 {% block title %}Vos contrats et partenariats{% endblock %}
 
 {% block body %}
+	{% include "commons/_influencer_navbar.html.twig" %}
 <body class="detail-company">
 	{% include 'commons/_influencer_navbar.html.twig' %}
 	<div class="container mt-4">
 		<h2 class="mb-4">Bonjour {{ app.user.firstname }}</h2>
 		<div class="row">
+
 			{% for contact in user.contactCompanies %}
 				{% if contact.isDisplayed %}
 					{% set endDate = contact.end ? contact.end|date('U') : null %}
@@ -25,7 +27,7 @@
 									{{ contact.start ? contact.start|date('d-m-Y') : '' }} - {{ contact.end ? contact.end|date('d-m-Y') : '' }}
 								{% endif %}
 								</p>
-								<a href="{{ path('influencer_contract', {id:contact.id}) }}" class="btn {{ isWarningPeriod ? 'btn-light' : 'btn-info' }} mt-auto">Visualiser le partenariat en cours</a>
+								<a href="{{ path('influencer_contract', {id:contact.id}) }}" class="btn {{ isWarningPeriod ? 'btn-light' : 'btn-primary' }} mt-auto">Visualiser le partenariat en cours</a>
 								{% if isWarningPeriod %}
 									<p class="mt-3">Attention, ce contrat se termine dans moins d'une semaine !</p>
 								{% endif %}

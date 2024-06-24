@@ -4,13 +4,26 @@
 {% endblock %}
 
 {% block body %}
-	{% include "commons/_ceo_navbar.html.twig" %}
+	{% if is_granted('ROLE_CEO') %}
+	{{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
+	{% elseif is_granted('ROLE_INFLUENCER') %}
+	{% include "commons/_influencer_navbar.html.twig" %}
+	{% endif %}
+	{% block calendarButtons %}
+		<div class="container mt-5 calendar-all gap-2">
+			<div class="d-flex justify-content-center calendar-button">
+				<a href="{{ path('app_calendar_new') }}" class="btn btn-success btn-lg">Ajouter une date</a>
+				<a href="{{ path('app_calendar_index') }}" class="btn btn-warning btn-lg">Editer mes dates</a>
+			</div>
+		</div>
+	{% endblock %}
 
-	<a href="{{path('app_calendar_new')}}" class="btn btn-success">Ajouter une date</a>
-	<a href="{{path('app_calendar_index')}}" class="btn btn-warning">Editer mes dates</a>
-	<div id="calendar"></div>
+
+	<div id="calendar" class="calendar-container"></div>
+
 
 {% endblock %}
+
 {% block cdn %}
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js" integrity="sha256-J37ZtjEw94oWBNZ9w/XC73raGXE9t10//XHJfKz2QCM=" crossorigin="anonymous"></script>
 {% endblock %}

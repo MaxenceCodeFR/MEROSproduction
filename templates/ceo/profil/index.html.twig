@@ -7,14 +7,16 @@
     {{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
     <div class="container">
         <h1 class="text-center">Votre profil</h1>
-        <h4>Informations personnelles :</h4>
+        <h2 class="profil-ceo-title">Informations personnelles :</h2>
         <div class="row profil-ceo">
-            <div class=" d-flex card images-personal shadow-lg p-3 w-75">
+            <div class=" d-flex card images-personal shadow-lg p-3 my-5">
+                <div class="img-profil">
                 {% for media in app.user.images %}
                     <img src="{{ asset('assets/uploads/' ~ media.getImages()) }}"
-                         class="rounded-circle img-fluid h-auto p-3">
+                         class=" img-fluid h-auto p-3 img-profil">
                 {% endfor %}
-                <ul class="list-group">
+                </div>
+                <ul class="list-group w-100">
                     <li class="list-group-item bg-light">
                         <strong>Prénom:</strong>
                         {{ app.user.firstname }}</li>
@@ -25,67 +27,70 @@
                         <strong>Email:</strong>
                         {{ app.user.email }}</li>
                     <div class="text-personnal">
-                    <li class="list-group-item bg-light">
-                        <strong>Description:</strong>
-
-                        {{ app.user.text|slice(0,100) ~ ' ...' }}</li>
-                        </div>
+                        <li class="list-group-item bg-light">
+                            <strong>Description:</strong>
+                            {{ app.user.text|slice(0,100) ~ ' ...' }}</li>
+                    </div>
                 </ul>
-        </div>
-        <h4 class="text-success">Réseaux sociaux :</h4>
-        <div class="">
-            <div class="card bg-light">
-                <div class="card-body">
-                    {% for social in socials %}
-                        {% if social.instagram %}
-                            <li class="list-group-item">
-                                <a href="{{ social.instagram }}" target="_blank" class="text-danger">Instagram</a>
-                            </li>
-                        {% endif %}
-                        {% if social.twitter %}
-                            <li class="list-group-item">
-                                <a href="{{ social.twitter }}" target="_blank" class="text-danger">Twitter</a>
-                            </li>
-                        {% endif %}
-                        {% if social.youtube %}
-                            <li class="list-group-item">
-                                <a href="{{ social.youtube }}" target="_blank" class="text-danger">YouTube</a>
-                            </li>
-                        {% endif %}
-                        {% if social.snapchat %}
-                            <li class="list-group-item">
-                                <a href="{{ social.snapchat }}" target="_blank" class="text-danger">Snapchat</a>
-                            </li>
-                        {% endif %}
-                        {% if social.tiktok %}
-                            <li class="list-group-item">
-                                <a href="{{ social.tiktok }}" target="_blank" class="text-danger">Tiktok</a>
-                            </li>
-                        {% endif %}
-                        {% if social.website %}
-                            <li class="list-group-item">
-                                <a href="{{ social.website }}" target="_blank" class="text-danger">Site Web</a>
-                            </li>
-                        {% endif %}
-                        {% if social.pinterest %}
-                            <li class="list-group-item">
-                                <a href="{{ social.pinterest }}" target="_blank" class="text-danger">Pinterest</a>
-                            </li>
-                        {% endif %}
-                        </ul>
-                    {% endfor %}
-
-                    <h6 class="mt-3">Spécialités</h6>
-                    <ul class="list-group mt-2">
-                        {% for specialty in specialities %}
-                        <li class="list-group-item">
-                            #{{ specialty.name }}
-                            {% endfor %}
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
-    <a href="{{ path('ceo_profil_edit') }}" class="btn btn-success">Modifier le profil</a>
-    </div>{% endblock %}
+    <h2 class="title-specialty">Réseaux sociaux & Spécialités :</h2>
+    <div class="d-flex justify-content-evenly">
+        <div class="card bg-light social-ceo shadow-lg  bg-white ">
+            <div class="card-body">
+                <div class="social-grid">
+                    {% for social in socials %}
+                        {% if social.instagram %}
+                            <div class="social-item">
+                                <a href="{{ social.instagram }}" target="_blank" class="text-danger">Instagram</a>
+                            </div>
+                        {% endif %}
+                        {% if social.twitter %}
+                            <div class="social-item">
+                                <a href="{{ social.twitter }}" target="_blank" class="text-danger">Twitter</a>
+                            </div>
+                        {% endif %}
+                        {% if social.youtube %}
+                            <div class="social-item">
+                                <a href="{{ social.youtube }}" target="_blank" class="text-danger">YouTube</a>
+                            </div>
+                        {% endif %}
+                        {% if social.snapchat %}
+                            <div class="social-item">
+                                <a href="{{ social.snapchat }}" target="_blank" class="text-danger">Snapchat</a>
+                            </div>
+                        {% endif %}
+                        {% if social.tiktok %}
+                            <div class="social-item">
+                                <a href="{{ social.tiktok }}" target="_blank" class="text-danger">Tiktok</a>
+                            </div>
+                        {% endif %}
+                        {% if social.website %}
+                            <div class="social-item">
+                                <a href="{{ social.website }}" target="_blank" class="text-danger">Site Web</a>
+                            </div>
+                        {% endif %}
+                        {% if social.pinterest %}
+                            <div class="social-item">
+                                <a href="{{ social.pinterest }}" target="_blank" class="text-danger">Pinterest</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <ul class="list-group specialty-ceo">
+            {% for specialty in specialities %}
+            <li class="list-group-item inside-specialty shadow-lg">
+                #{{ specialty.name }}
+                {% endfor %}
+            </li>
+        </ul>
+    </div>
+
+    <a href="{{ path('ceo_profil_edit') }}" class="btn btn-warning button-ceo-profil">Modifier le profil</a>
+
+{% endblock %}
+
+
