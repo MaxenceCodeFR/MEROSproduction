@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -19,8 +20,13 @@ class AdminBlogController extends AbstractController
     public function index(
         BlogRepository $blogRepository, 
         PaginatorInterface $paginatorInterface, 
-        Request $request): Response
+        Request $request,
+        SessionInterface $session): Response
     {
+
+        $session = $request->getSession();
+        $session->set('blog', 'editor');
+        dd($session);
         //Récupération des articles non archivés via la méthode findAll() du repository
         //Cette méthode est modifiée dans le repository pour ne récupérer que les articles non archivés
         //cf. BlogRepository.php => findAll()

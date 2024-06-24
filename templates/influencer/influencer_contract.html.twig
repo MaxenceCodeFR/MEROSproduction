@@ -4,10 +4,12 @@
 {% endblock %}
 
 {% block body %}
+
+	{% include 'commons/_influencer_navbar.html.twig' %}
 	<div class="container mt-5">
 		<h1 class="mb-4 text-center">{{ contact.company }}</h1>
 
-		<div class="card shadow-lg mb-4">
+		<div class="card shadow-lg mb-4 w-50 influencer-detail-contract">
 			<div class="card-body">
 				<h3 class="card-title">{{ contact.firstname }}
 					{{ contact.lastname }}</h3>
@@ -17,11 +19,10 @@
 					{{ contact.email }}<br>
 					<strong>Message :
 					</strong>
-					{{ contact.text }}
+					<pre class="pre-text-influencer">{{ contact.text }}</pre>
 				</p>
 			</div>
 		</div>
-
-		<!-- Ajouter d'autres éléments ou fonctionnalités ici si nécessaire -->
+	</div>
 	</div>
 {% endblock %}

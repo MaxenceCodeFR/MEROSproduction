@@ -1,0 +1,33 @@
+div.form-edit-ceo{
+    margin-left: 200px;
+    border-radius: 30px;
+
+}
+div.socials-desc{
+    border-radius: 30px;
+    padding: 5em;
+}
+
+div.specialty-ceo-edit{
+    border-radius: 30px;
+}
+
+#user_social_0 div{
+    display: flex;
+    flex-direction: column;
+}
+
+#user_social_0 div label input{
+width : 50%
+}
+
+.img-profil-edit {
+    margin-top: 3em;
+    margin-left: .75em;
+    width: 300px;
+    height: auto;
+    img {
+        width: 100%;
+        border-radius: 20%;
+    }
+}

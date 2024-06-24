@@ -1,22 +1,92 @@
 .profil-ceo{
     margin-left: 200px!important;
 }
+.profil-ceo-title{
+    margin-left: 200px;
+}
 .profil-ceo{
     .images-personal{
-        border-radius: 30px;
         flex-direction: row;
-        justify-content: space-around;
-        img{
-
+        justify-content: space-between;
+        gap: 5em;
+        border-radius: 30px;
+        .img-profil {
+            width: 500px;
+            height: auto;
+            img {
+                width: 100%;
+                border-radius: 20%;
+            }
         }
     }
+    .ul{
+        width: 100%;
+    }
     .list-group{
-
+        border-radius: 30px;
     }
     .list-group-item{
         padding: 1em;
     }
     .text-personnal{
-        width: 40ch;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+}
+
+.social-ceo {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-left: 250px;
+    border-radius: 30px!important;
+    width: 50%;
+}
+
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Trois colonnes de même taille */
+    gap: 10px; /* Espacement entre les éléments de la grille */
+}
+
+.social-item {
+    background: white;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    &:hover{
+        background: #f8f9fa;
+    }
+}
+.title-specialty{
+    margin-left: 300px;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+ul.specialty-ceo{
+    border-radius: 15px;
+}
+li.inside-specialty{
+    padding: 2em;
+    border-radius: 15px;
+    margin: .5em;
+}
+
+.button-ceo-profil{
+
+    margin: 2em 0 2em 250px;
+    button{
+        border-radius: 15px;
+        padding: 1em 2em;
+        background: #007bff;
+        color: white;
+        border: none;
+        &:hover{
+            background: #0056b3;
+        }
     }
 }

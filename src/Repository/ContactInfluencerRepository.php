@@ -41,7 +41,7 @@ class ContactInfluencerRepository extends ServiceEntityRepository
     public function findCandidate($motif)
     {
         return $this->createQueryBuilder('ci')
-            ->leftJoin('ci.motif', 'm') // Supposons que la relation s'appelle "motif"
+            ->innerJoin('ci.motif', 'm')
             ->andWhere('m.id = :motif')
             ->setParameter('motif', $motif)
             ->getQuery()

@@ -23,7 +23,7 @@ class InstagramStatsController extends AbstractController
             $pageId = $this->getFacebookPageId($accessToken);
             $instagramBusinessAccountId = $this->getInstagramBusinessAccountId($pageId, $accessToken);
             if (!$instagramBusinessAccountId) {
-                $this->addFlash('error', 'No Instagram Business Account linked to this Facebook page.');
+                $this->addFlash('error', 'Aucun compte Instagram professionnel associé à la page Facebook.');
                 return $this->redirectToRoute('landing');
             }
 

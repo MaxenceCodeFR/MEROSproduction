@@ -3,9 +3,10 @@
 {% endblock %}
 
 {% block body %}
-    {{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}    <div class="container mt-4">
+    {{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
+    <div class="container mt-4 ">
         {% if company is not empty %}
-            <div class="row">
+            <div class="row company-ceo">
                 {% for comp in company %}
                     {% if comp.isDisplayed %}
                         {% set endDate = comp.end ? comp.end|date('U') : null %}

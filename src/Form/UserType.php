@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Specialty;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -60,7 +61,7 @@ class UserType extends AbstractType
                     ])
                 ]
             ])
-            ->add('text', TextType::class, [
+            ->add('text', TextareaType::class, [
                 'required' => false,
                 'constraints' => [
                     new Length([

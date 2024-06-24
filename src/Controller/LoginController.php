@@ -56,10 +56,8 @@ class LoginController extends AbstractController
                 return $this->redirectToRoute($route);
             }
         }
-
         // Redirection par défaut si aucun rôle n'est trouvé
         return $this->redirectToRoute('landing');
-
     }
 
     //Déconnexion

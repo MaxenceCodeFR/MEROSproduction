@@ -30,7 +30,8 @@ class ContactCompanyRepository extends ServiceEntityRepository
             ->leftJoin('c.user', 'u')
             ->leftJoin('u.images', 'img')
             ->leftJoin('c.notification', 'n')
-            ->orderBy('c.start', 'ASC')
+            ->orderBy('n.isNew', 'DESC') // First order by isNew descending to get true values first
+            ->addOrderBy('c.start', 'DESC') // Then order by start date
             ->getQuery()
             ->getResult();
     }

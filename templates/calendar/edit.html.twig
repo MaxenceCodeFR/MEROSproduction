@@ -5,7 +5,7 @@
 
 {% block body %}
 	{% if is_granted('ROLE_CEO') %}
-		{% include "commons/_ceo_navbar.html.twig" %}
+		{{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
 	{% endif %}
 
 	<h1>Editer une date</h1>

@@ -4,33 +4,41 @@
 {% endblock %}
 
 {% block body %}
-	{{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
-	<div class="container mt-4">
-		<div class="row">
-			<div class="col-md-6">
-				<h2 class="mb-3">Informations du Candidat</h2>
-				<a href="mailto:{{ candidate.email }}" target="_blank" class="h4 text-primary">{{ candidate.email }}</a>
-				<p class="mt-2">
-					<strong>Motif de la candidature :</strong>
-					{{ candidate.motif.motifInfluencer }}</p>
-				<h4 class="mt-4">Comment nous a-t-il connus ?</h4>
-				<p>{{ candidate.answer }}</p>
-				<p>
-					<strong>Téléphone :</strong>
-					{{ candidate.phone }}</p>
-				<p class="mb-4">
-					<strong>Message :</strong>
-					{{ candidate.text }}</p>
-			</div>
-			<div class="col-md-6">
-				{% if candidate.motif.id == 2 %}
-					<p class="alert alert-warning">Aucun CV n'a été envoyé avec la demande.</p>
-				{% else %}
-					<h4 class="mb-3">CV</h4>
-					<embed src="{{ asset('assets/uploads/' ~ candidate.cv) }}" type="application/pdf" width="100%" height="600px"/>
-					<a href="{{ path('ceo_set_influencer', {'id': candidate.id}) }}" class="btn btn-primary mt-3">Devenir influenceur</a>
-				{% endif %}
-			</div>
-		</div>
-	</div>
+    {{ render(controller('App\\Controller\\Admin\\AdminCeoController::navbar')) }}
+    <div class="candidate-show ">
+        <div class="row">
+            <div class="col-md-6 card">
+                <h2 class="mb-3 card-header">Informations du Candidat</h2>
+                <a href="mailto:{{ candidate.email }}" target="_blank" class="h4 text-primary">{{ candidate.email }}</a>
+                <p class="mt-2">
+                    <strong>Motif de la candidature :</strong>
+                    {{ candidate.motif.motifInfluencer }}</p>
+                <h4 class="mt-4">Comment nous a-t-il connus ?</h4>
+                <p>{{ candidate.answer }}</p>
+                <p>
+                    <strong>Téléphone :</strong>
+                    {{ candidate.phone }}</p>
+                <div class="">
+                    <p class="mb-4">
+                        <strong class="">Message :</strong>
+                    <pre class="">{{ candidate.text }}</pre>
+                </div>
+            </div>
+            <div class="col-md-6">
+                {% if candidate.motif.id == 2 %}
+                    <p class="alert alert-warning">Aucun CV n'a été envoyé avec la demande.</p>
+                {% else %}
+                    {% if candidate.cv is empty %}
+                        <p class="alert alert-warning">Aucun CV n'a été envoyé avec la demande.</p>
+                    {% else %}
+                        <h4 class="mb-3">CV</h4>
+                        <embed src="{{ asset('assets/uploads/' ~ candidate.cv) }}" type="application/pdf" width="100%"
+                               height="600px"/>
+                        <a href="{{ path('ceo_set_influencer', {'id': candidate.id}) }}" class="btn btn-primary mt-3">Devenir
+                            influenceur</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

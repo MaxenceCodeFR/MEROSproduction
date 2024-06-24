@@ -21,7 +21,6 @@ class RegistrationController extends AbstractController
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager,
-        UserRepository $user,
         EmailService $emailService,
         BreadcrumbService $breadcrumbService
 
@@ -48,8 +47,6 @@ class RegistrationController extends AbstractController
 
             $this->addFlash('success', 'Votre compte a bien été créé un mail de confirmation vous a été envoyé. Merci de votre confiance');
 
-
-            // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
