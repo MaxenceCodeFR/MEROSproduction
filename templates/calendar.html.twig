@@ -40,6 +40,7 @@ start: 'prev,today,next',
 center: 'title',
 end: 'dayGridMonth,timeGridWeek,timeGridDay'
 },
+
 businessHours: { // days of week. an array of zero-based day of week integers (0=Sunday)
 daysOfWeek: [
 1,
@@ -81,6 +82,9 @@ xhr.send(JSON.stringify(data));
 })
 
 calendar.render();
+
 });
+
 	</script>
+
 {% endblock %}

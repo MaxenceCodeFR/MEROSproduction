@@ -7,37 +7,47 @@ div#calendar{
     max-height: 600px; /* Hauteur minimale pour la div du calendrier */
     max-width: 800px;
 }
-div.calendar-button{
-    gap: 2em;
-}
+
 .btn-lg {
     padding: 10px 20px; /* Padding plus grand pour des boutons plus gros et faciles à cliquer */
     font-size: 18px; /* Taille de la police plus grande pour une meilleure lisibilité */
 }
+div.calendar-button {
+    justify-content: center;  /* Centre les boutons sur tous les écrans */
+    flex-wrap: wrap;  /* Permet aux boutons de passer à la ligne sur les petits écrans */
+}
+
+.btn-lg {
+    width: auto;  /* Permet aux boutons de grandir avec le texte */
+    white-space: nowrap;  /* Évite la coupure du texte des boutons */
+}
 
 
 @media (max-width: 767px) {
-
-    /* Styles pour les écrans mobiles (moins de 768px de large) */
-    #calendar {
-        margin: 10px 10px;
-        /* Réduire la marge sur les petits écrans */
+    div#calendar {
+        margin: 20px auto;
+        height: 100%;  /* Hauteur maximale pour le calendrier */
         padding: 10px;
-        /* Réduire le padding */
-        height: 100%;
+        width: calc(100% - 20px);
+    }
+    .fc .fc-toolbar-chunk .fc-button {
+        font-size: 12px;  /* Encore plus petit sur les appareils mobiles */
+        padding: 3px 6px;
+    }
+    .fc-toolbar-title {
+        font-size: 12px;  /* Taille de la police plus petite pour le titre */
     }
 }
 
 @media (min-width: 768px) {
-
-    /* Styles pour les écrans de taille moyenne et plus */
-    #calendar {
-        margin: 20px 50px;
-        /* Plus de marge sur les côtés pour les écrans plus larges */
+    div#calendar {
+        margin: 100px auto;  /* Utilisation de 'auto' pour centrer le calendrier */
         padding: 20px;
-        /* Plus de padding */
+        width: auto;
+
     }
 }
+
 
 
 html,

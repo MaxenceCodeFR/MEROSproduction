@@ -2,10 +2,52 @@
     display: flex;
     justify-content: center;
     margin-left: 350px;
+    width: 50%;
 }
 .title-influencer-landing{
     margin-left: 250px;
 }
 div.contact-landing-influencer{
     margin-left: 250px;
+}
+
+.button-off-canva-nav-influencer{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+
+@media (max-width: 768px) {
+    .offcanvas {
+        width: 50%; /* Largeur de l'offcanvas sur petits écrans */
+    }
+
+    .influencer-detail-contract{
+        display: flex;
+        justify-content: center;
+    }
+    .title-influencer-landing{
+        margin-left: 15px;
+    }
+    div.contact-landing-influencer{
+        margin-left: 40px;
+    }
+
+    div.contract-card{
+        width: fit-content;
+        margin: 0;
+    }
+
+    .influencer-detail-contract{
+        width: 100%!important;
+        margin-left: 0px;
+    }
+}
+
+@media (min-width: 769px) {
+    .offcanvas {
+        width: 250px; /* Largeur fixe sur écrans plus grands */
+    }
 }

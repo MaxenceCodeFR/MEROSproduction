@@ -41,3 +41,9 @@
 .detail-company{
     margin-left: 200px;
 }
+
+@media (max-width: 768px) {
+    .detail-company{
+        margin-left: 0;
+    }
+}

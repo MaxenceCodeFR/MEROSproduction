@@ -1,5 +1,5 @@
-.profil-ceo{
-    margin-left: 200px!important;
+div.profil-ceo{
+    margin-left: 200px;
 }
 .profil-ceo-title{
     margin-left: 200px;
@@ -14,7 +14,7 @@
             width: 500px;
             height: auto;
             img {
-                width: 100%;
+                width: 90%;
                 border-radius: 20%;
             }
         }
@@ -88,5 +88,40 @@ li.inside-specialty{
         &:hover{
             background: #0056b3;
         }
+    }
+}
+
+
+@media (max-width: 768px) {
+    .img-profil{
+        img{
+            width: 90%;
+        }
+    }
+    div.profil-ceo, div.profil-ceo-title, div.title-specialty, div.social-ceo, div.button-ceo-profil {
+        margin-left: 20px; /* Réduire la marge pour les petits écrans */
+        margin-right: 20px; /* Assurer une marge à droite */
+    }
+    .social-ceo {
+        width: auto; /* Permettre au bloc de s'adapter à la largeur de l'écran */
+    }
+
+    div.profil-ceo .images-personal {
+        flex-direction: column; /* Empiler les images et les listes verticalement */
+        gap: 2em;
+    }
+    div.profil-ceo .social-ceo {
+        width: 100%; /* Utiliser toute la largeur disponible */
+        margin-bottom: 1em;
+    }
+    .social-grid {
+        grid-template-columns: repeat(2, 1fr); /* Passer à deux colonnes pour les petits écrans */
+    }
+    .button-ceo-profil {
+        width: 100%; /* Ajuster la largeur des boutons pour remplir l'espace */
+        margin: 1em 0; /* Réduire la marge pour les petits écrans */
+    }
+    .title-specialty{
+        margin-left: 20px;
     }
 }

@@ -31,3 +31,33 @@ width : 50%
         border-radius: 20%;
     }
 }
+
+@media (max-width: 768px) {
+    div.form-edit-ceo {
+        margin-left: 0px; /* Réduire la marge gauche */
+        border-radius: 15px; /* Optionnel: Réduire le rayon de la bordure pour un look plus adapté aux petits écrans */
+    }
+
+    div.socials-desc, div.specialty-ceo-edit {
+        padding: 2em; /* Réduire le padding */
+        border-radius: 15px;
+    }
+
+    #user_social_0 div {
+        flex-direction: column; /* Conserver la disposition en colonne mais ajuster les autres propriétés si nécessaire */
+    }
+
+    #user_social_0 div label input {
+        width: 100%; /* Utiliser toute la largeur disponible */
+    }
+
+    .img-profil-edit {
+        margin-top: 2em; /* Réduire la marge supérieure */
+        margin-left: 0; /* Aligner l'image à gauche */
+        width: 100%; /* Adapter la largeur de l'image à celle du conteneur */
+    }
+
+    .img-profil-edit img {
+        border-radius: 10%; /* Réduire légèrement le rayon de la bordure */
+    }
+}

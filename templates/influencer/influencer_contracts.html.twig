@@ -5,19 +5,17 @@
 	{% include "commons/_influencer_navbar.html.twig" %}
 <body class="detail-company">
 	{% include 'commons/_influencer_navbar.html.twig' %}
-	<div class="container mt-4">
-		<h2 class="mb-4">Bonjour {{ app.user.firstname }}</h2>
-		<div class="row">
-
+	<div class="container container-card mt-4">
+		<div class="row contract-card">
 			{% for contact in user.contactCompanies %}
 				{% if contact.isDisplayed %}
 					{% set endDate = contact.end ? contact.end|date('U') : null %}
 					{% set oneWeekBeforeEnd = endDate ? endDate - (7 * 24 * 60 * 60) : null %}
 					{% set now = 'now'|date('U') %}
 					{% set isWarningPeriod = oneWeekBeforeEnd and now > oneWeekBeforeEnd %}
-					<div class="col-md-4 mb-4">
-						<div class="card h-100 shadow-sm {{ isWarningPeriod ? 'bg-danger text-white' : '' }}">
-							<div class="card-body d-flex flex-column">
+					<div class="mb-4 contract-card-follow ">
+						<div class="card h-100 full-card shadow-sm {{ isWarningPeriod ? 'bg-danger text-white' : '' }}">
+							<div class="card-body d-flex flex-column full-card-follow">
 								<h5 class="card-title">{{ contact.company }}</h5>
 								<p class="card-text mb-4">{{ contact.email }}</p>
 								<p class="card-text mb-4">

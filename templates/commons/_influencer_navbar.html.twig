@@ -1,5 +1,11 @@
+<button class="btn btn-primary button-off-canva-nav-influencer" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+		<path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+	</svg>Menu
+</button>
 <div class="offcanvas offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
 	<div class="offcanvas-header">
+		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		<h5 class="offcanvas-title" id="offcanvasScrollingLabel">Tableau de bord</h5>
 	</div>
 	<div class="offcanvas-body">
@@ -25,7 +31,10 @@
 		</ul>
 		<div class="offcanvas-footer">
 			{% for media in app.user.images %}
-				<a href="{{ path('ceo_profil') }}">
+				{% if media is empty %}
+				<p>Vous n'avez pas renseigné d'image</p>
+				{% endif %}
+				<a href="{{ path('influencer_profil') }}">
 					<img src="{{ asset('assets/uploads/' ~ media.getImages()) }}" class="rounded-circle img-fluid">
 				</a>
 			{% endfor %}
